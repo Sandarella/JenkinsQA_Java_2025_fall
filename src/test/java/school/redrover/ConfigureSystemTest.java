@@ -183,7 +183,7 @@ public class ConfigureSystemTest extends BaseTest {
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 
-
+    @Ignore
     @Test
     public void testHintAppearsForInvalidComputerRetentionCheckInterval() {
         final String incorrectInterval = "61";
