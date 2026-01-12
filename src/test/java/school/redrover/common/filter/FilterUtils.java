@@ -39,8 +39,8 @@ public class FilterUtils {
             collectLeaves(file, dependenciesFilesMap, affectedFiles, visitedFiles);
         }
 
-        if (classMap.values().containsAll(changedFiles)) {
-            return methodList.stream().filter(method -> changedFiles.contains(classMap.get(method.getMethod().getTestClass().getRealClass()))).collect(Collectors.toList());
+        if (classMap.values().containsAll(affectedFiles)) {
+            return methodList.stream().filter(method -> affectedFiles.contains(classMap.get(method.getMethod().getTestClass().getRealClass()))).collect(Collectors.toList());
         }
 
         return methodList;
