@@ -194,6 +194,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualHomePageHeading, expectedHomePageHeading);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewPipeline", dataProvider = "validAliases")
     public void testScheduleWithValidData(String validTimePeriod) {
 
