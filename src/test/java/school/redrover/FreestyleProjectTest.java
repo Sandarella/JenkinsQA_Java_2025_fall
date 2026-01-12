@@ -155,7 +155,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectFreestyleProjectAndSubmit();
 
         Assert.assertEquals(configPage.getScmDescriptionText(), expectedCSMText, "SCM Description is not displayed or the description text doesn't match");
-        Assert.assertEquals(configPage.getSelectedRadioLabel(), "None", "Radio button 'None' should be selected by default");
+        Assert.assertEquals(configPage.getSelectedRadioButtonLabelInSCM(), "None", "Radio button 'None' should be selected by default");
         Assert.assertTrue(configPage.isGitOptionDisplayed(), "Radio button 'Git' should be displayed");
         Assert.assertEquals(configPage.getGitTooltipText(), "Help for feature: Git", "Tooltip text should match expected value");
     }

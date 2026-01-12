@@ -222,7 +222,7 @@ public class CreateNewItemTest extends BaseTest {
                 .selectFreestyleProjectAndSubmit()
                 .sendDescription(descriptionText)
                 .setCheckBoxDiscardAndSetDaysNum(daysToKeepText, maxOfBuildsText)
-                .setCheckBoxGitHubAndSendUrl(gitHubUrl)
+                .selectGitAndSendRepositoryUrl(gitHubUrl)
                 .setCheckBoxTriggerBuildsAndSendUrl(buildsUrl)
                 .clickSave()
                 .gotoHomePage()
