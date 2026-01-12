@@ -60,7 +60,7 @@ public class FreestyleSteps {
 
     @And("Job with name {string} is exists")
     public void checkJobName(String jobName) {
-        Assert.assertTrue(homePage.getProjectList().contains(jobName));
+        Assert.assertTrue(homePage.getProjectsNamesList().contains(jobName));
     }
 
     @And("Save config and go to Freestyle job")

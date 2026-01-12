@@ -21,7 +21,7 @@ public class NavigateToDashboardTest extends BaseTest {
                     .gotoHomePage();
         }
 
-        Assert.assertTrue(new HomePage(getDriver()).getProjectList().size() >= countOfItem,
+        Assert.assertTrue(new HomePage(getDriver()).getProjectsNamesList().size() >= countOfItem,
                 "Not all created Jenkins items are displayed on the Dashboard");
 
         for (int i = 1; i <= countOfItem; i++) {
@@ -32,7 +32,7 @@ public class NavigateToDashboardTest extends BaseTest {
 
     @Test(dependsOnMethods = "testVerifyDashboardDisplay")
     public void testVerifyNavigationBehavior() {
-        List<String> createdProjects = new HomePage(getDriver()).getProjectList();
+        List<String> createdProjects = new HomePage(getDriver()).getProjectsNamesList();
 
         for (String project : createdProjects) {
             String check = new HomePage(getDriver())

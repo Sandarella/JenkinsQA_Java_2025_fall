@@ -152,7 +152,7 @@ public class PipelineConfigurationTest extends BaseTest {
 
         List<String> actualProjectList = new PipelineStatusPage(getDriver())
                 .gotoHomePage()
-                .getProjectList();
+                .getProjectsNamesList();
         Assert.assertTrue(actualProjectList.contains(displayName),
                 String.format("Project with Display Name '%s' not found in Project List", displayName));
     }

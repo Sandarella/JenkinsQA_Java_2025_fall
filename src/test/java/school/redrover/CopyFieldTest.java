@@ -3,7 +3,6 @@ package school.redrover;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
-import school.redrover.page.FolderStatusPage;
 import school.redrover.page.HomePage;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class CopyFieldTest extends BaseTest {
                 .selectFolderAndSubmit()
                 .clickSave()
                 .gotoHomePage()
-                .getProjectList();
+                .getProjectsNamesList();
 
         Assert.assertNotEquals(projectList.size(), 0);
         Assert.assertEquals(projectList.get(0), FOLDER_NAME);

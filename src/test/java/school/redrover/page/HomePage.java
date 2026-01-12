@@ -48,6 +48,12 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy (css = "svg[tooltip='Disabled']")
     private WebElement iconDisabled;
 
+    @FindBy(css = ".jenkins-table__link >span:first-child")
+    private List<WebElement> projectsNames;
+
+    @FindBy (id = "systemmessage")
+    private WebElement systemMessage;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -76,17 +82,11 @@ public class HomePage extends BasePage<HomePage> {
         return new NewItemPage(getDriver()).waitUntilPageLoadJS();
     }
 
-    public List<String> getProjectList() {
-        return getDriver().findElements(By.cssSelector(".jenkins-table__link >span:first-child"))
+    public List<String> getProjectsNamesList() {
+        return projectsNames
                 .stream()
                 .map(WebElement::getText)
                 .toList();
-    }
-
-    public FolderStatusPage clickFolder(String folderName) {
-        getDriver().findElement(By.xpath("//span[text()='%s']".formatted(folderName))).click();
-
-        return new FolderStatusPage(getDriver());
     }
 
     public <ProjectStatusPage extends BaseProjectStatusPage<ProjectStatusPage>>
@@ -103,18 +103,13 @@ public class HomePage extends BasePage<HomePage> {
         return new CloudsPage(getDriver()).waitUntilPageLoadJS();
     }
 
-    public String getProjectName() {
-        return getWait2().until(ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector(".jenkins-table__link >span:first-child"))).getText();
-    }
 
     public WebElement findItem(String itemName) {
         return getDriver().findElement(By.xpath("//a[@href='job/" + itemName + "/']"));
     }
 
-    public String getSystemMessage() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.id("systemmessage"))).getText();
+    public String getSystemMessageText() {
+        return systemMessage.getText();
     }
 
     public HomePage openDropdownMenu(String itemName) {

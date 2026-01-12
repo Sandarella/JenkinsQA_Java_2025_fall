@@ -34,7 +34,7 @@ public class ConfigureSystemTest extends BaseTest {
 
         String actualSystemMessage = new HomePage(getDriver())
                 .gotoHomePage()
-                .getSystemMessage();
+                .getSystemMessageText();
 
         Assert.assertEquals(
                 actualSystemMessage,
@@ -69,7 +69,7 @@ public class ConfigureSystemTest extends BaseTest {
 
         String actualSystemMessage = new HomePage(getDriver())
                 .gotoHomePage()
-                .getSystemMessage();
+                .getSystemMessageText();
 
         Assert.assertEquals(
                 actualSystemMessage, SYSTEM_MESSAGE + addToSystemMessage);
@@ -170,7 +170,7 @@ public class ConfigureSystemTest extends BaseTest {
     public void testSaveInvalidComputerRetentionCheckIntervalShowsError() {
 
         final String invalidIntervalValue = "61";
-        final String expectedErrorMassage = "java.lang.IllegalArgumentException: interval must be below or equal 60s";
+        final String expectedErrorMessage = "java.lang.IllegalArgumentException: interval must be below or equal 60s";
 
 
         String actualErrorMessage = new HomePage(getDriver())
@@ -180,14 +180,14 @@ public class ConfigureSystemTest extends BaseTest {
                 .clickSaveButtonWithInvalidValue()
                 .getErrorMessage();
 
-        Assert.assertEquals(actualErrorMessage, expectedErrorMassage);
+        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 
 
     @Test
     public void testHintAppearsForInvalidComputerRetentionCheckInterval() {
         final String incorrectInterval = "61";
-        final String expectedErrorMassage = "This value should be between 1 and 60";
+        final String expectedErrorMessage = "This value should be between 1 and 60";
 
         String actualErrorMessage = new HomePage(getDriver())
                 .clickManageJenkinsGear()
@@ -197,14 +197,14 @@ public class ConfigureSystemTest extends BaseTest {
                 .getInvalidComputerRetentionCheckIntervalHint()
                 .getText();
 
-        Assert.assertEquals(actualErrorMessage, expectedErrorMassage);
+        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 
     @Test
     public void testQuietPeriodHint() {
 
         final String incorrectQuietPeriod = "-2";
-        final String expectedErrorMassage = "This value should be larger than 0";
+        final String expectedErrorMessage = "This value should be larger than 0";
 
         String actualErrorMessage = new HomePage(getDriver())
                 .clickManageJenkinsGear()
@@ -214,7 +214,7 @@ public class ConfigureSystemTest extends BaseTest {
                 .getQuietPeriodHint()
                 .getText();
 
-        Assert.assertEquals(actualErrorMessage, expectedErrorMassage);
+        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 
     @Test

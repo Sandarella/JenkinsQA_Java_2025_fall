@@ -108,6 +108,6 @@ public class ViewSteps {
 
     @Then("Sorted items by name in view list order should be:")
     public void assertProjectNamesListInViewOrder(List<String> expectedSortedItemsByNameList) {
-        Assert.assertEquals(homePage.getProjectList(), expectedSortedItemsByNameList);
+        Assert.assertEquals(homePage.getProjectsNamesList(), expectedSortedItemsByNameList);
     }
 }

@@ -37,7 +37,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .selectMultibranchPipelineAndSubmit()
                 .clickSave()
                 .gotoHomePage()
-                .getProjectList();
+                .getProjectsNamesList();
 
         Assert.assertNotEquals(projectList.size(), 0);
         Assert.assertTrue(projectList.contains(MULTIBRANCH_PIPELINE_NAME));
@@ -265,7 +265,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickDeleteItemInDropdownMenu()
                 .confirmDelete()
                 .gotoHomePage()
-                .getProjectList();
+                .getProjectsNamesList();
 
         Assert.assertEquals(projectList.size(), 0);
     }
