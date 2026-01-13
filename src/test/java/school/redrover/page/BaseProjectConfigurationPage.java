@@ -26,6 +26,15 @@ public abstract class BaseProjectConfigurationPage<ConfigurationPage extends Bas
     @FindBy(className = "textarea-show-preview")
     private WebElement previewButton;
 
+    @FindBy(xpath = "//span[text() = 'Saved']")
+    private WebElement savedMessage;
+
+    @FindBy(name = "Submit")
+    private WebElement saveButton;
+
+    @FindBy(className = "textarea-preview")
+    private WebElement  previewDescriptionTextArea;
+
     public BaseProjectConfigurationPage(WebDriver driver) {
         super(driver);
     }
@@ -45,8 +54,7 @@ public abstract class BaseProjectConfigurationPage<ConfigurationPage extends Bas
     }
 
     public String getSavedMessage() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
-                         .xpath("//span[text() = 'Saved']"))).getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(savedMessage)).getText();
     }
 
     public ConfigurationPage clickApply() {
@@ -56,7 +64,7 @@ public abstract class BaseProjectConfigurationPage<ConfigurationPage extends Bas
     }
 
     public boolean isSaveButtonDisplayed() {
-        return getWait2().until(ExpectedConditions.elementToBeClickable(By.name("Submit"))).isDisplayed();
+        return getWait2().until(ExpectedConditions.elementToBeClickable(saveButton)).isDisplayed();
     }
 
     public ConfigurationPage sendDescription(String text) {
@@ -69,8 +77,6 @@ public abstract class BaseProjectConfigurationPage<ConfigurationPage extends Bas
     public String getJobDescriptionPreviewText() {
         previewButton.click();
 
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
-                        .className("textarea-preview")))
-                .getText();
+        return getWait5().until(ExpectedConditions.visibilityOf( previewDescriptionTextArea)).getText();
     }
 }
