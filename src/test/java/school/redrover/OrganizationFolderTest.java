@@ -51,7 +51,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickSave()
                 .clickDelete()
                 .clickYesConfirmationDelete()
-                .getProjectList();
+                .getProjectsNamesList();
 
         Assert.assertFalse(actualListOfItems.contains(FOLDER_NAME),
                 "Folder should be deleted but is still present in the list");

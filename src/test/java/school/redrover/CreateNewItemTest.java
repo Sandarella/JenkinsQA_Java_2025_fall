@@ -124,7 +124,7 @@ public class CreateNewItemTest extends BaseTest {
                 .sendName(PROJECT_NAME)
                 .selectPipelineAndSubmit()
                 .gotoHomePage()
-                .getProjectList();
+                .getProjectsNamesList();
 
         Assert.assertNotEquals(projectList.size(), 0);
         Assert.assertEquals(projectList.get(0), PROJECT_NAME);
@@ -197,7 +197,7 @@ public class CreateNewItemTest extends BaseTest {
                 .sendName(jobName)
                 .selectMultibranchPipelineAndSubmit()
                 .gotoHomePage()
-                .getProjectList()
+                .getProjectsNamesList()
                 .get(0);
 
         Assert.assertEquals(jobName, newProject);

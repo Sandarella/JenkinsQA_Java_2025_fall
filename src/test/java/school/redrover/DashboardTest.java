@@ -69,14 +69,14 @@ public class DashboardTest extends BaseTest {
 
     @Test(dataProvider = "projectsName")
     public void testCheckCreatedJobsOnDashboard(String projectName) {
-        String actualJobs = new HomePage(getDriver())
+        List<String> actualJobs = new HomePage(getDriver())
                 .clickSidebarNewItem()
                 .sendName(projectName)
                 .selectFreestyleProjectAndSubmit()
                 .gotoHomePage()
-                .getProjectName();
+                .getProjectsNamesList();
 
-        Assert.assertEquals(actualJobs, projectName, "Имена созданных проектов не совпадают!");
+        Assert.assertTrue(actualJobs.contains(projectName), "Имена созданных проектов не совпадают!");
     }
 
     @Test

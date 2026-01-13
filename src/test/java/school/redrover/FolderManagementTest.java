@@ -41,11 +41,11 @@ public class FolderManagementTest extends BaseTest {
         createFolder();
 
         boolean isConfigureMenuItemDisplayed = new HomePage(getDriver())
-                .clickFolder(FOLDER_NAME)
+                .openProject(FOLDER_NAME, new FolderStatusPage(getDriver()))
                 .clickSidebarNewItem()
                 .sendName(itemName)
                 .selectItemTypeAndSubmitAndGoHome(itemType)
-                .clickFolder(FOLDER_NAME)
+                .openProject(FOLDER_NAME, new FolderStatusPage(getDriver()))
                 .openItemDropdownMenu(itemName)
                 .isMenuItemInDropdownDisplayed(menuItem);
 
@@ -59,12 +59,12 @@ public class FolderManagementTest extends BaseTest {
         createFolder();
 
         String actualHeadingText = new HomePage(getDriver())
-                .clickFolder(FOLDER_NAME)
+                .openProject(FOLDER_NAME, new FolderStatusPage(getDriver()))
                 .clickSidebarNewItem()
                 .sendName(itemName)
                 .selectPipelineAndSubmit()
                 .gotoHomePage()
-                .clickFolder(FOLDER_NAME)
+                .openProject(FOLDER_NAME, new FolderStatusPage(getDriver()))
                 .openSubItemPage(itemName, new PipelineStatusPage(getDriver()))
                 .clickConfigureInSideMenu(new PipelineConfigurationPage(getDriver()))
                 .getHeader()
@@ -78,7 +78,7 @@ public class FolderManagementTest extends BaseTest {
         createFolder();
 
         String actualCredentialName = new HomePage(getDriver())
-                .clickFolder(FOLDER_NAME)
+                .openProject(FOLDER_NAME, new FolderStatusPage(getDriver()))
                 .clickCredentialsLink()
                 .clickGlobalLink()
                 .clickAddCredentialsButton()
@@ -95,7 +95,7 @@ public class FolderManagementTest extends BaseTest {
         createFolder();
 
         new HomePage(getDriver())
-                .clickFolder(FOLDER_NAME)
+                .openProject(FOLDER_NAME, new FolderStatusPage(getDriver()))
                 .clickNewView()
                 .sendName(VIEW_NAME)
                 .selectTypeGlobalView()

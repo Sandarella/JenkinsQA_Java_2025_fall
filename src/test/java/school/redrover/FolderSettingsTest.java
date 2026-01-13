@@ -25,7 +25,7 @@ public class FolderSettingsTest extends BaseTest {
                 .setDisplayName(DISPLAY_NAME)
                 .clickSave()
                 .gotoHomePage()
-                .getProjectList();
+                .getProjectsNamesList();
 
         Assert.assertNotEquals(projectList.size(), 0);
         Assert.assertEquals(projectList.get(0), DISPLAY_NAME);
@@ -37,7 +37,7 @@ public class FolderSettingsTest extends BaseTest {
         final List<String> expectedInfo = List.of(DISPLAY_NAME, description);
 
         FolderStatusPage.FolderInfo actualInfo = new HomePage(getDriver())
-                .clickFolder(DISPLAY_NAME)
+                .openProject(DISPLAY_NAME, new FolderStatusPage(getDriver()))
                 .clickConfigureInSideMenu(new FolderConfigurationPage(getDriver()))
                 .sendDescription(description)
                 .clickSave()

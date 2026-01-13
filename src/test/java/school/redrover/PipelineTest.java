@@ -2,7 +2,6 @@ package school.redrover;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
 import school.redrover.page.HomePage;
@@ -45,7 +44,7 @@ public class PipelineTest extends BaseTest {
     public void testCreateNewPipeline() {
         createPipeline(PIPELINE_NAME);
         List<String> actualProjectList = new HomePage(getDriver())
-                .getProjectList();
+                .getProjectsNamesList();
 
         Assert.assertTrue(actualProjectList.contains(PIPELINE_NAME),
                 String.format("Pipeline with name '%s' was not created", PIPELINE_NAME));
@@ -102,7 +101,7 @@ public class PipelineTest extends BaseTest {
                 .clickDeletePipeline()
                 .cancelDelete()
                 .gotoHomePage()
-                .getProjectList();
+                .getProjectsNamesList();
 
         Assert.assertTrue(actualProjectList.contains(PIPELINE_NAME));
     }
@@ -157,7 +156,7 @@ public class PipelineTest extends BaseTest {
                 .openDropdownMenu(PIPELINE_NAME)
                 .clickDeleteItemInDropdownMenu()
                 .cancelDelete()
-                .getProjectList();
+                .getProjectsNamesList();
 
         Assert.assertTrue(actualProjectList.contains(PIPELINE_NAME));
     }

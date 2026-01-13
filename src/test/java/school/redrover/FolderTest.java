@@ -40,7 +40,7 @@ public class FolderTest extends BaseTest {
                 .sendName(FOLDER_NAME)
                 .selectFolderAndSubmit()
                 .gotoHomePage()
-                .getProjectList();
+                .getProjectsNamesList();
 
         Assert.assertNotEquals(projectList.size(), 0);
         Assert.assertEquals(projectList.get(0), FOLDER_NAME);

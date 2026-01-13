@@ -45,7 +45,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .sendName(PROJECT_NAME)
                 .selectFreestyleProjectAndSubmit()
                 .gotoHomePage()
-                .getProjectList();
+                .getProjectsNamesList();
 
         Assert.assertNotEquals(projectList.size(), 0);
         Assert.assertEquals(projectList.get(0), PROJECT_NAME);
