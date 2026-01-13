@@ -1,6 +1,5 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -23,6 +22,15 @@ public class FreestyleProjectStatusPage extends BaseProjectStatusPage<FreestyleP
     @FindBy(name = "Submit")
     private WebElement submitButton;
 
+    @FindBy(xpath = "//div[@id='tasks']/div[4]/span/a")
+    private WebElement buildNowButton;
+
+    @FindBy(xpath = "//div[@id='notification-bar']")
+    private WebElement notificationMessage;
+
+    @FindBy(css = ".warning")
+    private WebElement warningMessage;
+
 
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
@@ -41,7 +49,7 @@ public class FreestyleProjectStatusPage extends BaseProjectStatusPage<FreestyleP
     }
 
     public FreestyleProjectStatusPage clickBuildNow() {
-        getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]/span/a")).click();
+        buildNowButton.click();
 
         return this;
     }
@@ -51,13 +59,11 @@ public class FreestyleProjectStatusPage extends BaseProjectStatusPage<FreestyleP
     }
 
     public String getNotificationBuildScheduled() {
-        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//div[@id='notification-bar']"))).getText();
+        return getWait10().until(ExpectedConditions.visibilityOf(notificationMessage)).getText();
     }
 
     public String getDisableProjectMessage() {
         return getWait5().until(ExpectedConditions
-                .visibilityOfElementLocated(By.cssSelector(".warning"))).getText().split("\\R")[0];
+                .visibilityOf(warningMessage)).getText().split("\\R")[0];
     }
-
 }
