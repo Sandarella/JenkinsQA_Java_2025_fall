@@ -56,7 +56,7 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
     private WebElement enableProjectWarning;
 
     @FindBy(id = "jenkins-build-history")
-    private WebElement jenkinsBuildHistoryButton;
+    private WebElement buildsContainerItems;
 
     @FindBy(css = "[data-id='ok']")
     private WebElement confirmDeletePipeline;
@@ -136,7 +136,7 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
 
     public PipelineHistoryPage clickBuildHistory() {
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(jenkinsBuildHistoryButton)).click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(buildsContainerItems)).click();
 
         return new PipelineHistoryPage(getDriver());
     }
