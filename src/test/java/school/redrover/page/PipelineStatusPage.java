@@ -97,7 +97,7 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
         descriptionTextarea.sendKeys(description);
         descriptionSubmitButton.click();
 
-        return this.waitUntilPageLoad();
+        return this.waitUntilPageLoadJS();
     }
 
     public PipelineStatusPage clearDescription() {
