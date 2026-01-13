@@ -15,10 +15,9 @@ import java.util.List;
 
 public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage>
         implements SidebarChangesTrait, SidebarBuildNowTrait, SidebarMoveTrait, SidebarCredentialsTrait {
-
-    @FindBy(tagName = "h1")
-    private WebElement displayNameHeader;
-
+//
+//    @FindBy(tagName = "h1")
+//    private WebElement displayNameHeader;
     @FindBy(xpath = "//a[contains(@href, '/configure')]")
     private WebElement configureMenuItem;
 
@@ -78,8 +77,7 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
     }
 
     public String getDisplayNameInStatus() {
-
-        return getWait10().until(ExpectedConditions.visibilityOf(displayNameHeader)).getText();
+        return getHeader().getText();
     }
 
     public String getDisplayNameInBreadcrumbBar(String displayName) {
