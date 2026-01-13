@@ -15,9 +15,7 @@ import java.util.List;
 
 public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage>
         implements SidebarChangesTrait, SidebarBuildNowTrait, SidebarMoveTrait, SidebarCredentialsTrait {
-//
-//    @FindBy(tagName = "h1")
-//    private WebElement displayNameHeader;
+
     @FindBy(xpath = "//a[contains(@href, '/configure')]")
     private WebElement configureMenuItem;
 
