@@ -94,7 +94,7 @@ public class HomePage extends BasePage<HomePage> {
 
         PageUtils.clickJS(getDriver(), By.xpath("//span[text()='%s']".formatted(jobName.trim())));
 
-        return projectStatusPage.waitUntilPageLoad();
+        return projectStatusPage.waitUntilPageLoadJS();
     }
 
     public CloudsPage clickConfigureCloud() {

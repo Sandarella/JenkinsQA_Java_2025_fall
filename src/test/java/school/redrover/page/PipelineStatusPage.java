@@ -16,6 +16,9 @@ import java.util.List;
 public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage>
         implements SidebarChangesTrait, SidebarBuildNowTrait, SidebarMoveTrait, SidebarCredentialsTrait {
 
+    @FindBy(tagName = "h1")
+    private WebElement displayNameHeader;
+
     @FindBy(xpath = "//a[contains(@href, '/configure')]")
     private WebElement configureMenuItem;
 
@@ -49,6 +52,14 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
     @FindBy(css = "div[page-entry-id]")
     private List<WebElement> buildsList;
 
+    @FindBy(id = "enable-project")
+    private WebElement enableProjectWarning;
+
+    @FindBy(id = "jenkins-build-history")
+    private WebElement jenkinsBuildHistoryButton;
+
+    @FindBy(css = "[data-id='ok']")
+    private WebElement confirmDeletePipeline;
 
     public PipelineStatusPage(WebDriver driver) {
         super(driver);
@@ -67,8 +78,8 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
     }
 
     public String getDisplayNameInStatus() {
-        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
-                .tagName("h1"))).getText();
+
+        return getWait10().until(ExpectedConditions.visibilityOf(displayNameHeader)).getText();
     }
 
     public String getDisplayNameInBreadcrumbBar(String displayName) {
@@ -76,26 +87,9 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
                 .xpath(".//a[text()='%s']".formatted(displayName)))).getText();
     }
 
-    public PipelineStatusPage addDescriptionAndSave(String description) {
-        descriptionTextarea.sendKeys(description);
-        descriptionSubmitButton.click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.id("description-link")));
-
-        return this;
-    }
-
-    public String getDescription() {
-        return getWait5().until(ExpectedConditions.visibilityOf(descriptionContent)).getText();
-    }
-
-    public PipelineStatusPage clearDescription() {
-        getDriver().findElement(By.name("description")).clear();
-        return this;
-    }
-
     public String getWarningMessage() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("enable-project")))
-                .getText();
+
+        return getWait5().until(ExpectedConditions.visibilityOf(enableProjectWarning)).getText();
     }
 
     public PipelineStatusPage clickAddDescriptionButton() {
@@ -103,9 +97,25 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
         return this;
     }
 
+    public PipelineStatusPage addDescriptionAndSave(String description) {
+        descriptionTextarea.sendKeys(description);
+        descriptionSubmitButton.click();
+
+        return this.waitUntilPageLoad();
+    }
+
+    public PipelineStatusPage clearDescription() {
+        descriptionTextarea.clear();
+        return this;
+    }
+
     public PipelineStatusPage clickEditDescriptionButton() {
         editDescriptionButton.click();
         return this;
+    }
+
+    public String getDescriptionText() {
+        return getWait5().until(ExpectedConditions.visibilityOf(descriptionContent)).getText();
     }
 
     public PipelineStatusPage clickBuildNow() {
@@ -125,26 +135,25 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
     }
 
     public PipelineHistoryPage clickBuildHistory() {
-        getWait10()
-                .until(ExpectedConditions.elementToBeClickable(By.id("jenkins-build-history")))
-                .click();
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(jenkinsBuildHistoryButton)).click();
 
         return new PipelineHistoryPage(getDriver());
     }
 
     public HomePage confirmDeleteAtJobPage() {
-        getDriver().findElement(By.cssSelector("[data-id='ok']")).click();
+        confirmDeletePipeline.click();
 
         return new HomePage(getDriver()).waitUntilPageLoadJS();
     }
 
     public PipelineStatusPage cancelDelete() {
-        WebElement yesButton = getWait2().until(
+        WebElement cancelDeleteButton = getWait2().until(
                 ExpectedConditions.elementToBeClickable(
                         By.xpath("//dialog[@open]//button[@data-id='cancel']"))
         );
-        yesButton.click();
-        getWait5().until(ExpectedConditions.stalenessOf(yesButton));
+        cancelDeleteButton.click();
+        getWait5().until(ExpectedConditions.stalenessOf(cancelDeleteButton));
 
         return this;
     }
