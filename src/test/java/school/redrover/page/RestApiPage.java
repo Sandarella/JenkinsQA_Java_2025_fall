@@ -1,9 +1,8 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.FindBy;
 import school.redrover.common.BasePage;
 
 import java.util.List;
@@ -11,7 +10,12 @@ import java.util.List;
 
 public class RestApiPage extends BasePage<RestApiPage> {
 
-    public RestApiPage(WebDriver driver) { super(driver); }
+    @FindBy(xpath = "//dt/a[@href]")
+    public List<WebElement> xmlJsonPythonApiLinks;
+
+    public RestApiPage(WebDriver driver) {
+        super(driver);
+    }
 
     @Override
     public RestApiPage getPage() {
@@ -23,9 +27,8 @@ public class RestApiPage extends BasePage<RestApiPage> {
         return null;
     }
 
-    public List<String> getXmlJsonPythonApiLinksText(){
-        return getDriver()
-                .findElements(By.xpath("//dt/a[@href]"))
+    public List<String> getXmlJsonPythonApiLinksText() {
+        return xmlJsonPythonApiLinks
                 .stream()
                 .map(WebElement::getText)
                 .toList();
