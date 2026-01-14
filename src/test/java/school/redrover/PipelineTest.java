@@ -2,7 +2,6 @@ package school.redrover;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
 import school.redrover.page.HomePage;
@@ -121,7 +120,6 @@ public class PipelineTest extends BaseTest {
                 "Build output should contain 'Finished:'");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateNewPipeline")
     public void testAddDescription() {
         final String textDescription = "@0*8nFP'cRU0k.|6Gz-wO*se h~OtJ4kz0!)cl0ZAE3vN>q";
@@ -130,12 +128,11 @@ public class PipelineTest extends BaseTest {
                 .openProject(PIPELINE_NAME, new PipelineStatusPage(getDriver()))
                 .clickAddDescriptionButton()
                 .addDescriptionAndSave(textDescription)
-                .getDescription();
+                .getDescriptionText();
 
         Assert.assertEquals(descriptionText, textDescription);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testAddDescription")
     public void testEditDescription() {
         final String textDescription = "D0XVcGo8k(=D7myr/.YC6umm>]\"gY)?X_E|#HPku6T5im[oYHD-\\|B`";
@@ -145,7 +142,7 @@ public class PipelineTest extends BaseTest {
                 .clickEditDescriptionButton()
                 .clearDescription()
                 .addDescriptionAndSave(textDescription)
-                .getDescription();
+                .getDescriptionText();
 
         Assert.assertEquals(
                 descriptionText,
@@ -229,13 +226,13 @@ public class PipelineTest extends BaseTest {
                 .getErrorMessage()
                 .getText();
 
-        new PipelineConfigurationPage(getDriver()).closeModalWindow();
-
         Assert.assertTrue(actualTextErrorMessage.contains(expectedErrorMessage),
                 String.format("Сообщение: '%s', не содержит ожидаемую ключевую информацию об ошибке: '%s'",
                         actualTextErrorMessage, expectedErrorMessage));
         Assert.assertEquals(new PipelineConfigurationPage(getDriver()).getErrorDescriptionModalWindow(),
                 "A problem occurred while processing the request");
+
+        new PipelineConfigurationPage(getDriver()).closeModalWindow();
     }
 
     @Test(dependsOnMethods = "testCreateNewPipeline")

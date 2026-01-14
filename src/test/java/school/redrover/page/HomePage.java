@@ -24,7 +24,7 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy(css = "[href='/newView']")
     private WebElement createNewItemOnPageWithJob;
 
-    @FindBy(css = "[class*=\"job-status\"] td:first-child svg")
+    @FindBy(css = "[class*='job-status'] td:first-child svg")
     private WebElement statusTooltipProjectIcon;
 
     @FindBy(xpath = "//div[@class='tabBar']/div")
@@ -94,7 +94,7 @@ public class HomePage extends BasePage<HomePage> {
 
         PageUtils.clickJS(getDriver(), By.xpath("//span[text()='%s']".formatted(jobName.trim())));
 
-        return projectStatusPage.waitUntilPageLoad();
+        return projectStatusPage.waitUntilPageLoadJS();
     }
 
     public CloudsPage clickConfigureCloud() {
