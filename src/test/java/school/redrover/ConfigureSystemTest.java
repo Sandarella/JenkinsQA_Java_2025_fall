@@ -1,109 +1,16 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
 import school.redrover.page.HomePage;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
+import java.util.*;
 
 public class ConfigureSystemTest extends BaseTest {
 
-    private final String SYSTEM_MESSAGE = "Hello redRover School!";
-
-    @Test
-    public void testCreateSystemMessage() {
-
-        new HomePage(getDriver())
-                .clickManageJenkinsGear()
-                .clickConfigurationSystem()
-                .clearSystemMessage()
-                .setSystemMessage(SYSTEM_MESSAGE)
-                .clickSave();
-
-        String actualSystemMessage = new HomePage(getDriver())
-                .gotoHomePage()
-                .getSystemMessageText();
-
-        Assert.assertEquals(
-                actualSystemMessage,
-                SYSTEM_MESSAGE);
-    }
-
-    @Test(dependsOnMethods = "testCreateSystemMessage")
-    public void testSystemMessagePreview() {
-
-        final String addToPreviewMessage = " This is the best project!";
-
-        String actualPreviewMessage = new HomePage(getDriver())
-                .clickManageJenkinsGear()
-                .clickConfigurationSystem()
-                .setSystemMessage(addToPreviewMessage)
-                .getPreviewSystemMessage();
-
-        Assert.assertEquals(SYSTEM_MESSAGE + addToPreviewMessage, actualPreviewMessage);
-    }
-
-    @Ignore
-    @Test(dependsOnMethods = "testSystemMessagePreview")
-    public void testChangeSystemMessage() {
-
-        final String addToSystemMessage = "!";
-
-        new HomePage(getDriver())
-                .clickManageJenkinsGear()
-                .clickConfigurationSystem()
-                .setSystemMessage(addToSystemMessage)
-                .clickSave();
-
-        String actualSystemMessage = new HomePage(getDriver())
-                .gotoHomePage()
-                .getSystemMessageText();
-
-        Assert.assertEquals(
-                actualSystemMessage, SYSTEM_MESSAGE + addToSystemMessage);
-    }
-
-    @Test
-    public void testChangeNumberOfExecutors() {
-
-        final String numberOfExecutors = "5";
-
-        new HomePage(getDriver())
-                .clickManageJenkinsGear()
-                .clickConfigurationSystem()
-                .setNumberOfExecutors(numberOfExecutors)
-                .clickSave();
-
-        String actualNumberOfExecutors = new HomePage(getDriver())
-                .gotoHomePage()
-                .getNumberOfExecutors();
-
-        Assert.assertEquals(actualNumberOfExecutors, numberOfExecutors);
-    }
-
-    @Test(dataProvider = "tooltips")
-    public void testTooltips(String tooltipName) {
-
-        Integer actualNumberOfTooltip = new HomePage(getDriver())
-                .clickManageJenkinsGear()
-                .clickConfigurationSystem()
-                .clickTooltip(tooltipName)
-                .getNumberOfOpenTooltips();
-
-        Assert.assertEquals(actualNumberOfTooltip, 1);
-    }
+    private static final String SYSTEM_MESSAGE = "Hello redRover School!";
 
     @DataProvider(name = "tooltips")
     private Iterator<Object[]> getTooltipNameList() {
@@ -117,6 +24,71 @@ public class ConfigureSystemTest extends BaseTest {
         data.add(new Object[]{"Resource Root URL"});
         data.add(new Object[]{"Disable deferred wipeout on this node"});
         return data.iterator();
+    }
+
+    @Test(dataProvider = "tooltips")
+    public void testTooltips(String tooltipName) {
+        Integer actualNumberOfTooltip = new HomePage(getDriver())
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .clickTooltip(tooltipName)
+                .getNumberOfOpenTooltips();
+
+        Assert.assertEquals(actualNumberOfTooltip, 1);
+    }
+
+    @Test
+    public void testCreateSystemMessage() {
+        String actualSystemMessage = new HomePage(getDriver())
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .clearSystemMessage()
+                .setSystemMessage(SYSTEM_MESSAGE)
+                .clickSave()
+                .getSystemMessageText();
+
+        Assert.assertEquals(actualSystemMessage, SYSTEM_MESSAGE);
+    }
+
+    @Test(dependsOnMethods = "testCreateSystemMessage")
+    public void testSystemMessagePreview() {
+        final String addToPreviewMessage = " This is the best project!";
+
+        String actualPreviewMessage = new HomePage(getDriver())
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .setSystemMessage(addToPreviewMessage)
+                .getPreviewSystemMessageText();
+
+        Assert.assertEquals(actualPreviewMessage, SYSTEM_MESSAGE + addToPreviewMessage);
+    }
+
+    @Test(dependsOnMethods = "testSystemMessagePreview")
+    public void testChangeSystemMessage() {
+        final String addToSystemMessage = "!";
+
+        String actualSystemMessage = new HomePage(getDriver())
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .setSystemMessage(addToSystemMessage)
+                .clickSave()
+                .getSystemMessageText();
+
+        Assert.assertEquals(actualSystemMessage, SYSTEM_MESSAGE + addToSystemMessage);
+    }
+
+    @Test
+    public void testChangeNumberOfExecutors() {
+        final String numberOfExecutors = "5";
+
+        String actualNumberOfExecutors = new HomePage(getDriver())
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .setNumberOfExecutors(numberOfExecutors)
+                .clickSave()
+                .getNumberOfExecutors();
+
+        Assert.assertEquals(actualNumberOfExecutors, numberOfExecutors);
     }
 
     @Test
@@ -168,10 +140,8 @@ public class ConfigureSystemTest extends BaseTest {
 
     @Test
     public void testSaveInvalidComputerRetentionCheckIntervalShowsError() {
-
         final String invalidIntervalValue = "61";
         final String expectedErrorMessage = "java.lang.IllegalArgumentException: interval must be below or equal 60s";
-
 
         String actualErrorMessage = new HomePage(getDriver())
                 .clickManageJenkinsGear()
@@ -183,7 +153,6 @@ public class ConfigureSystemTest extends BaseTest {
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 
-    @Ignore
     @Test
     public void testHintAppearsForInvalidComputerRetentionCheckInterval() {
         final String incorrectInterval = "61";
@@ -194,15 +163,13 @@ public class ConfigureSystemTest extends BaseTest {
                 .clickConfigurationSystem()
                 .setInputComputerRetentionCheckIntervalValue(incorrectInterval)
                 .clickApply()
-                .getInvalidComputerRetentionCheckIntervalHint()
-                .getText();
+                .getInvalidComputerRetentionCheckIntervalText();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
 
     @Test
     public void testQuietPeriodHint() {
-
         final String incorrectQuietPeriod = "-2";
         final String expectedErrorMessage = "This value should be larger than 0";
 
@@ -211,8 +178,7 @@ public class ConfigureSystemTest extends BaseTest {
                 .clickConfigurationSystem()
                 .clearQuietPeriod()
                 .setQuietPeriod(incorrectQuietPeriod)
-                .getQuietPeriodHint()
-                .getText();
+                .getQuietPeriodText();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
     }
@@ -234,132 +200,110 @@ public class ConfigureSystemTest extends BaseTest {
         Assert.assertEquals(actualQuietPeriod, setSecondsQuietPeriod);
     }
 
-    @Ignore
     @Test
     public void testGlobalProperties() {
-
         final List<String> expectedGlobalProperties = List.of(
                 "Disable deferred wipeout on this node",
                 "Disk Space Monitoring Thresholds",
                 "Environment variables",
                 "Tool Locations");
 
-        getSystemConfigurePage();
-
-        List<String> actualGlobalProperties = getDriver().findElements(By.xpath("//div[@id='global-properties']/..//label"))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
+        List<String> actualGlobalProperties = new HomePage(getDriver())
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .getGlobalPropertiesListText();
 
         Assert.assertEquals(actualGlobalProperties, expectedGlobalProperties);
     }
 
-    @Ignore
     @Test
-    public void testDiskSpaceMonitoringThresholds() {
+    public void testSaveFreeDiskSpaceThreshold() {
+        final String freeDiskSpaceThreshold = "1.1GiB";
 
-        final String testFreeDiskSpaceThreshold = "1.1GiB";
-        final String testDiskSpaceWarningThreshold = "1.2GiB";
-        final String testTempSpaceThreshold = "1.3GiB";
-        final String testTempSpaceWarningThreshold = "1.4GiB";
+        String actualFreeDiskSpaceThreshold = new HomePage(getDriver())
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .checkGlobalPropertiesDiskSpaceMonitoringThresholds()
+                .sendFreeDiskSpaceThreshold(freeDiskSpaceThreshold)
+                .clickSave()
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .checkGlobalPropertiesDiskSpaceMonitoringThresholds()
+                .getFreeDiskSpaceThresholdText();
 
-        getSystemConfigurePage();
-
-        WebElement diskSpaceMonitoringThresholds = getDriver()
-                .findElement(By.xpath("//input[contains(@name, 'DiskSpaceMonitorNodeProperty')]/following-sibling::label"));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", diskSpaceMonitoringThresholds);
-        diskSpaceMonitoringThresholds.click();
-
-        WebElement freeDiskSpaceThreshold = getDriver().findElement(By.name("_.freeDiskSpaceThreshold"));
-        freeDiskSpaceThreshold.clear();
-        freeDiskSpaceThreshold.sendKeys(testFreeDiskSpaceThreshold);
-
-        WebElement freeDiskSpaceWarningThreshold = getDriver().findElement(By.name("_.freeDiskSpaceWarningThreshold"));
-        freeDiskSpaceWarningThreshold.clear();
-        freeDiskSpaceWarningThreshold.sendKeys(testDiskSpaceWarningThreshold);
-
-        WebElement freeTempSpaceThreshold = getDriver().findElement(By.name("_.freeTempSpaceThreshold"));
-        freeTempSpaceThreshold.clear();
-        freeTempSpaceThreshold.sendKeys(testTempSpaceThreshold);
-
-        WebElement freeTempSpaceWarningThreshold = getDriver().findElement(By.name("_.freeTempSpaceWarningThreshold"));
-        freeTempSpaceWarningThreshold.clear();
-        freeTempSpaceWarningThreshold.sendKeys(testTempSpaceWarningThreshold);
-
-        getDriver().findElement(By.name("Submit")).click();
-
-        getSystemConfigurePage();
-
-        Assert.assertEquals(
-                getDriver().findElement(By.name("_.freeDiskSpaceThreshold")).getAttribute("value"),
-                testFreeDiskSpaceThreshold);
-        Assert.assertEquals(
-                getDriver().findElement(By.name("_.freeDiskSpaceWarningThreshold")).getAttribute("value"),
-                testDiskSpaceWarningThreshold);
-        Assert.assertEquals(
-                getDriver().findElement(By.name("_.freeTempSpaceThreshold")).getAttribute("value"),
-                testTempSpaceThreshold);
-        Assert.assertEquals(
-                getDriver().findElement(By.name("_.freeTempSpaceWarningThreshold")).getAttribute("value"),
-                testTempSpaceWarningThreshold);
+        Assert.assertEquals(actualFreeDiskSpaceThreshold, freeDiskSpaceThreshold);
     }
 
-    @Ignore
+    @Test(dependsOnMethods = "testSaveFreeDiskSpaceThreshold")
+    public void testSaveFreeDiskSpaceWarningThreshold() {
+        final String freeDiskSpaceWarningThreshold = "1.2GiB";
+
+        String actualFreeDiskSpaceWarningThreshold = new HomePage(getDriver())
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .sendFreeDiskSpaceWarningThreshold(freeDiskSpaceWarningThreshold)
+                .clickSave()
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .checkGlobalPropertiesDiskSpaceMonitoringThresholds()
+                .getFreeDiskSpaceWarningThresholdText();
+
+        Assert.assertEquals(actualFreeDiskSpaceWarningThreshold, freeDiskSpaceWarningThreshold);
+    }
+
+    @Test(dependsOnMethods = "testSaveFreeDiskSpaceWarningThreshold")
+    public void testSaveFreeTempSpaceThreshold() {
+        final String freeTempSpaceThreshold = "1.3GiB";
+
+        String actualFreeTempSpaceThreshold = new HomePage(getDriver())
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .sendFreeTempSpaceThreshold(freeTempSpaceThreshold)
+                .clickSave()
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .checkGlobalPropertiesDiskSpaceMonitoringThresholds()
+                .getFreeTempSpaceThresholdText();
+
+        Assert.assertEquals(actualFreeTempSpaceThreshold, freeTempSpaceThreshold);
+    }
+
+    @Test(dependsOnMethods = "testSaveFreeTempSpaceThreshold")
+    public void testSaveFreeTempSpaceWarningThreshold() {
+        final String freeTempSpaceWarningThreshold = "1.4GiB";
+
+        String actualFreeTempSpaceWarningThreshold = new HomePage(getDriver())
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .sendFreeTempSpaceWarningThreshold(freeTempSpaceWarningThreshold)
+                .clickSave()
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .checkGlobalPropertiesDiskSpaceMonitoringThresholds()
+                .getFreeTempSpaceWarningThresholdText();
+
+        Assert.assertEquals(actualFreeTempSpaceWarningThreshold, freeTempSpaceWarningThreshold);
+    }
+
     @Test
     public void testEnvironmentVariables() {
+        final String variableName = UUID.randomUUID().toString();
+        final String variableValue = UUID.randomUUID().toString();
 
-        final String testVariableName = UUID.randomUUID().toString();
-        final String testVariableValue = UUID.randomUUID().toString();
+        Map<String, String> actualEnvironmentValues = new HomePage(getDriver())
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .checkGlobalPropertiesEnvironmentVariables()
+                .clickAddVariables()
+                .sendVariableName(variableName)
+                .sendVariableValue(variableValue)
+                .clickSave()
+                .clickManageJenkinsGear()
+                .clickConfigurationSystem()
+                .getEnvironmentVariablesValues();
 
-        getSystemConfigurePage();
-
-        WebElement addButton = getDriver().findElement(By.xpath(
-                "//input[contains(@name, 'EnvironmentVariablesNodeProperty')]/ancestor::div[contains(@class, 'optionalBlock')]//button[text()='Add']"));
-
-        if (!addButton.isDisplayed()) {
-            WebElement environmentVariables = getDriver()
-                    .findElement(By.xpath("//input[contains(@name, 'EnvironmentVariablesNodeProperty')]/following-sibling::label"));
-            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", environmentVariables);
-            environmentVariables.click();
-        }
-
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", addButton);
-        addButton.click();
-
-        List<WebElement> variableNames = getDriver().findElements(By.xpath("//input[@name='env.key']"));
-        WebElement variableName = getLastElement(variableNames);
-        variableName.clear();
-        variableName.sendKeys(testVariableName);
-
-        List<WebElement> variableValues = getDriver().findElements(By.xpath("//input[@name='env.value']"));
-        WebElement variableValue = getLastElement(variableValues);
-        variableValue.clear();
-        variableValue.sendKeys(testVariableValue);
-
-        getDriver().findElement(By.name("Submit")).click();
-
-        getSystemConfigurePage();
-
-        Assert.assertTrue(
-                getDriver().findElements(By.xpath("//input[@name='env.key']")).stream()
-                        .map(name -> name.getAttribute("value")).toList()
-                        .contains(testVariableName));
-        Assert.assertTrue(
-                getDriver().findElements(By.xpath("//input[@name='env.value']")).stream()
-                        .map(value -> value.getAttribute("value")).toList()
-                        .contains(testVariableValue));
+        Assert.assertTrue(actualEnvironmentValues.containsKey(variableName));
+        Assert.assertEquals(actualEnvironmentValues.get(variableName), variableValue);
     }
 
-    private void getSystemConfigurePage() {
-        getWait10().until(visibilityOfElementLocated(By.cssSelector("a[href$='manage']"))).click();
-        getWait10().until(visibilityOfElementLocated(By.cssSelector("a[href$='configure']"))).click();
-    }
-
-    private <T> T getLastElement(List<T> list) {
-        if (list != null && !list.isEmpty()) {
-            return list.get(list.size() - 1);
-        }
-
-        return null;
-    }
 }

@@ -53,8 +53,7 @@ public class JenkinsManagementTest extends BaseTest {
         String actualTooltipText = new HomePage(getDriver())
                 .clickManageJenkinsGear()
                 .clickConfigurationSystem()
-                .getGlobalPropertiesDisableWipeoutCheckboxTooltipOnHover()
-                .getText();
+                .getGlobalPropertiesDisableWipeoutCheckboxTooltipOnHoverText();
 
         Assert.assertEquals(actualTooltipText, expectedTooltipText, "Unexpected tooltip");
     }
