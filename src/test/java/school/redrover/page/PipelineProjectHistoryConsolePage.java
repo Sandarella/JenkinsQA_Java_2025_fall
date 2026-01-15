@@ -1,11 +1,15 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import school.redrover.common.BasePage;
 
 
 public class PipelineProjectHistoryConsolePage extends BasePage<PipelineProjectHistoryConsolePage> {
+
+    @FindBy(id = "out")
+    public WebElement consoleOutput;
 
     public PipelineProjectHistoryConsolePage(WebDriver driver) {
         super(driver);
@@ -21,7 +25,7 @@ public class PipelineProjectHistoryConsolePage extends BasePage<PipelineProjectH
         return null;
     }
 
-    public String getConsoleOutput() {
-        return getDriver().findElement(By.id("out")).getText();
+    public String getConsoleOutputText() {
+        return consoleOutput.getText();
     }
 }

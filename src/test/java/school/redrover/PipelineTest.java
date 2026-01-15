@@ -117,7 +117,7 @@ public class PipelineTest extends BaseTest {
                 .clickSidebarBuildNow()
                 .clickBuildHistory()
                 .clickConsoleOutput()
-                .getConsoleOutput();
+                .getConsoleOutputText();
 
         Assert.assertTrue(consoleOutput.contains("Finished:"),
                 "Build output should contain 'Finished:'");
