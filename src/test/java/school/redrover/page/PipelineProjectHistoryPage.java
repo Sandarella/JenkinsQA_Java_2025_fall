@@ -1,13 +1,19 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import school.redrover.common.BasePage;
 
 
 public class PipelineProjectHistoryPage extends BasePage<PipelineProjectHistoryPage> {
 
-    public PipelineProjectHistoryPage(WebDriver driver) { super(driver); }
+    @FindBy(xpath = "//a[substring-before(@href, 'console')]")
+    public WebElement consoleOutputButton;
+
+    public PipelineProjectHistoryPage(WebDriver driver) {
+        super(driver);
+    }
 
     @Override
     public PipelineProjectHistoryPage getPage() {
@@ -20,8 +26,7 @@ public class PipelineProjectHistoryPage extends BasePage<PipelineProjectHistoryP
     }
 
     public PipelineProjectHistoryConsolePage clickConsoleOutput() {
-        getDriver().findElement(By.xpath("//a[substring-before(@href, 'console')]"))
-                .click();
+        consoleOutputButton.click();
 
         return new PipelineProjectHistoryConsolePage(getDriver());
     }
