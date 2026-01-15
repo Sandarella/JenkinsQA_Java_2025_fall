@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static school.redrover.common.ProjectUtils.log;
+
 public class FilterUtils {
 
     public static List<IMethodInstance> filterMethods(List<String> fileList, String dependenciesClasses, List<IMethodInstance> methodList) {
@@ -38,6 +40,8 @@ public class FilterUtils {
         for (String file : changedFiles) {
             collectLeaves(file, dependenciesFilesMap, affectedFiles, visitedFiles);
         }
+
+        log("Affected files: " + affectedFiles);
 
         if (classMap.values().containsAll(affectedFiles)) {
             return methodList.stream().filter(method -> affectedFiles.contains(classMap.get(method.getMethod().getTestClass().getRealClass()))).collect(Collectors.toList());
