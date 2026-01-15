@@ -89,7 +89,7 @@ public class HomePage extends BasePage<HomePage> {
                 .toList();
     }
 
-    public <ProjectStatusPage extends BaseProjectStatusPage<ProjectStatusPage>>
+    public <ProjectStatusPage extends BaseProjectStatusPage<ProjectStatusPage, ?>>
     ProjectStatusPage openProject(String jobName, ProjectStatusPage projectStatusPage) {
 
         PageUtils.clickJS(getDriver(), By.xpath("//span[text()='%s']".formatted(jobName.trim())));
@@ -102,7 +102,6 @@ public class HomePage extends BasePage<HomePage> {
 
         return new CloudsPage(getDriver()).waitUntilPageLoadJS();
     }
-
 
     public WebElement findItem(String itemName) {
         return getDriver().findElement(By.xpath("//a[@href='job/" + itemName + "/']"));
@@ -129,10 +128,10 @@ public class HomePage extends BasePage<HomePage> {
         return new MovePage(getDriver());
     }
 
-    public PipelineSyntaxPage clickPipelineSyntaxInDropdownMenu() {
+    public PipelineProjectSyntaxPage clickPipelineSyntaxInDropdownMenu() {
         getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class, 'jenkins-dropdown__item') and contains(., 'Pipeline Syntax')]"))).click();
 
-        return new PipelineSyntaxPage(getDriver());
+        return new PipelineProjectSyntaxPage(getDriver());
     }
 
     public HomePage clickDeleteItemInDropdownMenu() {
@@ -319,10 +318,10 @@ public class HomePage extends BasePage<HomePage> {
         return getWait5().until((ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#job_%s > td:nth-child(1)".formatted(projectName))))).isDisplayed();
     }
 
-    public MultiConfigurationProjectStatusPage clickProject(String projectName) {
+    public MultiConfigProjectStatusPage clickProject(String projectName) {
         getDriver().findElement(By.cssSelector("#job_%s > td:nth-child(3) > a".formatted(projectName))).click();
 
-        return new MultiConfigurationProjectStatusPage(getDriver()).waitUntilPageLoadJS();
+        return new MultiConfigProjectStatusPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public String getNameColumnText() {

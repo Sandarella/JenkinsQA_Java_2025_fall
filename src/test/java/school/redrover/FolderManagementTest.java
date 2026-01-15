@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
 import school.redrover.page.*;
 
-import java.util.List;
 
 public class FolderManagementTest extends BaseTest {
 
@@ -42,6 +41,7 @@ public class FolderManagementTest extends BaseTest {
 
         boolean isConfigureMenuItemDisplayed = new HomePage(getDriver())
                 .openProject(FOLDER_NAME, new FolderStatusPage(getDriver()))
+                .getSidebarComponent()
                 .clickSidebarNewItem()
                 .sendName(itemName)
                 .selectItemTypeAndSubmitAndGoHome(itemType)
@@ -60,13 +60,15 @@ public class FolderManagementTest extends BaseTest {
 
         String actualHeadingText = new HomePage(getDriver())
                 .openProject(FOLDER_NAME, new FolderStatusPage(getDriver()))
+                .getSidebarComponent()
                 .clickSidebarNewItem()
                 .sendName(itemName)
                 .selectPipelineAndSubmit()
                 .gotoHomePage()
                 .openProject(FOLDER_NAME, new FolderStatusPage(getDriver()))
-                .openSubItemPage(itemName, new PipelineStatusPage(getDriver()))
-                .clickConfigureInSideMenu(new PipelineConfigurationPage(getDriver()))
+                .openSubItemPage(itemName, new PipelineProjectStatusPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarConfigure()
                 .getHeader()
                 .getText();
 
@@ -79,7 +81,8 @@ public class FolderManagementTest extends BaseTest {
 
         String actualCredentialName = new HomePage(getDriver())
                 .openProject(FOLDER_NAME, new FolderStatusPage(getDriver()))
-                .clickCredentialsLink()
+                .getSidebarComponent()
+                .clickSidebarCredentials()
                 .clickGlobalLink()
                 .clickAddCredentialsButton()
                 .enterUsername(CREDENTIAL_NAME)

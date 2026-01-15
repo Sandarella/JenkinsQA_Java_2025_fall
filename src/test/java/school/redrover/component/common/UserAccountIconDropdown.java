@@ -1,11 +1,11 @@
-package school.redrover.component;
-
+package school.redrover.component.common;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.PageUtils;
+import school.redrover.component.BaseComponent;
 import school.redrover.page.LoginPage;
 import school.redrover.page.UserStatusPage;
 
@@ -26,11 +26,6 @@ public class UserAccountIconDropdown extends BaseComponent<UserAccountIconDropdo
 
     public UserAccountIconDropdown(WebDriver driver) {
         super(driver);
-    }
-
-    @Override
-    public UserAccountIconDropdown getComponent() {
-        return this;
     }
 
     @Override

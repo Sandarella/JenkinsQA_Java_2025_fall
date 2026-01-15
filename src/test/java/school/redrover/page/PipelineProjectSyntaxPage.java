@@ -8,23 +8,23 @@ import school.redrover.common.BasePage;
 import java.util.List;
 
 
-public class PipelineSyntaxPage extends BasePage<PipelineSyntaxPage> {
+public class PipelineProjectSyntaxPage extends BasePage<PipelineProjectSyntaxPage> {
 
     @FindBy(className = "task")
     private List<WebElement> sideMenuButtons;
 
 
-    public PipelineSyntaxPage(WebDriver driver) {
+    public PipelineProjectSyntaxPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public PipelineSyntaxPage getPage() {
+    public PipelineProjectSyntaxPage getPage() {
         return this;
     }
 
     @Override
-    public PipelineSyntaxPage waitUntilPageLoad() {
+    public PipelineProjectSyntaxPage waitUntilPageLoad() {
         return null;
     }
 

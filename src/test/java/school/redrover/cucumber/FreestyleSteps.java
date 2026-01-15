@@ -83,7 +83,9 @@ public class FreestyleSteps {
     @And("Click Freestyle configure")
     public void clickFreestyleConfigure() {
         freestyleProjectConfigurationPage = freestyleProjectPage
-                .clickConfigureInSideMenu(new FreestyleProjectConfigurationPage(CucumberDriver.getDriver()));
+                .getSidebarComponent()
+                .clickSidebarConfigure();
+//                .clickConfigureInSideMenu(new FreestyleProjectConfigurationPage(CucumberDriver.getDriver()));
     }
 
     @And("Type Freestyle job description as {string}")

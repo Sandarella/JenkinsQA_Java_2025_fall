@@ -58,10 +58,10 @@ public class JenkinsManagementPage extends BasePage<JenkinsManagementPage> {
         return new UsersPage(getDriver());
     }
 
-    public CredentialsPage clickCredentialsLink() {
+    public FolderCredentialsPage clickCredentialsLink() {
         credentialsLink.click();
 
-        return new CredentialsPage(getDriver()).waitUntilPageLoad();
+        return new FolderCredentialsPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public SystemConfigurationPage clickConfigurationSystem() {

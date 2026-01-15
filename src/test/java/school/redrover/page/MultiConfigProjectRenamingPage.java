@@ -8,38 +8,38 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.BasePage;
 
 
-public class MultiConfigurationProjectRenamingPage extends BasePage<MultiConfigurationProjectRenamingPage> {
+public class MultiConfigProjectRenamingPage extends BasePage<MultiConfigProjectRenamingPage> {
 
     @FindBy(name = "newName")
     private WebElement nameField;
 
 
-    public MultiConfigurationProjectRenamingPage(WebDriver driver) {
+    public MultiConfigProjectRenamingPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public MultiConfigurationProjectRenamingPage getPage() {
+    public MultiConfigProjectRenamingPage getPage() {
         return this;
     }
 
     @Override
-    public MultiConfigurationProjectRenamingPage waitUntilPageLoad() {
+    public MultiConfigProjectRenamingPage waitUntilPageLoad() {
         getWait5().until(ExpectedConditions.visibilityOf(nameField));
 
         return this;
     }
 
-    public MultiConfigurationProjectRenamingPage clearNameField() {
+    public MultiConfigProjectRenamingPage clearNameField() {
         nameField.clear();
 
         return this;
     }
 
-    public MultiConfigurationProjectStatusPage sendNewProjectName(String jobName) {
+    public MultiConfigProjectStatusPage sendNewProjectName(String jobName) {
         nameField.sendKeys(jobName + Keys.ENTER);
 
-        return new MultiConfigurationProjectStatusPage(getDriver()).waitUntilPageLoadJS();
+        return new MultiConfigProjectStatusPage(getDriver()).waitUntilPageLoadJS();
     }
 
 }

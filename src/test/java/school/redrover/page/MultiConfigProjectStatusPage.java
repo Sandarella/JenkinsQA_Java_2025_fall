@@ -6,11 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.trait.project_sidebar.*;
+import school.redrover.component.project.status_page.sidebar.MultiConfigProjectSidebar;
 
 
-public class MultiConfigurationProjectStatusPage extends BaseProjectStatusPage<MultiConfigurationProjectStatusPage>
-        implements SidebarChangesTrait, SidebarWorkspaceTrait, SidebarBuildNowTrait, SidebarMoveTrait, SidebarCredentialsTrait {
+public class MultiConfigProjectStatusPage extends BaseProjectStatusPage<MultiConfigProjectStatusPage, MultiConfigProjectSidebar> {
 
     @FindBy(name = "Submit")
     private WebElement submitButton;
@@ -42,29 +41,35 @@ public class MultiConfigurationProjectStatusPage extends BaseProjectStatusPage<M
     @FindBy (css = "h1.job-index-headline.page-headline")
     private WebElement projectName;
 
-    public MultiConfigurationProjectStatusPage(WebDriver driver) {
+
+    public MultiConfigProjectStatusPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public MultiConfigurationProjectStatusPage getPage() {
+    public MultiConfigProjectSidebar getSidebarComponent() {
+        return new MultiConfigProjectSidebar(getDriver());
+    }
+
+    @Override
+    public MultiConfigProjectStatusPage getPage() {
         return this;
     }
 
     @Override
-    public MultiConfigurationProjectStatusPage waitUntilPageLoad() {
+    public MultiConfigProjectStatusPage waitUntilPageLoad() {
         getWait10().until(ExpectedConditions.visibilityOf(deleteMenuItem));
 
         return this;
     }
 
-    public MultiConfigurationProjectStatusPage clearDescriptionField() {
+    public MultiConfigProjectStatusPage clearDescriptionField() {
         editDescriptionLink.click();
         descriptionField.clear();
         return this;
     }
 
-    public MultiConfigurationProjectStatusPage sendDescription(String description) {
+    public MultiConfigProjectStatusPage sendDescription(String description) {
         descriptionField.sendKeys(description);
         submitButton.click();
 
@@ -77,12 +82,12 @@ public class MultiConfigurationProjectStatusPage extends BaseProjectStatusPage<M
         return projectDescription.getText();
     }
 
-    public MultiConfigurationProjectRenamingPage clickRenameViaDashboardDropDownMenu() {
+    public MultiConfigProjectRenamingPage clickRenameViaDashboardDropDownMenu() {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(hoverElement, 10, 10).perform();
         dropdownMenuRenameLink.click();
 
-        return new MultiConfigurationProjectRenamingPage(getDriver());
+        return new MultiConfigProjectRenamingPage(getDriver());
     }
 
     public String getBreadcrumbItem() {

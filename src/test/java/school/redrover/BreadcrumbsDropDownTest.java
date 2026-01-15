@@ -15,14 +15,14 @@ public class BreadcrumbsDropDownTest extends BaseTest {
 
     @Test
     public void testDisplayBreadcrumbsDropDownMenu() {
-        List<String> breadcrumbTexts =
-                new HomePage(getDriver())
+        List<String> breadcrumbTexts = new HomePage(getDriver())
                 .clickCreateJob()
                 .sendName(PARENT_FOLDER)
                 .selectFolderAndSubmit()
                 .gotoHomePage()
                 .openProject(PARENT_FOLDER, new FolderStatusPage(getDriver()))
-                .clickNewItem()
+                .getSidebarComponent()
+                .clickSidebarNewItem()
                 .sendName(CHILD_FOLDER)
                 .selectFolderAndSubmit()
                 .clickSave()
@@ -32,7 +32,7 @@ public class BreadcrumbsDropDownTest extends BaseTest {
         Assert.assertEquals(breadcrumbTexts.size(), 2);
     }
 
-    @Test (dependsOnMethods = {"testDisplayBreadcrumbsDropDownMenu"})
+    @Test(dependsOnMethods = {"testDisplayBreadcrumbsDropDownMenu"})
     public void clickableBreadcrumbsDropDownMenu() {
         String title = new HomePage(getDriver())
                 .openProject(PARENT_FOLDER, new FolderStatusPage(getDriver()))

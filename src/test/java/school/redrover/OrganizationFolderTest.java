@@ -7,6 +7,7 @@ import school.redrover.page.HomePage;
 import school.redrover.page.OrganizationFolderStatusPage;
 import java.util.List;
 
+
 public class OrganizationFolderTest extends BaseTest {
 
     private static final String FOLDER_NAME = "Organization Folder";
@@ -49,7 +50,8 @@ public class OrganizationFolderTest extends BaseTest {
                 .sendName(FOLDER_NAME)
                 .selectOrganizationFolderAndSubmit()
                 .clickSave()
-                .clickDelete()
+                .getSidebarComponent()
+                .clickSidebarDelete()
                 .clickYesConfirmationDelete()
                 .getProjectsNamesList();
 

@@ -1,10 +1,11 @@
-package school.redrover.component;
+package school.redrover.component.common;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.PageUtils;
+import school.redrover.component.BaseComponent;
 import school.redrover.page.FreestyleProjectStatusPage;
 import school.redrover.page.UserStatusPage;
 
@@ -20,25 +21,46 @@ public class SearchComponent extends BaseComponent<SearchComponent> {
     @FindBy(xpath = "//div[@id='search-results']//a")
     private List<WebElement> searchResults;
 
+    @FindBy(css = ".jenkins-command-palette__results__item--hover svg[aria-hidden='true']")
+    private WebElement svgSearchResult;
+
+    @FindBy(xpath = "//span[text()='No results for']")
+    private WebElement noSearchResult;
+
 
     public SearchComponent(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public SearchComponent getComponent() {
+    public SearchComponent waitUntilComponentLoad() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(searchField));
+
         return this;
     }
 
-    @Override
-    public SearchComponent waitUntilComponentLoad() {
-        return null;
+    public SearchComponent waitUntilComponentLoadResult() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(svgSearchResult));
+
+        return this;
+    }
+
+    public SearchComponent waitUntilComponentLoadNoResult() {
+        getWait5().until(ExpectedConditions.visibilityOf(noSearchResult));
+
+        return this;
     }
 
     public SearchComponent searchFor(String jobName) {
         searchField.sendKeys(jobName);
 
-        return this.waitUntilComponentLoadJS();
+        try {
+            return this.waitUntilComponentLoadResult();
+        } catch (TimeoutException e) {
+            return this.waitUntilComponentLoadNoResult();
+        } catch (Throwable e) {
+            return this.waitUntilComponentLoad();
+        }
     }
 
     public SearchComponent searchFor(String jobName, String previousItemName) {
@@ -80,10 +102,11 @@ public class SearchComponent extends BaseComponent<SearchComponent> {
     }
 
     public UserStatusPage searchForUser(String userName) {
-        getDriver().findElement(By.id("command-bar")).sendKeys(userName);
+        searchField.sendKeys(userName);
 
-        this.waitUntilComponentLoadJS();
-        getDriver().findElement(By.id("command-bar")).sendKeys(Keys.ENTER);
+        this.waitUntilComponentLoadResult()
+                .searchField
+                .sendKeys(Keys.ENTER);
 
         return new UserStatusPage(getDriver()).waitUntilPageLoadJS();
     }

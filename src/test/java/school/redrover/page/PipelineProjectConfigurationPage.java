@@ -12,7 +12,7 @@ import org.testng.Assert;
 import java.util.List;
 
 
-public class PipelineConfigurationPage extends BaseProjectConfigurationPage<PipelineConfigurationPage, PipelineStatusPage> {
+public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPage<PipelineProjectConfigurationPage, PipelineProjectStatusPage> {
 
     @FindBy(id = "advanced")
     private WebElement advancedTitle;
@@ -66,34 +66,34 @@ public class PipelineConfigurationPage extends BaseProjectConfigurationPage<Pipe
     private WebElement textErrorMessage;
 
 
-    public PipelineConfigurationPage(WebDriver driver) {
+    public PipelineProjectConfigurationPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    protected PipelineStatusPage createProjectStatusPage() {
-        return new PipelineStatusPage(getDriver());
+    protected PipelineProjectStatusPage getProjectStatusPage() {
+        return new PipelineProjectStatusPage(getDriver());
     }
 
     @Override
-    public PipelineConfigurationPage getPage() {
+    public PipelineProjectConfigurationPage getPage() {
         return this;
     }
 
     @Override
-    public PipelineConfigurationPage waitUntilPageLoad() {
+    public PipelineProjectConfigurationPage waitUntilPageLoad() {
         getWait5().until(ExpectedConditions.elementToBeClickable(buildPeriodicallyLabel));
 
         return this;
     }
 
-    public PipelineConfigurationPage clickAdvancedLinkInSideMenu() {
+    public PipelineProjectConfigurationPage clickAdvancedLinkInSideMenu() {
         advancedMenuItem.click();
 
         return this;
     }
 
-    public PipelineConfigurationPage scrollDownToAdvancedSection() {
+    public PipelineProjectConfigurationPage scrollDownToAdvancedSection() {
         ((JavascriptExecutor) getDriver()).executeScript(
                 "arguments[0].scrollIntoView(true);",advancedTitle);
 
@@ -104,7 +104,7 @@ public class PipelineConfigurationPage extends BaseProjectConfigurationPage<Pipe
         return advancedTitle.getText();
     }
 
-    public PipelineConfigurationPage clickAdvancedButton() {
+    public PipelineProjectConfigurationPage clickAdvancedButton() {
         clickAdvancedLinkInSideMenu();
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({block: 'center'});",
                 getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.id("footer"))));
@@ -129,7 +129,7 @@ public class PipelineConfigurationPage extends BaseProjectConfigurationPage<Pipe
         return quietPeriodCheckbox.isSelected();
     }
 
-    public PipelineConfigurationPage clickQuitePeriod() {
+    public PipelineProjectConfigurationPage clickQuitePeriod() {
         new Actions(getDriver()).moveToElement(quietPeriodLabel).click().perform();
 
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.name("quiet_period")));
@@ -147,7 +147,7 @@ public class PipelineConfigurationPage extends BaseProjectConfigurationPage<Pipe
         return displayNameInput.getAttribute("value").isEmpty();
     }
 
-    public PipelineConfigurationPage sendDisplayName(String displayName) {
+    public PipelineProjectConfigurationPage sendDisplayName(String displayName) {
         new Actions(getDriver()).moveToElement(displayNameInput).perform();
         displayNameInput.sendKeys(displayName);
 
@@ -197,7 +197,7 @@ public class PipelineConfigurationPage extends BaseProjectConfigurationPage<Pipe
                 .getText();
     }
 
-    public PipelineConfigurationPage clickToggle() {
+    public PipelineProjectConfigurationPage clickToggle() {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
                         .id("toggle-switch-enable-disable-project")))
                 .click();
@@ -210,7 +210,7 @@ public class PipelineConfigurationPage extends BaseProjectConfigurationPage<Pipe
                 .xpath("//span[contains(text(),'Configuration')]"))).getText();
     }
 
-    public PipelineConfigurationPage clickTriggersSectionButton() {
+    public PipelineProjectConfigurationPage clickTriggersSectionButton() {
         triggersSectionButton.click();
 
         getWait5().until(ExpectedConditions.attributeContains(
@@ -219,14 +219,14 @@ public class PipelineConfigurationPage extends BaseProjectConfigurationPage<Pipe
         return this;
     }
 
-    public PipelineConfigurationPage selectBuildPeriodicallyCheckbox() {
+    public PipelineProjectConfigurationPage selectBuildPeriodicallyCheckbox() {
         if (!buildPeriodicallyCheckBox.isSelected()) {
             buildPeriodicallyLabel.click();
         }
         return this;
     }
 
-    public PipelineConfigurationPage sendScheduleText(String validTimePeriod) {
+    public PipelineProjectConfigurationPage sendScheduleText(String validTimePeriod) {
         scheduleTextarea.clear();
         scheduleTextarea.sendKeys(validTimePeriod);
 

@@ -6,11 +6,13 @@ import school.redrover.common.BasePage;
 import school.redrover.trait.BaseTrait;
 
 
-public interface SidebarChangesTrait extends BaseTrait {
+public interface SidebarChangesTrait<ProjectChangesPage extends BasePage<ProjectChangesPage>> extends BaseTrait {
 
-    default <ProjectChangesPage extends BasePage<ProjectChangesPage>> ProjectChangesPage clickSidebarChanges(ProjectChangesPage page) {
+    ProjectChangesPage getProjectChangesPage();
+
+    default ProjectChangesPage clickSidebarChanges() {
         getDriver().findElement(By.xpath("//a[contains(., 'Changes')]")).click();
 
-        return page.waitUntilPageLoadJS();
+        return getProjectChangesPage().waitUntilPageLoadJS();
     }
 }

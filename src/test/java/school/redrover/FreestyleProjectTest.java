@@ -55,7 +55,8 @@ public class FreestyleProjectTest extends BaseTest {
     public void testScheduleBuild() {
         String actualNotificationBuildScheduled = new HomePage(getDriver())
                 .openProject(PROJECT_NAME, new FreestyleProjectStatusPage(getDriver()))
-                .clickBuildNow()
+                .getSidebarComponent()
+                .clickSidebarBuildNow()
                 .getNotificationBuildScheduled();
 
         Assert.assertEquals(actualNotificationBuildScheduled, "Build scheduled");
@@ -65,7 +66,8 @@ public class FreestyleProjectTest extends BaseTest {
     public void testAddDescription() {
         String actualDescriptionText = new HomePage(getDriver())
                 .openProject(PROJECT_NAME, new FreestyleProjectStatusPage(getDriver()))
-                .clickConfigureInSideMenu(new FreestyleProjectConfigurationPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarConfigure()
                 .sendDescription(PROJECT_DESCRIPTION_EXPECTED)
                 .clickSave()
                 .getDescription();
@@ -89,7 +91,8 @@ public class FreestyleProjectTest extends BaseTest {
     public void testEnableProjectViaMainMenuConfigure() {
         boolean visibleBuildButtonForEnabledProject = new HomePage(getDriver())
                 .openProject(PROJECT_NAME, new FreestyleProjectStatusPage(getDriver()))
-                .clickConfigureInSideMenu(new FreestyleProjectConfigurationPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarConfigure()
                 .clickEnableDisableProject()
                 .clickSave()
                 .gotoHomePage()
@@ -103,7 +106,8 @@ public class FreestyleProjectTest extends BaseTest {
 
         FreestyleProjectConfigurationPage configPage = new HomePage(getDriver())
                 .openProject(PROJECT_NAME, new FreestyleProjectStatusPage(getDriver()))
-                .clickConfigureInSideMenu(new FreestyleProjectConfigurationPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarConfigure()
                 .clickBuildStepMenuOption();
 
         for (String buildStep : BUILD_STEPS) {
@@ -168,7 +172,8 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectFreestyleProjectAndSubmit()
                 .gotoHomePage()
                 .openProject(PROJECT_NAME, new FreestyleProjectStatusPage(getDriver()))
-                .clickConfigureInSideMenu(new FreestyleProjectConfigurationPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarConfigure()
                 .getSCMTitleText();
 
         Assert.assertEquals(scmTitleText, SCM_TITLE_EXPECTED);
@@ -216,7 +221,8 @@ public class FreestyleProjectTest extends BaseTest {
 
         String triggersDescription = new HomePage(getDriver())
                 .openProject(PROJECT_NAME, new FreestyleProjectStatusPage(getDriver()))
-                .clickConfigureInSideMenu(new FreestyleProjectConfigurationPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarConfigure()
                 .clickTriggersLinkInSideMenu()
                 .getTriggersDescriptionText();
 

@@ -1,9 +1,10 @@
-package school.redrover.component;
+package school.redrover.component.common;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.component.BaseComponent;
 
 import java.util.List;
 
@@ -16,11 +17,6 @@ public class JenkinsVersionFooterDropdown extends BaseComponent<JenkinsVersionFo
 
     public JenkinsVersionFooterDropdown(WebDriver driver) {
         super(driver);
-    }
-
-    @Override
-    public JenkinsVersionFooterDropdown getComponent() {
-        return this;
     }
 
     @Override

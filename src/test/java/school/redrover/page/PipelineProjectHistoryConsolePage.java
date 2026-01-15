@@ -5,19 +5,19 @@ import org.openqa.selenium.WebDriver;
 import school.redrover.common.BasePage;
 
 
-public class PipelineHistoryConsolePage extends BasePage<PipelineHistoryConsolePage> {
+public class PipelineProjectHistoryConsolePage extends BasePage<PipelineProjectHistoryConsolePage> {
 
-    public PipelineHistoryConsolePage(WebDriver driver) {
+    public PipelineProjectHistoryConsolePage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public PipelineHistoryConsolePage getPage() {
+    public PipelineProjectHistoryConsolePage getPage() {
         return this;
     }
 
     @Override
-    public PipelineHistoryConsolePage waitUntilPageLoad() {
+    public PipelineProjectHistoryConsolePage waitUntilPageLoad() {
         return null;
     }
 

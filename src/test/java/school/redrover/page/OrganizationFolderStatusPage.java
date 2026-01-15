@@ -5,13 +5,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.trait.project_sidebar.SidebarBuildHistoryTrait;
-import school.redrover.trait.project_sidebar.SidebarCredentialsTrait;
-import school.redrover.trait.project_sidebar.SidebarMoveTrait;
+import school.redrover.component.project.status_page.sidebar.OrganizationFolderSidebar;
 
 
-public class OrganizationFolderStatusPage extends BaseProjectStatusPage<OrganizationFolderStatusPage>
-        implements SidebarBuildHistoryTrait, SidebarMoveTrait, SidebarCredentialsTrait {
+public class OrganizationFolderStatusPage extends BaseProjectStatusPage<OrganizationFolderStatusPage, OrganizationFolderSidebar> {
 
     @FindBy(xpath = "//span[text()='Delete Organization Folder']/ancestor::a")
     private WebElement deleteMenuItem;
@@ -22,6 +19,11 @@ public class OrganizationFolderStatusPage extends BaseProjectStatusPage<Organiza
 
     public OrganizationFolderStatusPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public OrganizationFolderSidebar getSidebarComponent() {
+        return new OrganizationFolderSidebar(getDriver());
     }
 
     @Override
@@ -44,12 +46,6 @@ public class OrganizationFolderStatusPage extends BaseProjectStatusPage<Organiza
     public String getDescriptionOrganizationFolder() {
         return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
                 By.id("view-message"))).getText();
-    }
-
-    public OrganizationFolderStatusPage clickDelete() {
-         getWait2().until(ExpectedConditions.elementToBeClickable(By.className("icon-edit-delete"))).click();
-
-         return this;
     }
 
     public HomePage clickYesConfirmationDelete() {

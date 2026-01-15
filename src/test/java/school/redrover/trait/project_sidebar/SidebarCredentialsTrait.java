@@ -6,11 +6,14 @@ import school.redrover.common.BasePage;
 import school.redrover.trait.BaseTrait;
 
 
-public interface SidebarCredentialsTrait extends BaseTrait {
+public interface SidebarCredentialsTrait<ProjectCredentialsPage extends BasePage<ProjectCredentialsPage>> extends BaseTrait {
 
-    default <ProjectCredentialsPage extends BasePage<ProjectCredentialsPage>> ProjectCredentialsPage clickSidebarCredentials(ProjectCredentialsPage page) {
+    ProjectCredentialsPage getProjectCredentialsPage();
+
+    default
+    ProjectCredentialsPage clickSidebarCredentials() {
         getDriver().findElement(By.xpath("//a[contains(., 'Credentials')]")).click();
 
-        return page.waitUntilPageLoadJS();
+        return getProjectCredentialsPage().waitUntilPageLoadJS();
     }
 }

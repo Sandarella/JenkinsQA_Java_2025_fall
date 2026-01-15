@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.BasePage;
 
 
-public class CredentialsPage extends BasePage<CredentialsPage> {
+public class FolderCredentialsPage extends BasePage<FolderCredentialsPage> {
 
     @FindBy(xpath = "//a[contains(text(), 'global')]")
     private  WebElement addCredentialsButton;
@@ -17,26 +17,26 @@ public class CredentialsPage extends BasePage<CredentialsPage> {
     @FindBy(xpath = "//a[@href = '/manage/credentials/store/system/domain/_/']")
     private  WebElement storesFromParentGlobal;
 
-    public CredentialsPage(WebDriver driver) {
+
+    public FolderCredentialsPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public CredentialsPage getPage() {
+    public FolderCredentialsPage getPage() {
         return this;
     }
 
     @Override
-    public CredentialsPage waitUntilPageLoad() {
+    public FolderCredentialsPage waitUntilPageLoad() {
         getWait5().until(ExpectedConditions.visibilityOf(storesFromParentGlobal));
+
         return this;
     }
 
     public String getCredentialsName(String name) {
-
         return getDriver().findElement(By.xpath("//a[contains(., '" + name + "')]")).getText();
     }
-
 
     public GlobalCredentialsPage clickGlobalLink() {
 

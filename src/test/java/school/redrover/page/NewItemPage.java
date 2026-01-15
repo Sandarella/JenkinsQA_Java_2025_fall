@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Objects;
 
 
-
 public class NewItemPage extends BasePage<NewItemPage> {
 
     @FindBy(id = "name")
@@ -38,6 +37,7 @@ public class NewItemPage extends BasePage<NewItemPage> {
 
     @FindBy(className = "input-validation-message")
     private List<WebElement> validationMessages;
+
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -88,21 +88,21 @@ public class NewItemPage extends BasePage<NewItemPage> {
         return this;
     }
 
-    public MultibranchPipelineConfigurationPage selectMultibranchPipelineAndSubmit() {
+    public MultibranchProjectConfigurationPage selectMultibranchPipelineAndSubmit() {
         PageUtils.clickJS(getDriver(), multibranchPipelineOption);
 
         getWait2().until(ExpectedConditions.elementToBeClickable(okButton)).click();
 
-        return new MultibranchPipelineConfigurationPage(getDriver()).waitUntilPageLoadJS();
+        return new MultibranchProjectConfigurationPage(getDriver()).waitUntilPageLoadJS();
     }
 
-    public PipelineConfigurationPage selectPipelineAndSubmit() {
+    public PipelineProjectConfigurationPage selectPipelineAndSubmit() {
         getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
 
         getWait5().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("general")));
 
-        return new PipelineConfigurationPage(getDriver());
+        return new PipelineProjectConfigurationPage(getDriver());
     }
 
     public WebElement getErrorMessage() {
@@ -139,13 +139,13 @@ public class NewItemPage extends BasePage<NewItemPage> {
         return this.waitUntilPageLoadJS();
     }
 
-    public MultibranchPipelineConfigurationPage selectMultiConfigurationAndSubmit() {
+    public MultibranchProjectConfigurationPage selectMultiConfigurationAndSubmit() {
         PageUtils.clickJS(getDriver(), By.xpath("//span[text()='Multi-configuration project']"));
 
         getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
         getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'General')]")));
 
-        return new MultibranchPipelineConfigurationPage(getDriver());
+        return new MultibranchProjectConfigurationPage(getDriver());
     }
 
     public OrganizationFolderConfigurationPage selectOrganizationFolderAndSubmit() {
@@ -220,11 +220,11 @@ public class NewItemPage extends BasePage<NewItemPage> {
         return getDriver().findElement(By.id("name")).getAttribute("data-valid");
     }
 
-    public MultiConfigurationProjectConfigurationPage selectMultiConfigurationProjectAndSubmit() {
+    public MultiConfigProjectConfigurationPage selectMultiConfigurationProjectAndSubmit() {
         multiConfigurationProject.click();
         getWait2().until(ExpectedConditions.elementToBeClickable(okButton)).click();
 
-        return new MultiConfigurationProjectConfigurationPage(getDriver()).waitUntilPageLoadJS();
+        return new MultiConfigProjectConfigurationPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public NewItemPage clickOkButton() {

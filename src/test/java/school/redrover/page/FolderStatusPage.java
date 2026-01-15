@@ -7,31 +7,14 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.PageUtils;
-import school.redrover.trait.project_sidebar.SidebarBuildHistoryTrait;
-import school.redrover.trait.project_sidebar.SidebarCredentialsTrait;
+import school.redrover.component.project.status_page.sidebar.FolderSidebar;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 
-public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage>
-        implements SidebarBuildHistoryTrait, SidebarCredentialsTrait {
-
-    @FindBy(xpath = "//a[contains(@href, '/configure')]")
-    private WebElement configureMenuItem;
-
-    @FindBy(xpath = "//a[contains(@href, '/newJob')]")
-    private WebElement newItemOfMenuItem;
-
-    @FindBy(xpath = "//span[text()='Delete Folder']/ancestor::a")
-    private WebElement deleteMenuItem;
-
-    @FindBy(xpath = "//a[contains(@href, '/credentials')]")
-    private WebElement credentialsLink;
-
-    @FindBy(xpath = "//a[contains(., 'Rename')]")
-    private WebElement renameMenuItem;
+public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, FolderSidebar> {
 
     @FindBy(name = "Submit")
     private WebElement submitButton;
@@ -45,19 +28,23 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage>
     }
 
     @Override
+    public FolderSidebar getSidebarComponent() {
+        return new FolderSidebar(getDriver()).waitUntilComponentLoad();
+    }
+
+    @Override
     public FolderStatusPage getPage() {
         return this;
     }
 
     @Override
     public FolderStatusPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(deleteMenuItem));
+        getWait5().until(ExpectedConditions.visibilityOf(newView));
 
         return this;
     }
 
     public FolderInfo getInfo() {
-
         String displayName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1"))).getText();
         String description = getDriver().findElement(By.id("view-message")).getText();
 
@@ -83,18 +70,6 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage>
         }
     }
 
-    public NewItemPage clickSidebarNewItem() {
-        newItemOfMenuItem.click();
-
-        return new NewItemPage(getDriver()).waitUntilPageLoadJS();
-    }
-
-    public CredentialsPage clickCredentialsLink() {
-        credentialsLink.click();
-
-        return new CredentialsPage(getDriver()).waitUntilPageLoadJS();
-    }
-
     public List<String> getBreadcrumbTexts() {
         List<WebElement> breadcrumbElements = getWait2().until(
                 ExpectedConditions.visibilityOfAllElementsLocatedBy(
@@ -110,12 +85,6 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage>
 
     public FolderStatusPage openFolderPage(String folderName) {
         getDriver().findElement(By.linkText(folderName)).click();
-
-        return this.waitUntilPageLoadJS();
-    }
-
-    public FolderStatusPage clickDeleteFolder() {
-        getDriver().findElement(By.xpath("//a[@data-title='Delete Folder']")).click();
 
         return this.waitUntilPageLoadJS();
     }
@@ -181,13 +150,6 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage>
         return getWait2()
                 .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".empty-state-block>section>h2")))
                 .getText();
-    }
-
-    public NewItemPage clickNewItem() {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
-        getDriver().findElement(By.xpath("//span[text()='New Item']/..")).click();
-
-        return new NewItemPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public List<String> getProjectList() {
@@ -269,7 +231,7 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage>
                 .isDisplayed();
     }
 
-    public <ProjectStatusPage extends BaseProjectStatusPage<ProjectStatusPage>>
+    public <ProjectStatusPage extends BaseProjectStatusPage<ProjectStatusPage, ?>>
     ProjectStatusPage openSubItemPage(String itemName, ProjectStatusPage projectStatusPage) {
 
         PageUtils.clickJS(getDriver(), By.xpath("//span[text()='%s']".formatted(itemName.trim())));

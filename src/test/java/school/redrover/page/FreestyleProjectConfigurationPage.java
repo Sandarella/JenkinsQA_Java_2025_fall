@@ -99,7 +99,7 @@ public class FreestyleProjectConfigurationPage extends BaseProjectConfigurationP
     }
 
     @Override
-    protected FreestyleProjectStatusPage createProjectStatusPage() {
+    protected FreestyleProjectStatusPage getProjectStatusPage() {
         return new FreestyleProjectStatusPage(getDriver());
     }
 

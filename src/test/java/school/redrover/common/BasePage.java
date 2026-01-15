@@ -7,6 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import school.redrover.component.common.JenkinsVersionFooterDropdown;
+import school.redrover.component.common.SearchComponent;
+import school.redrover.component.common.UserAccountIconDropdown;
 import school.redrover.page.HomePage;
 import school.redrover.page.JenkinsManagementPage;
 import school.redrover.page.RestApiPage;
@@ -51,7 +54,6 @@ public abstract class BasePage<Page> extends BaseModel {
     public abstract Page waitUntilPageLoad();
 
     public Page waitUntilPageLoadJS() {
-
         // delay to make sure the page starts to reload
         try {
             Thread.sleep(500);
@@ -78,7 +80,7 @@ public abstract class BasePage<Page> extends BaseModel {
     public SearchComponent clickSearchButton() {
         searchButton.click();
 
-        return new SearchComponent(getDriver()).waitUntilComponentLoadJS();
+        return new SearchComponent(getDriver()).waitUntilComponentLoad();
     }
 
     public JenkinsManagementPage clickManageJenkinsGear() {

@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
 import school.redrover.page.*;
 
+
 public class MultiConfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = "ProjectName";
     private static final String RENAMED_PROJECT = "Renamed multiconfiguration project";
@@ -41,7 +42,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateProject")
     public void testAddDescriptionToProject() {
         String description = new HomePage(getDriver())
-                .openProject(PROJECT_NAME, new MultiConfigurationProjectStatusPage(getDriver()))
+                .openProject(PROJECT_NAME, new MultiConfigProjectStatusPage(getDriver()))
                 .waitUntilPageLoad()
                 .clearDescriptionField()
                 .sendDescription(PROJECT_DESCRIPTION)
@@ -57,7 +58,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .sendName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndSubmit()
                 .clickSave()
-                .clickRenameInSideMenu(new MultiConfigurationProjectRenamingPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarRename()
                 .clearNameField()
                 .sendNewProjectName(RENAMED_PROJECT)
                 .getHeader()
@@ -102,7 +104,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testDisableProject() {
         boolean isProjectEnabled = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
-                .clickConfigureInSideMenu(new MultiConfigurationProjectConfigurationPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarConfigure()
                 .clickProjectToggle()
                 .isProjectToggleSelected();
 
@@ -113,7 +116,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testIconWhenDisable() {
         boolean disabledIconDisplayed = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
-                .clickConfigureInSideMenu(new MultiConfigurationProjectConfigurationPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarConfigure()
                 .clickProjectToggle()
                 .clickSave()
                 .gotoHomePage()

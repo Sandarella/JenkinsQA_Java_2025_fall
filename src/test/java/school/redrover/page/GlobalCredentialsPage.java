@@ -34,9 +34,10 @@ public class GlobalCredentialsPage extends BasePage<GlobalCredentialsPage> {
         return this;
     }
 
-    public CredentialsPage clickCredentials() {
+    public FolderCredentialsPage clickCredentials() {
         credentialsMenuItem.click();
-        return new CredentialsPage(getDriver()).waitUntilPageLoad();
+
+        return new FolderCredentialsPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public NewCredentialsPage clickAddCredentialsButton() {

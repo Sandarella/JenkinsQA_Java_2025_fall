@@ -6,11 +6,13 @@ import school.redrover.common.BasePage;
 import school.redrover.trait.BaseTrait;
 
 
-public interface SidebarMoveTrait extends BaseTrait {
+public interface SidebarMoveTrait<ProjectMovePage extends BasePage<ProjectMovePage>> extends BaseTrait {
 
-    default <ProjectMovePage extends BasePage<ProjectMovePage>> ProjectMovePage clickSidebarMove(ProjectMovePage page) {
+    ProjectMovePage getProjectMovePage();
+
+    default ProjectMovePage clickSidebarMove() {
         getDriver().findElement(By.xpath("//a[contains(., 'Move')]")).click();
 
-        return page.waitUntilPageLoadJS();
+        return getProjectMovePage().waitUntilPageLoadJS();
     }
 }

@@ -4,11 +4,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.component.project.status_page.sidebar.FreestyleProjectSidebar;
 import school.redrover.trait.project_sidebar.*;
 
 
-public class FreestyleProjectStatusPage extends BaseProjectStatusPage<FreestyleProjectStatusPage>
-        implements SidebarChangesTrait, SidebarWorkspaceTrait, SidebarBuildNowTrait, SidebarMoveTrait, SidebarCredentialsTrait {
+public class FreestyleProjectStatusPage extends BaseProjectStatusPage<FreestyleProjectStatusPage, FreestyleProjectSidebar> {
 
     @FindBy(xpath = "//a[contains(@href, '/configure')]")
     private WebElement configureMenuItem;
@@ -37,6 +37,11 @@ public class FreestyleProjectStatusPage extends BaseProjectStatusPage<FreestyleP
     }
 
     @Override
+    public FreestyleProjectSidebar getSidebarComponent() {
+        return new FreestyleProjectSidebar(getDriver()).waitUntilComponentLoad();
+    }
+
+    @Override
     public FreestyleProjectStatusPage getPage() {
         return this;
     }
@@ -44,12 +49,6 @@ public class FreestyleProjectStatusPage extends BaseProjectStatusPage<FreestyleP
     @Override
     public FreestyleProjectStatusPage waitUntilPageLoad() {
         getWait5().until(ExpectedConditions.visibilityOf(deleteMenuItem));
-
-        return this;
-    }
-
-    public FreestyleProjectStatusPage clickBuildNow() {
-        buildNowButton.click();
 
         return this;
     }

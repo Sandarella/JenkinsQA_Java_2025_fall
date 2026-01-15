@@ -60,6 +60,7 @@ public class FolderTest extends BaseTest {
             String itemType = (String) item[1];
             new HomePage(getDriver())
                     .openProject(FOLDER_NAME_2, new FolderStatusPage(getDriver()))
+                    .getSidebarComponent()
                     .clickSidebarNewItem()
                     .sendName(itemName)
                     .selectItemTypeAndSubmitAndGoHome(itemType);
@@ -79,6 +80,7 @@ public class FolderTest extends BaseTest {
     public void testPreventDuplicateItemNamesInFolder() {
         String duplicateErrorMessage = new HomePage(getDriver())
                 .openProject(FOLDER_NAME_2, new FolderStatusPage(getDriver()))
+                .getSidebarComponent()
                 .clickSidebarNewItem()
                 .sendName(SUB_FOLDER_NAME)
                 .selectFolder()
@@ -95,7 +97,8 @@ public class FolderTest extends BaseTest {
     public void testDeleteFolderBySidebar() {
         boolean isFolderDeleted = new HomePage(getDriver())
                 .openProject(FOLDER_NAME_2, new FolderStatusPage(getDriver()))
-                .clickDeleteFolder()
+                .getSidebarComponent()
+                .clickSidebarDelete()
                 .confirmDeleteFolder()
                 .clickSearchButton()
                 .searchFor(FOLDER_NAME_2)
@@ -125,6 +128,7 @@ public class FolderTest extends BaseTest {
     public void testSameItemNamesInTwoFolders() {
         List<String> jobsInFirstFolder = new HomePage(getDriver())
                 .openProject(FOLDER_NAME, new FolderStatusPage(getDriver()))
+                .getSidebarComponent()
                 .clickSidebarNewItem()
                 .sendName(SUB_FOLDER_NAME)
                 .selectFolderAndSubmit()

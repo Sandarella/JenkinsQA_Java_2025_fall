@@ -69,7 +69,7 @@ public class FolderConfigurationPage extends BaseProjectConfigurationPage<Folder
     }
 
     @Override
-    protected FolderStatusPage createProjectStatusPage() {
+    protected FolderStatusPage getProjectStatusPage() {
         return new FolderStatusPage(getDriver());
     }
 

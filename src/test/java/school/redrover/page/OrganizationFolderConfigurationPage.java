@@ -14,12 +14,13 @@ public class OrganizationFolderConfigurationPage extends BaseProjectConfiguratio
     @FindBy(xpath = "//span[text()='Delete Organization Folder']/ancestor::a")
     private WebElement deleteMenuItem;
 
+
     public OrganizationFolderConfigurationPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    protected OrganizationFolderStatusPage createProjectStatusPage() {
+    protected OrganizationFolderStatusPage getProjectStatusPage() {
         return new OrganizationFolderStatusPage(getDriver());
     }
 

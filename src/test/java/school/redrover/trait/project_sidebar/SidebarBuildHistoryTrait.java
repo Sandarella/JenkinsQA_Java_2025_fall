@@ -6,11 +6,15 @@ import school.redrover.common.BasePage;
 import school.redrover.trait.BaseTrait;
 
 
-public interface SidebarBuildHistoryTrait extends BaseTrait {
+public interface SidebarBuildHistoryTrait<ProjectBuildHistoryPage extends BasePage<ProjectBuildHistoryPage>>
+        extends BaseTrait {
 
-    default <ProjectBuildHistoryPage extends BasePage<ProjectBuildHistoryPage>> ProjectBuildHistoryPage clickSidebarBuildHistory(ProjectBuildHistoryPage page) {
+    ProjectBuildHistoryPage getProjectBuildHistoryPage();
+
+    default
+    ProjectBuildHistoryPage clickSidebarBuildHistory() {
         getDriver().findElement(By.xpath("//a[contains(., 'Build History')]")).click();
 
-        return page.waitUntilPageLoadJS();
+        return getProjectBuildHistoryPage().waitUntilPageLoadJS();
     }
 }

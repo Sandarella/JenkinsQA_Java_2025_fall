@@ -6,11 +6,14 @@ import school.redrover.common.BasePage;
 import school.redrover.trait.BaseTrait;
 
 
-public interface SidebarBuildNowTrait extends BaseTrait {
+public interface SidebarBuildNowTrait<ProjectStatusPage extends BasePage<ProjectStatusPage>>
+        extends BaseTrait {
 
-    default <ProjectStatusPage extends BasePage<ProjectStatusPage>> ProjectStatusPage clickSidebarBuildNow(ProjectStatusPage page) {
+    ProjectStatusPage getProjectStatusPage();
+
+    default ProjectStatusPage clickSidebarBuildNow() {
         getDriver().findElement(By.xpath("//a[contains(., 'Build Now')]")).click();
 
-        return page.waitUntilPageLoadJS();
+        return getProjectStatusPage().waitUntilPageLoadJS();
     }
 }

@@ -5,13 +5,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.trait.project_sidebar.SidebarBuildHistoryTrait;
-import school.redrover.trait.project_sidebar.SidebarCredentialsTrait;
-import school.redrover.trait.project_sidebar.SidebarMoveTrait;
+import school.redrover.component.project.status_page.sidebar.MultiBranchProjectSidebar;
 
 
-public class MultibranchPipelineProjectStatusPage extends BaseProjectStatusPage<MultibranchPipelineProjectStatusPage>
-        implements SidebarBuildHistoryTrait, SidebarMoveTrait, SidebarCredentialsTrait {
+public class MultibranchProjectStatusPage extends BaseProjectStatusPage<MultibranchProjectStatusPage, MultiBranchProjectSidebar> {
 
     @FindBy(id = "view-message")
     private WebElement description;
@@ -35,17 +32,22 @@ public class MultibranchPipelineProjectStatusPage extends BaseProjectStatusPage<
     private WebElement submitButton;
 
 
-    public MultibranchPipelineProjectStatusPage(WebDriver driver) {
+    public MultibranchProjectStatusPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public MultibranchPipelineProjectStatusPage getPage() {
+    public MultiBranchProjectSidebar getSidebarComponent() {
+        return new MultiBranchProjectSidebar(getDriver());
+    }
+
+    @Override
+    public MultibranchProjectStatusPage getPage() {
         return this;
     }
 
     @Override
-    public MultibranchPipelineProjectStatusPage waitUntilPageLoad() {
+    public MultibranchProjectStatusPage waitUntilPageLoad() {
         getWait5().until(ExpectedConditions.visibilityOf(deleteMenuItem));
 
         return this;
@@ -59,13 +61,13 @@ public class MultibranchPipelineProjectStatusPage extends BaseProjectStatusPage<
         return disabledMessage.getText();
     }
 
-    public MultibranchPipelineProjectStatusPage clickAddDescriptionLink() {
+    public MultibranchProjectStatusPage clickAddDescriptionLink() {
         getWait2().until(ExpectedConditions.elementToBeClickable(addDescriptionLink)).click();
 
         return this;
     }
 
-    public MultibranchPipelineProjectStatusPage sendDescription(String description) {
+    public MultibranchProjectStatusPage sendDescription(String description) {
         descriptionField.clear();
         descriptionField.sendKeys(description);
 

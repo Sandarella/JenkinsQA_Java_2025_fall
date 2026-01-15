@@ -6,11 +6,13 @@ import school.redrover.common.BasePage;
 import school.redrover.trait.BaseTrait;
 
 
-public interface SidebarWorkspaceTrait extends BaseTrait {
+public interface SidebarWorkspaceTrait<ProjectWorkspacePage extends BasePage<ProjectWorkspacePage>> extends BaseTrait {
 
-    default <ProjectWorkspacePage extends BasePage<ProjectWorkspacePage>> ProjectWorkspacePage clickSidebarWorkspace(ProjectWorkspacePage page) {
+    ProjectWorkspacePage getProjectWorkspacePage();
+
+    default ProjectWorkspacePage clickSidebarWorkspace() {
         getDriver().findElement(By.xpath("//a[contains(., 'Workspace')]")).click();
 
-        return page.waitUntilPageLoadJS();
+        return getProjectWorkspacePage().waitUntilPageLoadJS();
     }
 }

@@ -9,29 +9,29 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.BasePage;
 
 
-public class MultibranchPipelineRenamingPage extends BasePage<MultibranchPipelineRenamingPage> {
+public class MultibranchProjectRenamingPage extends BasePage<MultibranchProjectRenamingPage> {
 
     @FindBy(name = "newName")
     private WebElement renameField;
 
 
-    public MultibranchPipelineRenamingPage(WebDriver driver) {
+    public MultibranchProjectRenamingPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public MultibranchPipelineRenamingPage getPage() {
+    public MultibranchProjectRenamingPage getPage() {
         return this;
     }
 
     @Override
-    public MultibranchPipelineRenamingPage waitUntilPageLoad() {
+    public MultibranchProjectRenamingPage waitUntilPageLoad() {
         getWait5().until(ExpectedConditions.visibilityOf(renameField));
 
         return this;
     }
 
-    public MultibranchPipelineRenamingPage renameJob(String jobName) {
+    public MultibranchProjectRenamingPage renameJob(String jobName) {
         renameField.clear();
         renameField.sendKeys(jobName);
 
@@ -44,10 +44,10 @@ public class MultibranchPipelineRenamingPage extends BasePage<MultibranchPipelin
         return new ErrorPage(getDriver());
     }
 
-    public MultibranchPipelineProjectStatusPage renameMultibranchPipeline(String jobName) {
+    public MultibranchProjectStatusPage renameMultibranchPipeline(String jobName) {
         renameField.clear();
         renameField.sendKeys(jobName + Keys.ENTER);
 
-        return new MultibranchPipelineProjectStatusPage(getDriver()).waitUntilPageLoadJS();
+        return new MultibranchProjectStatusPage(getDriver()).waitUntilPageLoadJS();
     }
 }

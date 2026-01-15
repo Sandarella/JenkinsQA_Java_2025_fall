@@ -20,9 +20,9 @@ public class ViewSteps {
 
     private FreestyleProjectStatusPage freestyleProjectPage;
 
-    private PipelineConfigurationPage pipelineConfigurationPage;
+    private PipelineProjectConfigurationPage pipelineProjectConfigurationPage;
 
-    private PipelineStatusPage pipelinePage;
+    private PipelineProjectStatusPage pipelinePage;
 
     private OrganizationFolderConfigurationPage organizationFolderConfigurationPage;
 
@@ -63,12 +63,12 @@ public class ViewSteps {
 
     @And("Set Item type as Pipeline, click Ok and go to Configure page")
     public void setItemTypeAsPipelineAndClickOk() {
-        pipelineConfigurationPage = newItemPage.selectPipelineAndSubmit();
+        pipelineProjectConfigurationPage = newItemPage.selectPipelineAndSubmit();
     }
 
     @And("Save configuration and go to Pipeline project page")
     public void saveConfigAndGoToPipelinePage() {
-        pipelinePage = pipelineConfigurationPage.clickSave();
+        pipelinePage = pipelineProjectConfigurationPage.clickSave();
     }
 
     @And("Set Item type as Organization Folder, click Ok and go to Configure page")

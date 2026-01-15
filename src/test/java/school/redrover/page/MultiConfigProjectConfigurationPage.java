@@ -9,7 +9,7 @@ import school.redrover.common.PageUtils;
 import java.util.List;
 
 
-public class MultiConfigurationProjectConfigurationPage extends BaseProjectConfigurationPage<MultiConfigurationProjectConfigurationPage, MultiConfigurationProjectStatusPage> {
+public class MultiConfigProjectConfigurationPage extends BaseProjectConfigurationPage<MultiConfigProjectConfigurationPage, MultiConfigProjectStatusPage> {
 
     @FindBy(id = "configuration-matrix")
     private WebElement configurationMatrix;
@@ -32,22 +32,22 @@ public class MultiConfigurationProjectConfigurationPage extends BaseProjectConfi
     @FindBy (css = "label[for='enable-disable-project']")
     private WebElement projectToggle;
 
-    public MultiConfigurationProjectConfigurationPage(WebDriver driver) {
+    public MultiConfigProjectConfigurationPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    protected MultiConfigurationProjectStatusPage createProjectStatusPage() {
-        return new MultiConfigurationProjectStatusPage(getDriver());
+    protected MultiConfigProjectStatusPage getProjectStatusPage() {
+        return new MultiConfigProjectStatusPage(getDriver());
     }
 
     @Override
-    public MultiConfigurationProjectConfigurationPage getPage() {
+    public MultiConfigProjectConfigurationPage getPage() {
         return this;
     }
 
     @Override
-    public MultiConfigurationProjectConfigurationPage waitUntilPageLoad() {
+    public MultiConfigProjectConfigurationPage waitUntilPageLoad() {
         getWait5().until(ExpectedConditions.visibilityOf(configurationMatrix));
 
         return this;
@@ -57,7 +57,7 @@ public class MultiConfigurationProjectConfigurationPage extends BaseProjectConfi
         return getWait5().until(ExpectedConditions.visibilityOf(configurationMatrix)).getText().trim();
     }
 
-    public MultiConfigurationProjectConfigurationPage clickAddAxisButton() {
+    public MultiConfigProjectConfigurationPage clickAddAxisButton() {
         PageUtils.scrollToElement(getDriver(), addAxisButton);
         getWait10().until(ExpectedConditions.elementToBeClickable(addAxisButton));
         addAxisButton.click();
@@ -71,34 +71,33 @@ public class MultiConfigurationProjectConfigurationPage extends BaseProjectConfi
         return addAxisDropdownList.stream().map(WebElement::getText).toList();
     }
 
-    public MultiConfigurationProjectConfigurationPage clickAdvancedDropdownButton() {
+    public MultiConfigProjectConfigurationPage clickAdvancedDropdownButton() {
         advancedDropdownButton.click();
 
         return this;
     }
 
-    public MultiConfigurationProjectConfigurationPage clickQuietPeriodCheckbox() {
+    public MultiConfigProjectConfigurationPage clickQuietPeriodCheckbox() {
         PageUtils.scrollToElement(getDriver(), quietPeriodCheckbox);
         quietPeriodCheckbox.click();
 
         return this;
     }
 
-    public MultiConfigurationProjectConfigurationPage setQuietPeriodInput(String seconds) {
+    public MultiConfigProjectConfigurationPage setQuietPeriodInput(String seconds) {
         quietPeriodInput.clear();
         quietPeriodInput.sendKeys(seconds);
 
         return this;
     }
 
-    public MultiConfigurationProjectConfigurationPage clickProjectToggle(){
+    public MultiConfigProjectConfigurationPage clickProjectToggle(){
         projectToggle.click();
 
         return this;
     }
 
     public boolean isProjectToggleSelected(){
-
         return projectToggle.isSelected();
     }
 }

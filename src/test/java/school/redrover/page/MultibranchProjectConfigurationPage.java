@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
-public class MultibranchPipelineConfigurationPage extends BaseProjectConfigurationPage<MultibranchPipelineConfigurationPage, MultibranchPipelineProjectStatusPage> {
+public class MultibranchProjectConfigurationPage extends BaseProjectConfigurationPage<MultibranchProjectConfigurationPage, MultibranchProjectStatusPage> {
 
     @FindBy(css = "[data-title='Disabled']")
     private WebElement toggleSwitcher;
@@ -16,34 +16,35 @@ public class MultibranchPipelineConfigurationPage extends BaseProjectConfigurati
     @FindBy(id = "toggle-switch-enable-disable-project")
     private WebElement toggleTooltipOnHover;
 
-    public MultibranchPipelineConfigurationPage(WebDriver driver) {
+
+    public MultibranchProjectConfigurationPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    protected MultibranchPipelineProjectStatusPage createProjectStatusPage() {
-        return new MultibranchPipelineProjectStatusPage(getDriver());
+    protected MultibranchProjectStatusPage getProjectStatusPage() {
+        return new MultibranchProjectStatusPage(getDriver());
     }
 
     @Override
-    public MultibranchPipelineConfigurationPage getPage() {
+    public MultibranchProjectConfigurationPage getPage() {
         return this;
     }
 
     @Override
-    public MultibranchPipelineConfigurationPage waitUntilPageLoad() {
+    public MultibranchProjectConfigurationPage waitUntilPageLoad() {
         getWait5().until(ExpectedConditions.elementToBeClickable(toggleSwitcher));
 
         return this;
     }
 
-    public MultibranchPipelineConfigurationPage sendDisplayName(String name) {
+    public MultibranchProjectConfigurationPage sendDisplayName(String name) {
         getDriver().findElement(By.xpath("//input[@name='_.displayNameOrNull']")).sendKeys(name);
 
         return this;
     }
 
-    public MultibranchPipelineConfigurationPage clickToggle() {
+    public MultibranchProjectConfigurationPage clickToggle() {
         toggleSwitcher.click();
 
         return this;

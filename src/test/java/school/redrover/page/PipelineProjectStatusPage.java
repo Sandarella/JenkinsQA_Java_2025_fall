@@ -5,19 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import school.redrover.trait.project_sidebar.SidebarBuildNowTrait;
-import school.redrover.trait.project_sidebar.SidebarChangesTrait;
-import school.redrover.trait.project_sidebar.SidebarCredentialsTrait;
-import school.redrover.trait.project_sidebar.SidebarMoveTrait;
+import school.redrover.component.project.status_page.sidebar.PipelineProjectSidebar;
 
 import java.util.List;
 
 
-public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage>
-        implements SidebarChangesTrait, SidebarBuildNowTrait, SidebarMoveTrait, SidebarCredentialsTrait {
-
-    @FindBy(xpath = "//a[contains(@href, '/configure')]")
-    private WebElement configureMenuItem;
+public class PipelineProjectStatusPage extends BaseProjectStatusPage<PipelineProjectStatusPage, PipelineProjectSidebar> {
 
     @FindBy(id = "description-link")
     private WebElement descriptionButton;
@@ -33,9 +26,6 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
 
     @FindBy(id = "description-content")
     private WebElement descriptionContent;
-
-    @FindBy(xpath = "//a[@data-build-success='Build scheduled']")
-    private WebElement buildNow;
 
     @FindBy(xpath = "//span[text()='Delete Pipeline']/ancestor::a")
     private WebElement deletePipeline;
@@ -58,17 +48,22 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
     @FindBy(css = "[data-id='ok']")
     private WebElement confirmDeletePipeline;
 
-    public PipelineStatusPage(WebDriver driver) {
+    public PipelineProjectStatusPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public PipelineStatusPage getPage() {
+    public PipelineProjectSidebar getSidebarComponent() {
+        return new PipelineProjectSidebar(getDriver());
+    }
+
+    @Override
+    public PipelineProjectStatusPage getPage() {
         return this;
     }
 
     @Override
-    public PipelineStatusPage waitUntilPageLoad() {
+    public PipelineProjectStatusPage waitUntilPageLoad() {
         getWait5().until(ExpectedConditions.visibilityOf(deletePipeline));
 
         return this;
@@ -88,24 +83,24 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
         return getWait5().until(ExpectedConditions.visibilityOf(enableProjectWarning)).getText();
     }
 
-    public PipelineStatusPage clickAddDescriptionButton() {
+    public PipelineProjectStatusPage clickAddDescriptionButton() {
         descriptionButton.click();
         return this;
     }
 
-    public PipelineStatusPage addDescriptionAndSave(String description) {
+    public PipelineProjectStatusPage addDescriptionAndSave(String description) {
         descriptionTextarea.sendKeys(description);
         descriptionSubmitButton.click();
 
         return this.waitUntilPageLoadJS();
     }
 
-    public PipelineStatusPage clearDescription() {
+    public PipelineProjectStatusPage clearDescription() {
         descriptionTextarea.clear();
         return this;
     }
 
-    public PipelineStatusPage clickEditDescriptionButton() {
+    public PipelineProjectStatusPage clickEditDescriptionButton() {
         editDescriptionButton.click();
         return this;
     }
@@ -114,27 +109,16 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
         return getWait5().until(ExpectedConditions.visibilityOf(descriptionContent)).getText();
     }
 
-    public PipelineStatusPage clickBuildNow() {
-        buildNow.click();
-        return this;
-    }
-
-    public PipelineStatusPage clickDeletePipeline() {
-        deletePipeline.click();
-
-        return this.waitUntilPageLoadJS();
-    }
-
-    public PipelineSyntaxPage clickPipelineSyntax() {
+    public PipelineProjectSyntaxPage clickPipelineSyntax() {
         pipelineSyntax.click();
-        return new PipelineSyntaxPage(getDriver());
+        return new PipelineProjectSyntaxPage(getDriver());
     }
 
-    public PipelineHistoryPage clickBuildHistory() {
+    public PipelineProjectHistoryPage clickBuildHistory() {
 
         getWait10().until(ExpectedConditions.elementToBeClickable(buildsItems)).click();
 
-        return new PipelineHistoryPage(getDriver());
+        return new PipelineProjectHistoryPage(getDriver());
     }
 
     public HomePage confirmDeleteAtJobPage() {
@@ -143,7 +127,7 @@ public class PipelineStatusPage extends BaseProjectStatusPage<PipelineStatusPage
         return new HomePage(getDriver()).waitUntilPageLoadJS();
     }
 
-    public PipelineStatusPage cancelDelete() {
+    public PipelineProjectStatusPage cancelDelete() {
         WebElement cancelDeleteButton = getWait2().until(
                 ExpectedConditions.elementToBeClickable(
                         By.xpath("//dialog[@open]//button[@data-id='cancel']"))

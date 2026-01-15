@@ -5,10 +5,11 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
 import school.redrover.page.HomePage;
-import school.redrover.page.PipelineConfigurationPage;
-import school.redrover.page.PipelineStatusPage;
+import school.redrover.page.PipelineProjectConfigurationPage;
+import school.redrover.page.PipelineProjectStatusPage;
 
 import java.util.List;
+
 
 public class PipelineTest extends BaseTest {
 
@@ -65,7 +66,7 @@ public class PipelineTest extends BaseTest {
         );
 
         List<String> actualSideMenu = new HomePage(getDriver())
-                .openProject(PIPELINE_NAME, new PipelineStatusPage(getDriver()))
+                .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))
                 .clickPipelineSyntax()
                 .getListOfButtonsInSideMenu();
 
@@ -97,8 +98,9 @@ public class PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateNewPipeline")
     public void testCancelDeletePipelineViaSideMenu() {
         List<String> actualProjectList = new HomePage(getDriver())
-                .openProject(PIPELINE_NAME, new PipelineStatusPage(getDriver()))
-                .clickDeletePipeline()
+                .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarDelete()
                 .cancelDelete()
                 .gotoHomePage()
                 .getProjectsNamesList();
@@ -110,8 +112,9 @@ public class PipelineTest extends BaseTest {
     public void testBuildPipeline() {
 
         String consoleOutput = new HomePage(getDriver())
-                .openProject(PIPELINE_NAME, new PipelineStatusPage(getDriver()))
-                .clickBuildNow()
+                .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarBuildNow()
                 .clickBuildHistory()
                 .clickConsoleOutput()
                 .getConsoleOutput();
@@ -125,7 +128,7 @@ public class PipelineTest extends BaseTest {
         final String textDescription = "@0*8nFP'cRU0k.|6Gz-wO*se h~OtJ4kz0!)cl0ZAE3vN>q";
 
         String descriptionText = new HomePage(getDriver())
-                .openProject(PIPELINE_NAME, new PipelineStatusPage(getDriver()))
+                .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))
                 .clickAddDescriptionButton()
                 .addDescriptionAndSave(textDescription)
                 .getDescriptionText();
@@ -138,7 +141,7 @@ public class PipelineTest extends BaseTest {
         final String textDescription = "D0XVcGo8k(=D7myr/.YC6umm>]\"gY)?X_E|#HPku6T5im[oYHD-\\|B`";
 
         String descriptionText = new HomePage(getDriver())
-                .openProject(PIPELINE_NAME, new PipelineStatusPage(getDriver()))
+                .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))
                 .clickEditDescriptionButton()
                 .clearDescription()
                 .addDescriptionAndSave(textDescription)
@@ -184,8 +187,9 @@ public class PipelineTest extends BaseTest {
         createPipeline(PIPELINE_NAME);
 
         String actualHomePageHeading = new HomePage(getDriver())
-                .openProject(PIPELINE_NAME, new PipelineStatusPage(getDriver()))
-                .clickDeletePipeline()
+                .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarDelete()
                 .confirmDeleteAtJobPage()
                 .getHeader()
                 .getText();
@@ -197,8 +201,9 @@ public class PipelineTest extends BaseTest {
     public void testScheduleWithValidData(String validTimePeriod) {
 
         String textAreaValidationMessage = new HomePage(getDriver())
-                .openProject(PIPELINE_NAME, new PipelineStatusPage(getDriver()))
-                .clickConfigureInSideMenu(new PipelineConfigurationPage(getDriver()))
+                .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarConfigure()
                 .clickTriggersSectionButton()
                 .selectBuildPeriodicallyCheckbox()
                 .sendScheduleText(validTimePeriod)
@@ -206,7 +211,7 @@ public class PipelineTest extends BaseTest {
                 .getTextAreaValidationMessage()
                 .getText();
 
-        Assert.assertEquals(new PipelineConfigurationPage(getDriver()).getSavedMessage(),
+        Assert.assertEquals(new PipelineProjectConfigurationPage(getDriver()).getSavedMessage(),
                 "Saved");
         Assert.assertTrue(textAreaValidationMessage.matches(
                         "(?s)Would last have run at .*; would next run at .*"),
@@ -217,8 +222,9 @@ public class PipelineTest extends BaseTest {
     public void testScheduleWithInvalidData(String invalidTimePeriod, String expectedErrorMessage) {
 
         String actualTextErrorMessage = new HomePage(getDriver())
-                .openProject(PIPELINE_NAME, new PipelineStatusPage(getDriver()))
-                .clickConfigureInSideMenu(new PipelineConfigurationPage(getDriver()))
+                .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarConfigure()
                 .clickTriggersSectionButton()
                 .selectBuildPeriodicallyCheckbox()
                 .sendScheduleText(invalidTimePeriod)
@@ -226,21 +232,22 @@ public class PipelineTest extends BaseTest {
                 .getErrorMessage()
                 .getText();
 
+        new PipelineProjectConfigurationPage(getDriver()).closeModalWindow();
+
         Assert.assertTrue(actualTextErrorMessage.contains(expectedErrorMessage),
                 String.format("Сообщение: '%s', не содержит ожидаемую ключевую информацию об ошибке: '%s'",
                         actualTextErrorMessage, expectedErrorMessage));
-        Assert.assertEquals(new PipelineConfigurationPage(getDriver()).getErrorDescriptionModalWindow(),
+        Assert.assertEquals(new PipelineProjectConfigurationPage(getDriver()).getErrorDescriptionModalWindow(),
                 "A problem occurred while processing the request");
-
-        new PipelineConfigurationPage(getDriver()).closeModalWindow();
     }
 
     @Test(dependsOnMethods = "testCreateNewPipeline")
     public void testTriggerNewBuildManually() {
 
         int size = new HomePage(getDriver())
-                .openProject(PIPELINE_NAME, new PipelineStatusPage(getDriver()))
-                .clickBuildNow()
+                .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarBuildNow()
                 .getSizeBuildsList();
 
         Assert.assertEquals(size, 1);
