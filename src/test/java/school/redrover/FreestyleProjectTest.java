@@ -313,4 +313,21 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualHeadingText, expectedHeadingText);
     }
+
+    @Test
+    public void testErrorMessageForProjectWithNoWorkspace() {
+        final String expectedHeadingText = "Error: no workspace";
+
+        String actualHeadingText = new HomePage(getDriver())
+                .clickCreateJob()
+                .sendName(PROJECT_NAME)
+                .selectFreestyleProjectAndSubmit()
+                .gotoHomePage()
+                .openProject(PROJECT_NAME, new FreestyleProjectStatusPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarWorkspace()
+                .getHeaderText();
+
+        Assert.assertEquals(actualHeadingText, expectedHeadingText);
+    }
 }
