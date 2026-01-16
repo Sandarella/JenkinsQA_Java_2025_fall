@@ -1,6 +1,7 @@
 package school.redrover;
 
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
 import school.redrover.page.BuildHistoryOfJenkinsPage;
@@ -10,6 +11,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BuildHistoryAccessTest extends BaseTest {
+
+    @DataProvider
+    private Object[][] iconSize() {
+        return new Object[][]{
+                {"Small"},
+                {"Medium"},
+                {"Large"}
+        };
+    }
 
     @Test
     public void testQuickAccessBuildHistory() {
@@ -32,19 +42,14 @@ public class BuildHistoryAccessTest extends BaseTest {
         Assert.assertEquals(buildHistoryOfJenkinsPage.getTableHeadersText(), expectedHeaders);
     }
 
+    @Test(dataProvider = "iconSize")
+    public void testChangeIconSize(String size) {
+        String actualIconSize = new HomePage(getDriver())
+                .clickBuildHistory()
+                .checkIconSize(size)
+                .getIconSize();
 
-    final List<String> allSizes = List.of("Small", "Medium", "Large");
-
-    @Test
-    public void testChangeIconSize() {
-
-        for (int i = 0; i < allSizes.size(); i++) {
-            String checks = new HomePage(getDriver())
-                    .clickBuildHistory()
-                    .changeIconSize(allSizes.get(i))
-                    .checkIconSize();
-
-            Assert.assertEquals(checks, allSizes.get(i));
-        }
+        Assert.assertEquals(actualIconSize, size);
     }
+
 }

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.BasePage;
+
 import java.util.List;
 
 
@@ -20,6 +21,8 @@ public class BuildHistoryOfJenkinsPage extends BasePage<BuildHistoryOfJenkinsPag
     @FindBy(tagName = "h1")
     private WebElement header;
 
+    @FindBy(css = ".jenkins-icon-size > :nth-child(1) > ol > li[tooltip]")
+    public WebElement iconSizeButon;
 
     public BuildHistoryOfJenkinsPage(WebDriver driver) {
         super(driver);
@@ -50,19 +53,14 @@ public class BuildHistoryOfJenkinsPage extends BasePage<BuildHistoryOfJenkinsPag
                 .toList();
     }
 
-    public BuildHistoryOfJenkinsPage changeIconSize(String size) {
-        int z = 0;
-        if (size.equals("Small")) {
-            z = 1;
-        } else if (size.equals("Medium")) {
-            z = 2;
-        } else z = 3;
+    public BuildHistoryOfJenkinsPage checkIconSize(String size) {
+        getDriver().findElement(By.cssSelector("[tooltip='%s']".formatted(size))).click();
 
-        getDriver().findElement(By.cssSelector("#main-panel > div.jenkins-icon-size > div.jenkins-icon-size__items.jenkins-buttons-row > ol > li:nth-child(%s) > a".formatted(z))).click();
-        return new BuildHistoryOfJenkinsPage(getDriver());
+        return new BuildHistoryOfJenkinsPage(getDriver()).waitUntilPageLoadJS();
     }
 
-    public String checkIconSize() {
-        return getDriver().findElement(By.cssSelector(".jenkins-icon-size > :nth-child(1) > ol > li[tooltip]")).getAttribute("title");
+    public String getIconSize() {
+
+        return iconSizeButon.getAttribute("tooltip");
     }
 }
