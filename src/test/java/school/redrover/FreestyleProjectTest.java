@@ -302,12 +302,14 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(selectedParameterList.contains(parameterName));
     }
 
-    @Test(dependsOnMethods = {"testCreate", "testScheduleBuild"})
+    @Test(dependsOnMethods = "testCreate")
     public void testNavigationToWorkspaceAfterBuild() {
         final String expectedHeadingText = "Workspace of " + PROJECT_NAME + " on Built-In Node";
 
         String actualHeadingText = new HomePage(getDriver())
                 .openProject(PROJECT_NAME, new FreestyleProjectStatusPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarBuildNow()
                 .getSidebarComponent()
                 .clickSidebarWorkspace()
                 .getHeader()
