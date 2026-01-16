@@ -151,7 +151,7 @@ public class PipelineConfigurationTest extends BaseTest {
                 .clickAdvancedButton()
                 .sendDisplayName(displayName)
                 .clickSave()
-                .getDisplayNameInStatus();
+                .getStatusDisplayNameText();
 
         Assert.assertEquals(actualDisplayNameInStatus, displayName);
         Assert.assertEquals(new PipelineProjectStatusPage(getDriver()).

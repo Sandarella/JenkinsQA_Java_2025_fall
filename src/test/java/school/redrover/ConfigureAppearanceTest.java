@@ -16,8 +16,7 @@ public class ConfigureAppearanceTest extends BaseTest {
                 .clickAppearanceLink()
                 .clickSystemTheme()
                 .clickApplyButton()
-                .getApplyPopUp()
-                .getText();
+                .getApplyPopUpText();
 
         Assert.assertEquals(popUpApplyButtonText, expectedText);
     }
@@ -45,8 +44,7 @@ public class ConfigureAppearanceTest extends BaseTest {
                 .clickLightTheme()
                 .checkAllowTheme()
                 .clickApplyButton()
-                .getApplyPopUp()
-                .getText();
+                .getApplyPopUpText();
 
         Assert.assertEquals(checkingLight, finalTheme);
     }

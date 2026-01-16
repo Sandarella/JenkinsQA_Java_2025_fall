@@ -174,8 +174,7 @@ public class PipelineTest extends BaseTest {
                 .openDropdownMenu(PIPELINE_NAME)
                 .clickDeleteItemInDropdownMenu()
                 .confirmDelete()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(actualHomePageHeading, expectedHomePageHeading);
     }
@@ -191,8 +190,7 @@ public class PipelineTest extends BaseTest {
                 .getSidebarComponent()
                 .clickSidebarDelete()
                 .confirmDeleteAtJobPage()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(actualHomePageHeading, expectedHomePageHeading);
     }
@@ -208,8 +206,7 @@ public class PipelineTest extends BaseTest {
                 .selectBuildPeriodicallyCheckbox()
                 .sendScheduleText(validTimePeriod)
                 .clickApply()
-                .getTextAreaValidationMessage()
-                .getText();
+                .getValidationMessageText();
 
         Assert.assertEquals(new PipelineProjectConfigurationPage(getDriver()).getSavedMessage(),
                 "Saved");
@@ -229,8 +226,7 @@ public class PipelineTest extends BaseTest {
                 .selectBuildPeriodicallyCheckbox()
                 .sendScheduleText(invalidTimePeriod)
                 .clickApply()
-                .getErrorMessage()
-                .getText();
+                .getErrorMessageText();
 
         new PipelineProjectConfigurationPage(getDriver()).closeModalWindow();
 

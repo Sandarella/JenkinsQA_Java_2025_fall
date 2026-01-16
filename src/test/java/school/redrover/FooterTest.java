@@ -23,8 +23,7 @@ public class FooterTest extends BaseTest {
     public void testApiPageHeading() {
         String actualHeading = new HomePage(getDriver())
                 .clickRestApiLink()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(actualHeading, NAME_PAGE);
     }
@@ -55,7 +54,7 @@ public class FooterTest extends BaseTest {
 
     @Test
     public void testJenkinsVersion() {
-        String version = new HomePage(getDriver()).getJenkinsVersionButton().getText();
+        String version = new HomePage(getDriver()).getJenkinsVersionButtonText();
 
         Assert.assertEquals(version,"Jenkins 2.516.3");
     }
@@ -80,8 +79,7 @@ public class FooterTest extends BaseTest {
         String actualHeading = new HomePage(getDriver())
                 .clickUserAccountIcon()
                 .clickRestApiLink()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
        Assert.assertEquals(actualHeading, NAME_PAGE);
     }
@@ -91,8 +89,7 @@ public class FooterTest extends BaseTest {
         String actualHeading = new HomePage(getDriver())
                 .clickSidebarNewItem()
                 .clickRestApiLink()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(actualHeading, NAME_PAGE);
     }
@@ -102,8 +99,7 @@ public class FooterTest extends BaseTest {
         String actualHeading = new HomePage(getDriver())
                 .clickSetUpAnAgent()
                 .clickRestApiLink()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(actualHeading, NAME_PAGE);
     }
@@ -113,8 +109,7 @@ public class FooterTest extends BaseTest {
         String actualHeading = new HomePage(getDriver())
                .clickBuildExecutorStatus()
                .clickRestApiLink()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(actualHeading, NAME_PAGE);
     }
@@ -124,8 +119,7 @@ public class FooterTest extends BaseTest {
         String actualHeading = new HomePage(getDriver())
                 .clickBuildHistory()
                 .clickRestApiLink()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(actualHeading, NAME_PAGE);
     }

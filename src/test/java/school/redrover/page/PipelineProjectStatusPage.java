@@ -69,8 +69,8 @@ public class PipelineProjectStatusPage extends BaseProjectStatusPage<PipelinePro
         return this;
     }
 
-    public String getDisplayNameInStatus() {
-        return getHeader().getText();
+    public String getStatusDisplayNameText() {
+        return getHeaderText();
     }
 
     public String getDisplayNameInBreadcrumbBar(String displayName) {

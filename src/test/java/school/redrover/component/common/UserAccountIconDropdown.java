@@ -41,12 +41,12 @@ public class UserAccountIconDropdown extends BaseComponent<UserAccountIconDropdo
         return new UserStatusPage(getDriver()).waitUntilPageLoadJS();
     }
 
-    public WebElement getUserName() {
-        return userName;
+    public String getUserNameText() {
+        return userName.getText();
     }
 
     public UserAccountIconDropdown getUserName(Consumer<String> stringConsumer) {
-        stringConsumer.accept(getUserName().getText());
+        stringConsumer.accept(getUserNameText());
 
         return this;
     }
