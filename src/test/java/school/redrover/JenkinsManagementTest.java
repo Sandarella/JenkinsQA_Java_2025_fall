@@ -109,8 +109,7 @@ public class JenkinsManagementTest extends BaseTest {
                 .clickManageJenkinsGear()
                 .sendTitle(SETTING_TITLE)
                 .clickSearchResult()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(searchHeading, "System");
     }

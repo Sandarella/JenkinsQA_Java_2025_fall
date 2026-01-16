@@ -40,7 +40,7 @@ public class DashboardTest extends BaseTest {
     @Test
     public void testHomePageHeading() {
         Assert.assertEquals(
-                new HomePage(getDriver()).waitUntilPageLoadJS().getHeader().getText(),
+                new HomePage(getDriver()).waitUntilPageLoadJS().getHeaderText(),
                 "Welcome to Jenkins!"
         );
     }
@@ -83,8 +83,7 @@ public class DashboardTest extends BaseTest {
                 .clickSearchButton()
                 .searchFor(CREATED_JOBS_NAME.get(0))
                 .moveAndClickResult()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(searchResults, CREATED_JOBS_NAME.get(0));
     }
@@ -125,7 +124,7 @@ public class DashboardTest extends BaseTest {
 
     @Test
     public void testLogo() {
-        String logoText = new HomePage(getDriver()).getLogo().getText();
+        String logoText = new HomePage(getDriver()).getLogoText();
 
         Assert.assertEquals(logoText, "Jenkins", "Надпись рядом с логотипом должна быть 'Jenkins'");
     }
@@ -136,8 +135,7 @@ public class DashboardTest extends BaseTest {
 
         String actualTitle = new HomePage(getDriver())
                 .clickManageJenkinsGear()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(actualTitle, expectedTitle);
     }
@@ -211,7 +209,7 @@ public class DashboardTest extends BaseTest {
         NewNodePage newNodePage = new HomePage(getDriver())
                 .clickSetUpAnAgent();
 
-        Assert.assertEquals(newNodePage.getHeader().getText(), "New node");
+        Assert.assertEquals(newNodePage.getHeaderText(), "New node");
         Assert.assertTrue(newNodePage.isFormDisplayed(), "New Node form is not visible");
     }
 
@@ -220,7 +218,7 @@ public class DashboardTest extends BaseTest {
         CloudsPage cloudsPage = new HomePage(getDriver())
                 .clickConfigureCloud();
 
-        Assert.assertEquals(cloudsPage.getHeader().getText(), "Clouds");
+        Assert.assertEquals(cloudsPage.getHeaderText(), "Clouds");
         Assert.assertEquals(cloudsPage.getCloudsPageInfoText(), "There is no plugin installed that supports clouds.");
     }
 }

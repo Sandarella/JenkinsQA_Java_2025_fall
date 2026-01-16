@@ -216,10 +216,10 @@ public class FreestyleProjectConfigurationPage extends BaseProjectConfigurationP
         return gitHelpIcon.getAttribute("tooltip");
     }
 
-    public WebElement verifySentNameIsInFilter(String buildStep) {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(5))
-                .until(ExpectedConditions.visibilityOfElementLocated
-                        (By.xpath("//button[contains(@style,'inline-flex') and normalize-space()='%s']".formatted(buildStep))));
+    public String verifySentNameIsInFilter(String buildStep) {
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
+                         .xpath("//button[contains(@style,'inline-flex') and normalize-space()='%s']".formatted(buildStep))))
+                         .getText();
     }
 
     public FreestyleProjectConfigurationPage typeIntoFilterBuildStep(String text) {

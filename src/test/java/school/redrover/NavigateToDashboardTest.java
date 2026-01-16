@@ -39,7 +39,10 @@ public class NavigateToDashboardTest extends BaseTest {
                     .gotoHomePage()
                     .clickProject(project)
                     .getProjectName(project);
-            String check2 = new HomePage(getDriver()).gotoHomePage().clickSidebarNewItem().getHeader().getText();
+            String check2 = new HomePage(getDriver())
+                    .gotoHomePage()
+                    .clickSidebarNewItem()
+                    .getHeaderText();
 
             Assert.assertEquals(check, project);
             Assert.assertEquals(check2, "New Item");

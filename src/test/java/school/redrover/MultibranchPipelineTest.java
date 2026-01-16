@@ -98,8 +98,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickSidebarNewItem()
                 .selectMultibranchPipeline()
                 .sendName(MULTIBRANCH_PIPELINE_NAME)
-                .getErrorMessage()
-                .getText();
+                .getErrorMessageText();
 
         Assert.assertEquals(duplicateProject, errorMessage, "Incorrect error message");
     }
@@ -166,8 +165,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickSidebarNewItem()
                 .clearSendName()
                 .sendName("multib" + specialCharacters + "ranch")
-                .getErrorMessage()
-                .getText();
+                .getErrorMessageText();
 
         Assert.assertEquals(actualErrorMessage,
                 "» ‘%s’ is an unsafe character".formatted(specialCharacters),
@@ -207,8 +205,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .getSidebarComponent()
                 .clickSidebarRename()
                 .renameMultibranchPipeline(RENAMED_MULTIBRANCH_PIPELINE)
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(actualRenamedMultibranchPipeline, RENAMED_MULTIBRANCH_PIPELINE);
     }
@@ -241,8 +238,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .sendDisplayName(MULTIBRANCH_PIPELINE_DISPLAY_NAME)
                 .clickSave()
                 .gotoHomePage()
-                .findItem(MULTIBRANCH_PIPELINE_NAME)
-                .getText();
+                .getTextFoundItem(MULTIBRANCH_PIPELINE_NAME);
 
         Assert.assertEquals(name, MULTIBRANCH_PIPELINE_DISPLAY_NAME);
     }

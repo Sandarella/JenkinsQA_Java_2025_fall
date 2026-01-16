@@ -15,8 +15,6 @@ import school.redrover.page.JenkinsManagementPage;
 import school.redrover.page.RestApiPage;
 import school.redrover.page.UserStatusPage;
 
-import school.redrover.component.*;
-
 import java.util.Objects;
 
 
@@ -73,8 +71,8 @@ public abstract class BasePage<Page> extends BaseModel {
         return new HomePage(getDriver()).waitUntilPageLoadJS();
     }
 
-    public WebElement getLogo() {
-        return logo;
+    public String getLogoText() {
+        return logo.getText();
     }
 
     public SearchComponent clickSearchButton() {
@@ -105,12 +103,12 @@ public abstract class BasePage<Page> extends BaseModel {
         return getDriver().getCurrentUrl();
     }
 
-    public WebElement getHeader() {
-        return pageHeader;
+    public String getHeaderText() {
+        return pageHeader.getText();
     }
 
-    public WebElement getJenkinsVersionButton() {
-        return jenkinsVersionButton;
+    public String getJenkinsVersionButtonText() {
+        return jenkinsVersionButton.getText();
     }
 
     public JenkinsVersionFooterDropdown clickJenkinsVersion() {

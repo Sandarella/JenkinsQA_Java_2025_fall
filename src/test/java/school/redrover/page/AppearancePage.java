@@ -83,8 +83,8 @@ public class AppearancePage extends BasePage<AppearancePage> {
         return this;
     }
 
-    public WebElement getApplyPopUp() {
-        return getWait10().until(ExpectedConditions.visibilityOf(applyPopUp));
+    public String getApplyPopUpText() {
+        return getWait10().until(ExpectedConditions.visibilityOf(applyPopUp)).getText();
     }
 
     public JenkinsManagementPage clickSaveButton() {

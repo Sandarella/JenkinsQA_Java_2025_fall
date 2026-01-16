@@ -115,10 +115,10 @@ public class FreestyleProjectTest extends BaseTest {
             configPage
                     .typeIntoFilterBuildStep(buildStep.substring(0, Math.min(5, buildStep.length())));
 
-            WebElement visibleStep = configPage.verifySentNameIsInFilter(buildStep);
+        //    WebElement visibleStep = configPage.verifySentNameIsInFilter(buildStep);
 
             Assert.assertEquals(
-                    visibleStep.getText(),
+                    configPage.verifySentNameIsInFilter(buildStep),
                     buildStep,
                     "Filter didn't match expected build step");
         }
@@ -270,7 +270,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickDeleteItemInDropdownMenu()
                 .confirmDelete();
 
-        Assert.assertEquals(homePage.getHeader().getText(), expectedHeadingText);
+        Assert.assertEquals(homePage.getHeaderText(), expectedHeadingText);
     }
 
     @Test
@@ -312,8 +312,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSidebarBuildNow()
                 .getSidebarComponent()
                 .clickSidebarWorkspace()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(actualHeadingText, expectedHeadingText);
     }

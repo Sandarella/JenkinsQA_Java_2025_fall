@@ -8,7 +8,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import school.redrover.common.BaseTest;
-import school.redrover.page.FreestyleProjectConfigurationPage;
 import school.redrover.page.FreestyleProjectStatusPage;
 import school.redrover.page.HomePage;
 import school.redrover.page.NewItemPage;
@@ -24,8 +23,7 @@ public class CreateNewItemTest extends BaseTest {
     public void testNewItemPageByClickingCreateAJobLink() {
         String result = new HomePage(getDriver())
                 .clickCreateJob()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(result, "New Item");
     }
@@ -34,8 +32,7 @@ public class CreateNewItemTest extends BaseTest {
     public void testNewItemPageByClickingNewItemLink() {
         String result = new HomePage(getDriver())
                 .clickSidebarNewItem()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(result, "New Item");
     }
@@ -110,8 +107,7 @@ public class CreateNewItemTest extends BaseTest {
                 .clickSidebarNewItem()
                 .sendName(PROJECT_NAME)
                 .selectFolder()
-                .getErrorMessage()
-                .getText();
+                .getErrorMessageText();
 
         Assert.assertEquals(errorMessage, "» A job already exists with the name ‘New Project’");
     }
@@ -136,8 +132,7 @@ public class CreateNewItemTest extends BaseTest {
                 .clickCreateJob()
                 .sendName(PROJECT_NAME)
                 .selectFreestyleProjectAndSubmit()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(headingText, "Configure");
     }
@@ -182,8 +177,7 @@ public class CreateNewItemTest extends BaseTest {
                 .sendName(PROJECT_NAME)
                 .selectFreestyleProjectAndSubmit()
                 .clickSave()
-                .getHeader()
-                .getText();
+                .getHeaderText();
 
         Assert.assertEquals(projectTitle, PROJECT_NAME);
     }

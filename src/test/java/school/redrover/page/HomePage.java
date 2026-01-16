@@ -103,8 +103,9 @@ public class HomePage extends BasePage<HomePage> {
         return new CloudsPage(getDriver()).waitUntilPageLoadJS();
     }
 
-    public WebElement findItem(String itemName) {
-        return getDriver().findElement(By.xpath("//a[@href='job/" + itemName + "/']"));
+    public String getTextFoundItem(String itemName) {
+        return getDriver().findElement(By
+                .xpath("//a[@href='job/" + itemName + "/']")).getText();
     }
 
     public String getSystemMessageText() {

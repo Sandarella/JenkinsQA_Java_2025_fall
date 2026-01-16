@@ -105,8 +105,9 @@ public class NewItemPage extends BasePage<NewItemPage> {
         return new PipelineProjectConfigurationPage(getDriver());
     }
 
-    public WebElement getErrorMessage() {
-        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-invalid")));
+    public String getErrorMessageText() {
+        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
+                .id("itemname-invalid"))).getText();
     }
 
     // дизайн сделан так, что нельзя использовать <T extends BaseConfigurationPage>

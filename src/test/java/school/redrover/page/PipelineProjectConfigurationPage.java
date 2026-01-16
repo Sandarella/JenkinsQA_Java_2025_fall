@@ -234,14 +234,14 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
         return this;
     }
 
-    public WebElement getTextAreaValidationMessage() {
+    public String getTextAreaValidationMessage() {
         getWait5().until(ExpectedConditions.visibilityOf(textAreaValidationMessage));
-        return textAreaValidationMessage;
+        return textAreaValidationMessage.getText();
     }
 
-    public WebElement getErrorMessage() {
+    public String getErrorMessageText() {
         getWait5().until(ExpectedConditions.visibilityOf(textErrorMessage));
-        return textErrorMessage;
+        return textErrorMessage.getText();
     }
 
     public String getErrorDescriptionModalWindow() {
