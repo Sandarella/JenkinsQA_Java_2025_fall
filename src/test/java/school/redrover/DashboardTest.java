@@ -4,11 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
-import school.redrover.page.ArchitectingForScalePage;
-import school.redrover.page.CloudsPage;
-import school.redrover.page.EditViewPage;
-import school.redrover.page.HomePage;
-import school.redrover.page.NewNodePage;
+import school.redrover.page.*;
 
 import java.util.List;
 
@@ -215,7 +211,7 @@ public class DashboardTest extends BaseTest {
         NewNodePage newNodePage = new HomePage(getDriver())
                 .clickSetUpAnAgent();
 
-        Assert.assertEquals(newNodePage.getHeader().getText(),"New node");
+        Assert.assertEquals(newNodePage.getHeader().getText(), "New node");
         Assert.assertTrue(newNodePage.isFormDisplayed(), "New Node form is not visible");
     }
 
@@ -225,6 +221,6 @@ public class DashboardTest extends BaseTest {
                 .clickConfigureCloud();
 
         Assert.assertEquals(cloudsPage.getHeader().getText(), "Clouds");
-        Assert.assertEquals(cloudsPage.getParagraphText(), "There is no plugin installed that supports clouds.");
+        Assert.assertEquals(cloudsPage.getCloudsPageInfoText(), "There is no plugin installed that supports clouds.");
     }
 }

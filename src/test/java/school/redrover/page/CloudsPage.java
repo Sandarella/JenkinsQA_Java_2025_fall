@@ -1,12 +1,19 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.BasePage;
 
 
 public class CloudsPage extends BasePage<CloudsPage> {
+
+    @FindBy(tagName = "h1")
+    private WebElement header;
+
+    @FindBy(xpath = "//p")
+    private WebElement cloudsInfo;
 
     public CloudsPage(WebDriver driver) {
         super(driver);
@@ -19,12 +26,12 @@ public class CloudsPage extends BasePage<CloudsPage> {
 
     @Override
     public CloudsPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.tagName("h1"))));
+        getWait5().until(ExpectedConditions.visibilityOf(header));
 
         return this;
     }
 
-    public String getParagraphText() {
-        return getDriver().findElement(By.xpath("//p")).getText();
+    public String getCloudsPageInfoText() {
+        return cloudsInfo.getText();
     }
 }
