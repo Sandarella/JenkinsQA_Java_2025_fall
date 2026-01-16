@@ -238,7 +238,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .sendDisplayName(MULTIBRANCH_PIPELINE_DISPLAY_NAME)
                 .clickSave()
                 .gotoHomePage()
-                .getTextFoundItem(MULTIBRANCH_PIPELINE_NAME);
+                .getFoundItemText(MULTIBRANCH_PIPELINE_NAME);
 
         Assert.assertEquals(name, MULTIBRANCH_PIPELINE_DISPLAY_NAME);
     }

@@ -206,7 +206,7 @@ public class PipelineTest extends BaseTest {
                 .selectBuildPeriodicallyCheckbox()
                 .sendScheduleText(validTimePeriod)
                 .clickApply()
-                .getTextAreaValidationMessage();
+                .getValidationMessageText();
 
         Assert.assertEquals(new PipelineProjectConfigurationPage(getDriver()).getSavedMessage(),
                 "Saved");

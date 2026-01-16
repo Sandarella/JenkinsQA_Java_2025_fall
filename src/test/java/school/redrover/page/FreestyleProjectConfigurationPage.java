@@ -7,11 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import school.redrover.common.PageUtils;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -216,7 +214,7 @@ public class FreestyleProjectConfigurationPage extends BaseProjectConfigurationP
         return gitHelpIcon.getAttribute("tooltip");
     }
 
-    public String verifySentNameIsInFilter(String buildStep) {
+    public String verifySentNameIsInFilterText(String buildStep) {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
                          .xpath("//button[contains(@style,'inline-flex') and normalize-space()='%s']".formatted(buildStep))))
                          .getText();
@@ -307,5 +305,9 @@ public class FreestyleProjectConfigurationPage extends BaseProjectConfigurationP
                 .map(text -> text.split("\\n")[0])
                 .map(String::trim)
                 .toList();
+    }
+
+    public String getBuildStepText(String step) {
+        return getDriver().findElement(By.xpath("//button[contains(text(),'%s')]".formatted(step))).getText();
     }
 }

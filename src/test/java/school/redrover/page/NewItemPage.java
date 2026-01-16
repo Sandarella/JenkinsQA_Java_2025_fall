@@ -38,6 +38,8 @@ public class NewItemPage extends BasePage<NewItemPage> {
     @FindBy(className = "input-validation-message")
     private List<WebElement> validationMessages;
 
+    @FindBy(id = "itemname-invalid")
+    private WebElement errorMessage;
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -106,8 +108,7 @@ public class NewItemPage extends BasePage<NewItemPage> {
     }
 
     public String getErrorMessageText() {
-        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
-                .id("itemname-invalid"))).getText();
+        return getWait10().until(ExpectedConditions.visibilityOf(errorMessage)).getText();
     }
 
     // дизайн сделан так, что нельзя использовать <T extends BaseConfigurationPage>
