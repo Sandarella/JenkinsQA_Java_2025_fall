@@ -167,7 +167,7 @@ public class DashboardTest extends BaseTest {
                 .sendViewName(listViewName)
                 .selectListViewRadioAndCreate()
                 .selectJobCheckbox(PIPELINE_NAME)
-                .clickAddColumnDropDownButton();
+                .clickAddColumnButton();
 
         EditViewPage editViewPage = new EditViewPage(getDriver());
         List<String> actualColumnList = editViewPage
@@ -177,7 +177,7 @@ public class DashboardTest extends BaseTest {
         Assert.assertNotEquals(actualColumnList.size(), 0);
         Assert.assertEquals(actualColumnList, expectedColumnList);
 
-        editViewPage.clickSubmitButton();
+        editViewPage.clickSaveButton();
         int actualCountDisplayedColumns = homePage.getCountOfDisplayedColumnsOnDashboard();
         Assert.assertEquals(actualCountDisplayedColumns, actualColumnList.size());
     }
@@ -200,7 +200,7 @@ public class DashboardTest extends BaseTest {
 
         Assert.assertFalse(actualColumnListAfterDelete.contains(columnName));
 
-        new EditViewPage(getDriver()).clickSubmitButton();
+        new EditViewPage(getDriver()).clickSaveButton();
 
         int actualCountDisplayedColumns = homePage.getCountOfDisplayedColumnsOnDashboard();
         Assert.assertEquals(actualCountDisplayedColumns, initialCountDisplayedColumns - 1);

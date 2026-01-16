@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -17,6 +16,15 @@ public class EditViewPage extends BasePage<EditViewPage> {
 
     @FindBy(xpath = "//button[@class='jenkins-dropdown__item ']")
     private List<WebElement> columnListForAdd;
+
+    @FindBy(xpath = "//button[text()='Add column']")
+    private WebElement addColumnButton;
+
+    @FindBy(xpath = "//div[@class='repeated-chunk__header']")
+    private List<WebElement> columnHeaders;
+
+    @FindBy(xpath = "//button[@name='Submit']")
+    private WebElement saveButton;
 
 
     public EditViewPage(WebDriver driver) {
@@ -33,25 +41,17 @@ public class EditViewPage extends BasePage<EditViewPage> {
         return null;
     }
 
-    public EditViewPage clickAddColumnDropDownButton() {
+    public EditViewPage clickAddColumnButton() {
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({block: 'center'});",
-                getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Add column']"))));
+                getWait10().until(ExpectedConditions.visibilityOf(addColumnButton)));
 
-        new Actions(getDriver())
-                .moveToElement(getWait2().until(ExpectedConditions.elementToBeClickable(By
-                .xpath("//button[text()='Add column']"))))
-                .click()
-                .perform();
+        addColumnButton.click();
 
         return this;
     }
 
     public List<String> getCurrentColumnList() {
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//div[@class=contains(text(),'Columns')]")));
-
-        return getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By
-                .xpath("//div[@class='repeated-chunk__header']")))
+        return getWait10().until(ExpectedConditions.visibilityOfAllElements(columnHeaders))
                 .stream()
                 .map(WebElement::getText)
                 .map(String::trim)
@@ -81,9 +81,8 @@ public class EditViewPage extends BasePage<EditViewPage> {
         return this;
     }
 
-    public void clickSubmitButton() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By
-                  .xpath("//button[@name='Submit']"))).click();
+    public void clickSaveButton() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(saveButton)).click();
     }
 
     public EditViewPage clickDeleteButton(String columnName) {
