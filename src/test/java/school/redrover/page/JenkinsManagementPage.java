@@ -32,8 +32,17 @@ public class JenkinsManagementPage extends BasePage<JenkinsManagementPage> {
     @FindBy(xpath = "//a[@href='configure']")
     private WebElement clickConfigurationSystem;
 
+    @FindBy(css = ".jenkins-dropdown__item:nth-of-type(1)")
+    private WebElement searchFirstResultDropdown;
 
-    private final By searchResults = By.cssSelector(".jenkins-dropdown__item:nth-of-type(1)");
+    @FindBy(className = "jenkins-dropdown__item")
+    private List<WebElement> searchResultsDropdown;
+
+    @FindBy(xpath = "//a[@href='computer']")
+    private WebElement nodesLink;
+
+    @FindBy(css = "#main-panel > section > h2")
+    private List<WebElement> systemConfigurationList;
 
     public JenkinsManagementPage(WebDriver driver) {
         super(driver);
@@ -53,9 +62,8 @@ public class JenkinsManagementPage extends BasePage<JenkinsManagementPage> {
 
     public UsersPage clickUserButton() {
         usersLink.click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='addUser']")));
 
-        return new UsersPage(getDriver());
+        return new UsersPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public FolderCredentialsPage clickCredentialsLink() {
@@ -93,7 +101,7 @@ public class JenkinsManagementPage extends BasePage<JenkinsManagementPage> {
 
     public SystemConfigurationPage clickSearchResult() {
         new Actions(getDriver())
-                .moveToElement(getWait2().until(ExpectedConditions.elementToBeClickable(searchResults)))
+                .moveToElement(getWait2().until(ExpectedConditions.elementToBeClickable(searchFirstResultDropdown)))
                 .click()
                 .perform();
 
@@ -101,8 +109,8 @@ public class JenkinsManagementPage extends BasePage<JenkinsManagementPage> {
     }
 
     public List<String> getSearchResults() {
-        List<WebElement> searchResultElements = getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
-                By.className("jenkins-dropdown__item")));
+        List<WebElement> searchResultElements = getWait5()
+                .until(ExpectedConditions.visibilityOfAllElements(searchResultsDropdown));
 
         return searchResultElements
                 .stream()
@@ -111,24 +119,24 @@ public class JenkinsManagementPage extends BasePage<JenkinsManagementPage> {
     }
 
     public String getSearchResultName() {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.className("jenkins-dropdown__item"))).getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(searchFirstResultDropdown)).getText();
     }
 
     public AppearancePage clickAppearanceLink() {
         appearanceLink.click();
+
         return new AppearancePage(getDriver()).waitUntilPageLoad();
     }
 
     public NodesPage clickNodeConfigurationSystem() {
-        getDriver().findElement(By.xpath("//a[@href='computer']")).click();
+        nodesLink.click();
 
         return new NodesPage(getDriver());
     }
 
     public List<String> checkSystemConfiguration() {
-        List<WebElement> checksOf = getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
-                By.cssSelector("#main-panel > section > h2")));
+        List<WebElement> checksOf = getWait5().until(ExpectedConditions.visibilityOfAllElements(
+                systemConfigurationList));
 
         return checksOf
                 .stream()
