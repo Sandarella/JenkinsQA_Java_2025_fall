@@ -1,7 +1,5 @@
 package school.redrover;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
@@ -299,9 +297,11 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(selectedParameterList.contains(parameterName));
     }
 
-    @Test(dependsOnMethods = "testCreate")
+    @Test
     public void testNavigationToWorkspaceAfterBuild() {
         final String expectedHeadingText = "Workspace of " + PROJECT_NAME + " on Built-In Node";
+
+        createFreestyleProject(PROJECT_NAME);
 
         String actualHeadingText = new HomePage(getDriver())
                 .openProject(PROJECT_NAME, new FreestyleProjectStatusPage(getDriver()))
@@ -312,5 +312,28 @@ public class FreestyleProjectTest extends BaseTest {
                 .getHeaderText();
 
         Assert.assertEquals(actualHeadingText, expectedHeadingText);
+    }
+
+    @Test
+    public void testErrorMessageForProjectWithNoWorkspace() {
+        final String expectedHeadingText = "Error: no workspace";
+
+        createFreestyleProject(PROJECT_NAME);
+
+        String actualHeadingText = new HomePage(getDriver())
+                .openProject(PROJECT_NAME, new FreestyleProjectStatusPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarWorkspace()
+                .getHeaderText();
+
+        Assert.assertEquals(actualHeadingText, expectedHeadingText);
+    }
+
+    private void createFreestyleProject(String name) {
+        new HomePage(getDriver())
+                .clickCreateJob()
+                .sendName(name)
+                .selectFreestyleProjectAndSubmit()
+                .gotoHomePage();
     }
 }
