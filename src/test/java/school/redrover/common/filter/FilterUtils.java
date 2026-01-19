@@ -10,6 +10,8 @@ import static school.redrover.common.ProjectUtils.log;
 
 public class FilterUtils {
 
+    private static boolean logged = false;
+
     public static List<IMethodInstance> filterMethods(List<String> fileList, String dependenciesClasses, List<IMethodInstance> methodList) {
         final String pathTemplate = "src/test/java/%s.java";
 
@@ -26,22 +28,40 @@ public class FilterUtils {
                         (pathA, pathB) -> pathA
                 ));
 
-        Map<String, Set<String>> dependenciesFilesMap = Arrays.stream(dependenciesClasses.split(";"))
-                .filter(s -> s.contains("="))
-                .map(s -> s.split("="))
-                .collect(Collectors.groupingBy(
-                        parts -> String.format(pathTemplate, parts[0].replace('.', '/')),
-                        Collectors.mapping(parts -> String.format(pathTemplate, parts[1].replace('.', '/')), Collectors.toSet())
-                ));
+        Set<String> testFiles = new HashSet<>(classMap.values());
+
+        Map<String, Set<String>> reversedGraph =
+                Arrays.stream(dependenciesClasses.split(";"))
+                        .filter(s -> s.contains("="))
+                        .map(s -> s.split("="))
+                        .collect(Collectors.groupingBy(
+                                p -> String.format(pathTemplate, p[0].replace('.', '/')),
+                                Collectors.mapping(
+                                        p -> String.format(pathTemplate, p[1].replace('.', '/')),
+                                        Collectors.toSet()
+                                )
+                        ));
 
         Set<String> affectedFiles = new HashSet<>();
-        Set<String> visitedFiles = new HashSet<>();
 
-        for (String file : changedFiles) {
-            collectLeaves(file, dependenciesFilesMap, affectedFiles, visitedFiles);
+        for (String changedFile : changedFiles) {
+            Set<String> directDeps = reversedGraph.getOrDefault(changedFile, Collections.emptySet());
+
+            Set<String> directTests = directDeps.stream()
+                    .filter(testFiles::contains)
+                    .collect(Collectors.toSet());
+
+            if (!directTests.isEmpty()) {
+                affectedFiles.addAll(directTests);
+            } else {
+                affectedFiles.add(changedFile);
+            }
         }
 
-        log("Affected files: " + affectedFiles);
+        if (!logged) {
+            log("Affected files: " + affectedFiles);
+            logged = true;
+        }
 
         if (classMap.values().containsAll(affectedFiles)) {
             return methodList.stream().filter(method -> affectedFiles.contains(classMap.get(method.getMethod().getTestClass().getRealClass()))).collect(Collectors.toList());
@@ -50,17 +70,4 @@ public class FilterUtils {
         return methodList;
     }
 
-    private static void collectLeaves(String currentFile, Map<String, Set<String>> dependencyGraph, Set<String> affectedFiles, Set<String> visitedFiles) {
-        if (!visitedFiles.add(currentFile)) return;
-
-        Set<String> children = dependencyGraph.get(currentFile);
-        if (children == null || children.isEmpty()) {
-            affectedFiles.add(currentFile);
-            return;
-        }
-
-        for (String child : children) {
-            collectLeaves(child, dependencyGraph, affectedFiles, visitedFiles);
-        }
-    }
 }

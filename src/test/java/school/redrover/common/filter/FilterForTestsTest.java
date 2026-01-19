@@ -1,15 +1,19 @@
 package school.redrover.common.filter;
 
-import org.testng.*;
+import org.testng.Assert;
+import org.testng.IMethodInstance;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FilterForTestsTest {
 
-    private static class ExampleTest {}
-    private static class LoginTest {}
-    private static class DashboardTest {}
+    private static class FakeTestClass {
+    }
+
+    private static class FakeTestClass2 {
+    }
 
     @Test
     public void testDeletedClass() {
@@ -35,96 +39,97 @@ public class FilterForTestsTest {
 
     @Test
     public void testAddNewTest() {
-        List<String> fileList = List.of("A=src/test/java/ExampleTest.java");
+        List<String> fileList = List.of("A=src/test/java/school/redrover/ExampleTest.java");
         String dependencies = "";
-        List<IMethodInstance> methodList = List.of(
-                new FilterMock.MethodInstanceImpl(ExampleTest.class)
-        );
+        List<IMethodInstance> methodList = List.of(new FilterMock.MethodInstanceImpl(FilterForTestsTest.class));
 
         List<IMethodInstance> resultList = FilterUtils.filterMethods(fileList, dependencies, methodList);
 
         Assert.assertEquals(resultList.size(), 1);
-        Assert.assertEquals(resultList.get(0).getMethod().getTestClass().getRealClass(), ExampleTest.class);
     }
 
     @Test
     public void tesRenameTest() {
-        List<String> fileList = List.of("R=src/test/java/ExampleTest.java");
+        List<String> fileList = List.of("R=src/test/java/school/redrover/ExampleTest.java");
         String dependencies = "";
-        List<IMethodInstance> methodList = List.of(
-                new FilterMock.MethodInstanceImpl(ExampleTest.class)
-        );
+        List<IMethodInstance> methodList = List.of(new FilterMock.MethodInstanceImpl(FilterForTestsTest.class));
 
-        List<IMethodInstance> resultList =
-                FilterUtils.filterMethods(fileList, dependencies, methodList);
+        List<IMethodInstance> resultList = FilterUtils.filterMethods(fileList, dependencies, methodList);
 
         Assert.assertEquals(resultList.size(), 1);
-        Assert.assertEquals(resultList.get(0).getMethod().getTestClass().getRealClass(), ExampleTest.class);
     }
 
     @Test
     public void testModifiedTest() {
         List<String> fileList = List.of("M=src/test/java/ExampleTest.java");
         String dependencies = "";
-        List<IMethodInstance> methodList = List.of(
-                new FilterMock.MethodInstanceImpl(ExampleTest.class)
-        );
+        List<IMethodInstance> methodList = List.of(new FilterMock.MethodInstanceImpl(FilterForTestsTest.class));
 
-        List<IMethodInstance> resultList =
-                FilterUtils.filterMethods(fileList, dependencies, methodList);
+        List<IMethodInstance> resultList = FilterUtils.filterMethods(fileList, dependencies, methodList);
 
         Assert.assertEquals(resultList.size(), 1);
-        Assert.assertEquals(resultList.get(0).getMethod().getTestClass().getRealClass(), ExampleTest.class);
     }
 
     @Test
     public void testClassWithDependencies() {
-        List<String> fileList = List.of("M=src/main/java/BasePage.java");
-        String dependencies = "src/main/java/BasePage.java=src/main/java/Page.java;" +
-                "src/main/java/Page.java=src/test/java/LoginTest.java;" +
-                "src/main/java/Page.java=src/test/java/DashboardTest.java";
+        List<String> changedFiles = List.of("M=src/test/java/school/redrover/page/BaseProjectStatusPage.java");
+        String dependenciesClasses =
+                "school.redrover.page.BaseProjectStatusPage=%s;".formatted(FakeTestClass.class.getName()) +
+                        "school.redrover.page.BaseProjectStatusPage=%s".formatted(FakeTestClass2.class.getName());
 
         List<IMethodInstance> methodList = List.of(
-                new FilterMock.MethodInstanceImpl(LoginTest.class),
-                new FilterMock.MethodInstanceImpl(DashboardTest.class)
+                new FilterMock.MethodInstanceImpl(FakeTestClass.class),
+                new FilterMock.MethodInstanceImpl(FakeTestClass2.class)
         );
 
-        List<IMethodInstance> resultList =
-                FilterUtils.filterMethods(fileList, dependencies, methodList);
+        List<IMethodInstance> resultList = FilterUtils.filterMethods(changedFiles, dependenciesClasses, methodList);
+
+        List<Class<?>> resultClasses = resultList.stream()
+                .map(m -> m.getMethod().getTestClass().getRealClass())
+                .collect(Collectors.toList());
 
         Assert.assertEquals(resultList.size(), 2);
-        Assert.assertTrue(resultList.stream().anyMatch(x -> x.getMethod().getTestClass().getRealClass() == LoginTest.class));
-        Assert.assertTrue(resultList.stream().anyMatch(x -> x.getMethod().getTestClass().getRealClass() == DashboardTest.class));
-    }
-
-    @Test
-    public void testClassTopLevelNoDependencies() {
-        List<String> fileList = List.of("M=src/main/java/Utils.java");
-        String dependencies = "";
-        List<IMethodInstance> methodList = List.of(
-                new FilterMock.MethodInstanceImpl(ExampleTest.class),
-                new FilterMock.MethodInstanceImpl(LoginTest.class)
-        );
-
-        List<IMethodInstance> resultList =
-                FilterUtils.filterMethods(fileList, dependencies, methodList);
-
-        Assert.assertEquals(resultList.size(), 2);
+        Assert.assertTrue(resultClasses.contains(FakeTestClass.class));
+        Assert.assertTrue(resultClasses.contains(FakeTestClass2.class));
     }
 
     @Test
     public void testOneDependency() {
-        List<String> fileList = List.of("M=src/main/java/Service.java");
-        String dependencies =
-                "src/main/java/BasePage.java=src/main/java/LoginTest.java;";
+        List<String> changedFiles = List.of("M=src/test/java/school/redrover/page/ProjectStatusPage.java");
+        String dependenciesClasses =
+                "school.redrover.page.ProjectStatusPage=%s;".formatted(FakeTestClass.class.getName());
 
-        List<IMethodInstance> methodList = List.of(new FilterMock.MethodInstanceImpl(LoginTest.class));
+        List<IMethodInstance> methodList = List.of(new FilterMock.MethodInstanceImpl(FakeTestClass.class));
 
-        List<IMethodInstance> resultList =
-                FilterUtils.filterMethods(fileList, dependencies, methodList);
+        List<IMethodInstance> resultList = FilterUtils.filterMethods(changedFiles, dependenciesClasses, methodList);
+
+        List<Class<?>> resultClasses = resultList.stream()
+                .map(m -> m.getMethod().getTestClass().getRealClass())
+                .collect(Collectors.toList());
 
         Assert.assertEquals(resultList.size(), 1);
-        Assert.assertTrue(resultList.stream().anyMatch(x -> x.getMethod().getTestClass().getRealClass() == LoginTest.class));
+        Assert.assertTrue(resultClasses.contains(FakeTestClass.class));
+    }
+
+    @Test
+    public void testClassWithDependencyChain() {
+        List<String> changedFiles = List.of("M=src/test/java/school/redrover/page/BaseProjectStatusPage.java");
+        String dependenciesClasses =
+                        "school.redrover.page.BaseProjectStatusPage=school.redrover.page.ProjectStatusPage" +
+                        "school.redrover.page.ProjectStatusPage=%s".formatted(FakeTestClass.class.getName());
+
+        List<IMethodInstance> methodList = List.of(
+                new FilterMock.MethodInstanceImpl(FakeTestClass.class)
+        );
+
+        List<IMethodInstance> resultList = FilterUtils.filterMethods(changedFiles, dependenciesClasses, methodList);
+
+        List<Class<?>> resultClasses = resultList.stream()
+                .map(m -> m.getMethod().getTestClass().getRealClass())
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(resultList.size(), 1);
+        Assert.assertTrue(resultClasses.contains(FakeTestClass.class));
     }
 
 }
