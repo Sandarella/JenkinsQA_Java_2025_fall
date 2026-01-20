@@ -1,6 +1,5 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +13,26 @@ public class OrganizationFolderConfigurationPage extends BaseProjectConfiguratio
     @FindBy(xpath = "//span[text()='Delete Organization Folder']/ancestor::a")
     private WebElement deleteMenuItem;
 
+    @FindBy(name = "_.displayNameOrNull")
+    private WebElement displayNameField;
+
+    @FindBy(name = "_.description")
+    private WebElement descriptionTestArea;
+
+    @FindBy(css = "a[tooltip='Help for feature: Display Name']")
+    private WebElement displayNameHelpLink;
+
+    @FindBy(linkText = "Branch API Plugin")
+    private WebElement displayNameTooltipLink;
+
+    @FindBy(css = "input[placeholder='Filter']")
+    private WebElement filterField;
+
+    @FindBy(css = "button[suffix='navigators']")
+    private WebElement addRepositorySourceButton;
+
+    @FindBy(css = "button.jenkins-dropdown__item:not([style*='display: none'])")
+    private List<WebElement> repositorySourceButtons;
 
     public OrganizationFolderConfigurationPage(WebDriver driver) {
         super(driver);
@@ -30,49 +49,36 @@ public class OrganizationFolderConfigurationPage extends BaseProjectConfiguratio
     }
 
     public OrganizationFolderConfigurationPage inputDisplayName(String name) {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
-                .name("_.displayNameOrNull"))).sendKeys(name);
+        displayNameField.sendKeys(name);
 
         return this;
     }
 
     public OrganizationFolderConfigurationPage inputDescription(String name) {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By
-                .name("_.description"))).sendKeys(name);
+        descriptionTestArea.sendKeys(name);
 
         return this;
     }
 
-    public OrganizationFolderConfigurationPage clickDisplayNameTooltip() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By
-                .cssSelector("a[tooltip='Help for feature: Display Name']"))).click();
+    public OrganizationFolderConfigurationPage clickDisplayNameLink() {
+        displayNameHelpLink.click();
 
         return this;
     }
 
     public String getDisplayNameTooltipLink() {
-        return getWait2().until(ExpectedConditions.elementToBeClickable(By
-                .linkText("Branch API Plugin"))).getAttribute("href");
-    }
-
-    public String getBreadcrumbItem() {
-        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//span[contains(text(),'Configuration')]"))).getText();
+        return displayNameTooltipLink.getAttribute("href");
     }
 
     public OrganizationFolderConfigurationPage filterRepositorySources(String sourceName) {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By
-                .cssSelector("button[suffix='navigators']"))).click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(By
-                .cssSelector("input[placeholder='Filter']"))).sendKeys(sourceName);
+        addRepositorySourceButton.click();
+        getWait5().until(ExpectedConditions.visibilityOf(filterField)).sendKeys(sourceName);
 
         return this;
     }
 
     public List<String> getRepositorySourceNames() {
-        return getWait2()
-                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By
-                        .cssSelector("button.jenkins-dropdown__item:not([style*='display: none'])")))
+        return repositorySourceButtons
                 .stream()
                 .map(WebElement::getText)
                 .toList();

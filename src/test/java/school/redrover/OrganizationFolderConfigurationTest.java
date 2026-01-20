@@ -40,7 +40,7 @@ public class OrganizationFolderConfigurationTest extends BaseTest {
                 .clickCreateJob()
                 .sendName(FOLDER_NAME)
                 .selectOrganizationFolderAndSubmit()
-                .clickDisplayNameTooltip()
+                .clickDisplayNameLink()
                 .getDisplayNameTooltipLink();
 
         Assert.assertEquals(displayNameTooltipLink, expectedExternalLink);
