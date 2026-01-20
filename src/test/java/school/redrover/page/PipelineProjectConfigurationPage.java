@@ -1,6 +1,5 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import school.redrover.common.PageUtils;
 
 import java.util.List;
 
@@ -50,11 +50,35 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     @FindBy(xpath = "//button[@data-section-id = 'triggers']")
     private WebElement triggersSectionButton;
 
+    @FindBy(xpath = "//label[contains(text(), 'Build after other projects are built')]")
+    private WebElement buildAfterOtherProjectsAreBuiltLabel;
+
     @FindBy(xpath = "//label[contains(text(), 'Build periodically')]")
     private WebElement buildPeriodicallyLabel;
 
-    @FindBy(xpath = " //*[@id='cb9']")
+    @FindBy(xpath = "//label[contains(text(), 'GitHub hook trigger for GITScm polling')]")
+    private WebElement hookTriggerForGitScmPollingLabel;
+
+    @FindBy(xpath = "//label[contains(text(), 'Poll SCM')]")
+    private WebElement pollScmLabel;
+
+    @FindBy(xpath = "//label[contains(text(), 'Trigger builds remotely')]")
+    private WebElement triggerBuildsRemotelyLabel;
+
+    @FindBy(xpath = "//input[@id='cb8']")
+    private WebElement buildAfterOtherProjectsAreBuiltCheckBox;
+
+    @FindBy(xpath = "//input[@id='cb9']")
     private WebElement buildPeriodicallyCheckBox;
+
+    @FindBy(xpath = "//input[@id='cb10']")
+    private WebElement githubHookTriggerForGitScmPollingCheckBox;
+
+    @FindBy(xpath = "//input[@id='cb11']")
+    private WebElement pollScmCheckBox;
+
+    @FindBy(xpath = "//input[@id='cb12']")
+    private WebElement triggerBuildsRemotelyCheckBox;
 
     @FindBy(xpath = "//textarea[@name = '_.spec']")
     private WebElement scheduleTextarea;
@@ -65,6 +89,26 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     @FindBy(xpath = "//div[contains(text(), 'Schedule')]/following-sibling::div" + "//div[@class = 'error']")
     private WebElement textErrorMessage;
 
+    @FindBy(xpath = ".//div[@id='advanced']/parent::section/descendant::button[contains(text(),'Advanced')]")
+    private WebElement advancedButton;
+
+    @FindBy(name = "quiet_period")
+    private WebElement quietPeriodInput;
+
+    @FindBy(id = "toggle-switch-enable-disable-project")
+    private WebElement enableDisableProjectToggle;
+
+    @FindBy(className = "jenkins-toggle-switch__label__checked-title")
+    private WebElement checkedTitleToggle;
+
+    @FindBy(className = "jenkins-toggle-switch__label__unchecked-title")
+    private WebElement uncheckedTitleToggle;
+
+    @FindBy(css = "#error-description > h2")
+    private WebElement modalWindowDescriptionError;
+
+    @FindBy(xpath = "//div[@id='error-description']/parent::*/following-sibling::button")
+    private WebElement closeModalWindowButton;
 
     public PipelineProjectConfigurationPage(WebDriver driver) {
         super(driver);
@@ -88,7 +132,7 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
 
     public PipelineProjectConfigurationPage scrollDownToAdvancedSection() {
         ((JavascriptExecutor) getDriver()).executeScript(
-                "arguments[0].scrollIntoView(true);",advancedTitle);
+                "arguments[0].scrollIntoView(true);", advancedTitle);
 
         return this;
     }
@@ -98,16 +142,11 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     }
 
     public PipelineProjectConfigurationPage clickAdvancedButton() {
-        clickAdvancedLinkInSideMenu();
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({block: 'center'});",
-                getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.id("footer"))));
+        PageUtils.scrollToElement(getDriver(), advancedTitle);
 
-        WebElement advancedButton = getWait10().until(ExpectedConditions.elementToBeClickable(By
-                .xpath(".//div[@id='advanced']/parent::section/descendant::button[contains(text(),'Advanced')]")));
-        new Actions(getDriver()).moveToElement(advancedButton).click().perform();
+        advancedButton.click();
 
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath(".//label[text()='Quiet period']")));
+        getWait10().until(ExpectedConditions.visibilityOf(quietPeriodLabel));
 
         return this;
     }
@@ -125,7 +164,7 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     public PipelineProjectConfigurationPage clickQuitePeriod() {
         new Actions(getDriver()).moveToElement(quietPeriodLabel).click().perform();
 
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.name("quiet_period")));
+        getWait10().until(ExpectedConditions.visibilityOf(quietPeriodInput));
 
         return this;
     }
@@ -175,32 +214,17 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     }
 
     public String getToggleCheckedLabelText() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
-                .id("toggle-switch-enable-disable-project")));
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
-                        .className("jenkins-toggle-switch__label__checked-title")))
-                .getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(checkedTitleToggle)).getText();
     }
 
     public String getToggleUncheckedLabelText() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
-                .id("toggle-switch-enable-disable-project")));
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
-                        .className("jenkins-toggle-switch__label__unchecked-title")))
-                .getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(uncheckedTitleToggle)).getText();
     }
 
     public PipelineProjectConfigurationPage clickToggle() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By
-                        .id("toggle-switch-enable-disable-project")))
-                .click();
+        enableDisableProjectToggle.click();
 
         return this;
-    }
-
-    public String getBreadcrumbItem() {
-        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//span[contains(text(),'Configuration')]"))).getText();
     }
 
     public PipelineProjectConfigurationPage clickTriggersSectionButton() {
@@ -223,7 +247,6 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
         scheduleTextarea.clear();
         scheduleTextarea.sendKeys(validTimePeriod);
 
-        getDriver().findElement(By.tagName("body")).click();
         return this;
     }
 
@@ -237,32 +260,26 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
         return textErrorMessage.getText();
     }
 
-    public String getErrorDescriptionModalWindow() {
-        WebElement errorDescriptionModalWindow = getDriver().findElement(By.cssSelector("#error-description > h2"));
-        getWait5().until(ExpectedConditions.visibilityOf(errorDescriptionModalWindow));
+    public String getModalWindowDescriptionError() {
+        getWait10().until(ExpectedConditions.visibilityOf(modalWindowDescriptionError));
 
-        return errorDescriptionModalWindow.getText();
+        return modalWindowDescriptionError.getText();
     }
 
     public void closeModalWindow() {
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='jenkins']/dialog[2]/button"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(closeModalWindowButton)).click();
     }
 
     public WebElement[] selectAllTriggers() {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-
-       WebElement trigger1 = getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input/following-sibling::label[text()='Build after other projects are built']")));
-       WebElement trigger2 = getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input/following-sibling::label[text()='Build periodically']")));
-       WebElement trigger3 = getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input/following-sibling::label[text()='GitHub hook trigger for GITScm polling']")));
-       WebElement trigger4 = getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input/following-sibling::label[text()='Poll SCM']")));
-       WebElement trigger5 = getWait10().until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input/following-sibling::label[text()='Trigger builds remotely (e.g., from scripts)']")));
-
-       WebElement[] triggers = {trigger1, trigger2, trigger3, trigger4, trigger5};
+        WebElement[] triggers = {buildAfterOtherProjectsAreBuiltLabel,
+                buildPeriodicallyLabel,
+                hookTriggerForGitScmPollingLabel,
+                pollScmLabel,
+                buildPeriodicallyLabel};
 
         for (WebElement trigger : triggers) {
-            js.executeScript("arguments[0].scrollIntoView({block: 'center'});", trigger);
-            getWait10().until(ExpectedConditions.elementToBeClickable(trigger));
+            PageUtils.scrollToElement(getDriver(), trigger);
             trigger.click();
         }
         return triggers;

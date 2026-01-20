@@ -191,4 +191,6 @@ public class PipelineConfigurationTest extends BaseTest {
 
         Assert.assertTrue(isHelpElementDisplayed);
     }
+
+
 }
