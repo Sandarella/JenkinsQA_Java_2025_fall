@@ -42,7 +42,7 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
     }
 
     public FolderInfo getInfo() {
-        String displayName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1"))).getText();
+        String displayName = getHeaderText();
         String description = getDriver().findElement(By.id("view-message")).getText();
 
         return new FolderInfo(displayName, description);

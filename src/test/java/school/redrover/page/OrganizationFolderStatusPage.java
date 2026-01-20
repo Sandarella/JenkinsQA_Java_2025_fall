@@ -39,8 +39,7 @@ public class OrganizationFolderStatusPage extends BaseProjectStatusPage<Organiza
     }
 
     public String getDisplayNameOrganizationFolder() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//h1"))).getText();
+        return getHeaderText();
     }
 
     public String getDescriptionOrganizationFolder() {
