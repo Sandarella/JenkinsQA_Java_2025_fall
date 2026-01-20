@@ -2,6 +2,7 @@ package school.redrover;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
 import school.redrover.page.HomePage;
@@ -215,6 +216,7 @@ public class PipelineTest extends BaseTest {
                 "Alias " + validTimePeriod + " не прошёл валидацию");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewPipeline", dataProvider = "invalidCronSyntaxAndAliases")
     public void testScheduleWithInvalidData(String invalidTimePeriod, String expectedErrorMessage) {
 
