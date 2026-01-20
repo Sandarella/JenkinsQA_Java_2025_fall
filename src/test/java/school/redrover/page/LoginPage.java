@@ -23,7 +23,7 @@ public class LoginPage extends BasePage<LoginPage> {
     }
 
     public String getTitle() {
-        return getDriver().findElement(By.tagName("h1")).getText();
+        return getHeaderText();
     }
 
     public String getUrlProfile() {

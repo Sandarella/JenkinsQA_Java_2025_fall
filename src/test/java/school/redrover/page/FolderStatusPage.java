@@ -19,6 +19,8 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
     @FindBy(css = "[tooltip='New View']")
     private WebElement newView;
 
+    @FindBy(id = "view-message")
+    private WebElement viewMessage;
 
     public FolderStatusPage(WebDriver driver) {
         super(driver);
@@ -42,8 +44,8 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
     }
 
     public FolderInfo getInfo() {
-        String displayName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1"))).getText();
-        String description = getDriver().findElement(By.id("view-message")).getText();
+        String displayName = getHeaderText();
+        String description = viewMessage.getText();
 
         return new FolderInfo(displayName, description);
     }
