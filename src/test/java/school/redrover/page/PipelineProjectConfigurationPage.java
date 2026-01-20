@@ -110,6 +110,9 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     @FindBy(xpath = "//div[@id='error-description']/parent::*/following-sibling::button")
     private WebElement closePopupButton;
 
+    @FindBy(id = "footer")
+    private WebElement footer;
+
     public PipelineProjectConfigurationPage(WebDriver driver) {
         super(driver);
     }
@@ -142,7 +145,7 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     }
 
     public PipelineProjectConfigurationPage clickAdvancedButton() {
-        PageUtils.scrollToElement(getDriver(), advancedTitle);
+        PageUtils.scrollToElement(getDriver(), footer);
 
         advancedButton.click();
 
