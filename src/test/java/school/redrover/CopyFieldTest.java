@@ -31,8 +31,8 @@ public class CopyFieldTest extends BaseTest {
 
         String textHintExists = new HomePage(getDriver())
                 .clickSidebarNewItem()
-                .findCopyFromField()
-                .getTextHintFromCopyField();
+                .copyFromFieldIsDisplayed()
+                .getHintFromCopyFieldText();
 
         Assert.assertEquals(textHintExists, "If you want to create a new item from other existing, you can use this option:");
     }

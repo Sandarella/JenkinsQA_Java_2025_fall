@@ -1,6 +1,5 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,19 +17,25 @@ public class NewItemPage extends BasePage<NewItemPage> {
     private WebElement nameField;
 
     @FindBy(xpath = "//span[text()='Multibranch Pipeline']")
-    private WebElement multibranchPipelineOption;
+    private WebElement multibranchPipelineType;
 
     @FindBy(className = "hudson_model_FreeStyleProject")
-    private WebElement freestyleProjectOption;
+    private WebElement freestyleProjectType;
+
+    @FindBy(xpath = "//span[text()='Multi-configuration project']")
+    private WebElement multiConfigurationProjectType;
+
+    @FindBy(xpath = "//span[text()='Pipeline']")
+    private WebElement pipelineType;
+
+    @FindBy(xpath = "//span[text()='Folder']")
+    private WebElement folderType;
+
+    @FindBy(xpath = "//span[text()='Organization Folder']")
+    private WebElement organizationFolderType;
 
     @FindBy(id = "ok-button")
     private WebElement okButton;
-
-    @FindBy(className = "hudson_matrix_MatrixProject")
-    private WebElement multiConfigurationProject;
-
-    @FindBy(css = "[class$='WorkflowJob']")
-    private WebElement pipelineType;
 
     @FindBy(xpath = "//*[contains(@class, 'WorkflowJob')]")
     private WebElement pipelineTypeCheck;
@@ -40,6 +45,18 @@ public class NewItemPage extends BasePage<NewItemPage> {
 
     @FindBy(id = "itemname-invalid")
     private WebElement errorMessage;
+    
+    @FindBy(id = "itemname-required")
+    private WebElement errorMessageForEmptyItemName;
+    
+    @FindBy(xpath = "//span[contains(text(), 'General')]")
+    private WebElement getGeneralTitle;
+
+    @FindBy(id = "from")
+    private WebElement copyFromField;
+
+    @FindBy(xpath = "//p[@class='jenkins-form-label']")
+    private WebElement hintFromCopyField;
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -63,41 +80,36 @@ public class NewItemPage extends BasePage<NewItemPage> {
     }
 
     public NewItemPage selectFolder() {
-        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-nested-projects']/ul/li[1]")).click();
+        folderType.click();
 
         return this;
     }
 
     public FolderConfigurationPage selectFolderAndSubmit() {
-        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-nested-projects']/ul/li[1]")).click();
+        folderType.click();
+        okButton.click();
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text() = 'General']")));
-
-        return new FolderConfigurationPage(getDriver());
+        return new FolderConfigurationPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public NewItemPage selectMultibranchPipeline() {
-        multibranchPipelineOption.click();
+        multibranchPipelineType.click();
 
         return this;
     }
 
     public MultibranchProjectConfigurationPage selectMultibranchPipelineAndSubmit() {
-        PageUtils.clickJS(getDriver(), multibranchPipelineOption);
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(okButton)).click();
+        PageUtils.clickJS(getDriver(), multibranchPipelineType);
+        okButton.click();
 
         return new MultibranchProjectConfigurationPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public PipelineProjectConfigurationPage selectPipelineAndSubmit() {
-        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
+        pipelineType.click();
+        okButton.click();
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("general")));
-
-        return new PipelineProjectConfigurationPage(getDriver());
+        return new PipelineProjectConfigurationPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public String getErrorMessageText() {
@@ -106,50 +118,44 @@ public class NewItemPage extends BasePage<NewItemPage> {
 
     // дизайн сделан так, что нельзя использовать <T extends BaseConfigurationPage>
     public <T> T clickSubmit(T configurationPage) {
-        getWait2().until(ExpectedConditions.elementToBeClickable(okButton)).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'General')]")));
+        okButton.click();
+        getWait5().until(ExpectedConditions.visibilityOf(getGeneralTitle));
 
         return configurationPage;
     }
 
     public NewItemPage selectFreestyleProject() {
-        freestyleProjectOption.click();
+        freestyleProjectType.click();
 
         return this;
     }
 
     public FreestyleProjectConfigurationPage selectFreestyleProjectAndSubmit() {
         selectFreestyleProject();
-
-        getWait2().until(ExpectedConditions.elementToBeClickable(okButton)).click();
+        okButton.click();
 
         return new FreestyleProjectConfigurationPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public NewItemPage sendNameToCopyFromAndSubmit(String name) {
-        getDriver().findElement(By.id("from")).sendKeys(name);
-
-        getDriver().findElement(By.id("ok-button")).click();
+        copyFromField.sendKeys(name);
+        okButton.click();
 
         return this.waitUntilPageLoadJS();
     }
 
     public MultibranchProjectConfigurationPage selectMultiConfigurationAndSubmit() {
-        PageUtils.clickJS(getDriver(), By.xpath("//span[text()='Multi-configuration project']"));
+        PageUtils.clickJS(getDriver(), multiConfigurationProjectType);
+        okButton.click();
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'General')]")));
-
-        return new MultibranchProjectConfigurationPage(getDriver());
+        return new MultibranchProjectConfigurationPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public OrganizationFolderConfigurationPage selectOrganizationFolderAndSubmit() {
-        PageUtils.clickJS(getDriver(), By.xpath("//span[text()='Organization Folder']"));
+        PageUtils.clickJS(getDriver(), organizationFolderType);
+        okButton.click();
 
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("ok-button"))).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'General')]")));
-
-        return new OrganizationFolderConfigurationPage(getDriver());
+        return new OrganizationFolderConfigurationPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public HomePage selectItemTypeAndSubmitAndGoHome(String itemType) {
@@ -199,40 +205,40 @@ public class NewItemPage extends BasePage<NewItemPage> {
         return okButton.isEnabled();
     }
 
-    public String getTextHintFromCopyField() {
+    public String getHintFromCopyFieldText() {
 
-        return getDriver().findElement(By.xpath("//p[@class='jenkins-form-label']")).getText();
+        return hintFromCopyField.getText();
     }
 
-    public NewItemPage findCopyFromField() {
-        getDriver().findElement(By.id("from"));
+    public NewItemPage copyFromFieldIsDisplayed() {
+        copyFromField.isDisplayed();
 
         return this;
     }
 
     public String getNameDataValid() {
 
-        return getDriver().findElement(By.id("name")).getAttribute("data-valid");
+        return nameField.getAttribute("data-valid");
     }
 
     public MultiConfigProjectConfigurationPage selectMultiConfigurationProjectAndSubmit() {
-        multiConfigurationProject.click();
-        getWait2().until(ExpectedConditions.elementToBeClickable(okButton)).click();
+        multiConfigurationProjectType.click();
+        okButton.click();
 
         return new MultiConfigProjectConfigurationPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public NewItemPage clickOkButton() {
-        getDriver().findElement(By.id("ok-button")).click();
+        okButton.click();
 
         return this;
     }
 
-    public String getErrorDisplayedForEmptyItemName() {
-        return getDriver().findElement(By.id("itemname-required")).getText();
+    public String getErrorMessageForEmptyItemName() {
+        return errorMessageForEmptyItemName.getText();
     }
 
-    public Boolean areValidationMessagesDisabled() {
+    public Boolean validationMessagesIsDisabled() {
         return validationMessages.stream()
                 .allMatch(msg -> msg.getAttribute("class").contains("input-message-disabled"));
     }

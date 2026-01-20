@@ -51,7 +51,7 @@ public class CreateNewItemTest extends BaseTest {
         Boolean validationMessageDisabled = new HomePage(getDriver())
                 .clickCreateJob()
                 .sendName(PROJECT_NAME)
-                .areValidationMessagesDisabled();
+                .validationMessagesIsDisabled();
 
         Assert.assertTrue(validationMessageDisabled,
                 "All validation messages should be disabled for valid input");
@@ -236,7 +236,7 @@ public class CreateNewItemTest extends BaseTest {
         String errorMessage = new HomePage(getDriver())
                 .clickSidebarNewItem()
                 .clickOkButton()
-                .getErrorDisplayedForEmptyItemName();
+                .getErrorMessageForEmptyItemName();
 
         Assert.assertEquals(errorMessage, "» This field cannot be empty, please enter a valid name");
     }
