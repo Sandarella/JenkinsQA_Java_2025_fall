@@ -1,10 +1,8 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.component.project.status_page.sidebar.MultiConfigProjectSidebar;
 
 
@@ -34,10 +32,10 @@ public class MultiConfigProjectStatusPage extends BaseProjectStatusPage<MultiCon
     @FindBy(css = "[href$='confirm-rename']")
     private WebElement dropdownMenuRenameLink;
 
-    @FindBy (xpath = "//*[@id='enable-project']")
+    @FindBy(xpath = "//*[@id='enable-project']")
     private WebElement warning;
 
-    @FindBy (css = "h1.job-index-headline.page-headline")
+    @FindBy(css = "h1.job-index-headline.page-headline")
     private WebElement projectName;
 
 
@@ -65,28 +63,19 @@ public class MultiConfigProjectStatusPage extends BaseProjectStatusPage<MultiCon
         descriptionField.sendKeys(description);
         submitButton.click();
 
-        return this;
+        return new MultiConfigProjectStatusPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public String getDescription() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath("//div[@id='description-content']")));
         return projectDescription.getText();
     }
 
     public boolean isWarningVisible() {
-
         return warning.isDisplayed();
     }
 
     public String getProjectName(String project) {
-
         return projectName.getText();
-    }
-
-    public String getBreadcrumbItem() {
-        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//span[contains(text(),'Configuration')]"))).getText();
     }
 
 }
