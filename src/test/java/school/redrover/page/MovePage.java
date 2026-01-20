@@ -1,13 +1,20 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import school.redrover.common.BasePage;
 
 
 public class MovePage extends BasePage<MovePage> {
+
+    @FindBy(className = "jenkins-select__input")
+    private WebElement selectFolder;
+
+    @FindBy(name = "Submit")
+    private WebElement moveButton;
 
     public MovePage(WebDriver driver) {
         super(driver);
@@ -19,14 +26,14 @@ public class MovePage extends BasePage<MovePage> {
     }
 
     public MovePage selectDestinationFolder(String folderName) {
-        Select selectObject = new Select(getDriver().findElement(By.className("jenkins-select__input")));
-        selectObject.selectByVisibleText("Jenkins » %s".formatted(folderName));
+        new Select(selectFolder).selectByVisibleText("Jenkins » %s".formatted(folderName));
+
         return this;
     }
 
     public void clickMoveButtonAndGoHome() {
         String urlBeforeMoving = getDriver().getCurrentUrl();
-        getDriver().findElement(By.name("Submit")).click();
+        moveButton.click();
         getWait5().until(ExpectedConditions.not(ExpectedConditions.urlToBe(urlBeforeMoving)));
         gotoHomePage();
     }
