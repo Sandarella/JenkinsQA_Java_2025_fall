@@ -1,10 +1,8 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.BasePage;
 
 
@@ -22,6 +20,8 @@ public class FolderCreateViewPage extends BasePage<FolderCreateViewPage> {
     @FindBy(css = "[for='hudson.model.MyView']")
     private WebElement inputMyView;
 
+    @FindBy(id = "ok")
+    private WebElement createButton;
 
     public FolderCreateViewPage(WebDriver driver) {
         super(driver);
@@ -57,6 +57,6 @@ public class FolderCreateViewPage extends BasePage<FolderCreateViewPage> {
     }
 
     public void clickCreate() {
-        getDriver().findElement(By.id("ok")).click();
+        createButton.click();
     }
 }
