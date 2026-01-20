@@ -16,9 +16,6 @@ import java.util.Objects;
 
 public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, FolderSidebar> {
 
-    @FindBy(name = "Submit")
-    private WebElement submitButton;
-
     @FindBy(css = "[tooltip='New View']")
     private WebElement newView;
 
@@ -112,12 +109,12 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
         return this.waitUntilPageLoadJS();
     }
 
-    public FolderRenamingPage clickRenameItemInDropdownMenu() {
+    public ProjectRenamingPage<FolderStatusPage> clickRenameItemInDropdownMenu() {
         getWait5().until(ExpectedConditions.elementToBeClickable(By
                 .xpath("//div[@class='tippy-content']//div[@class='jenkins-dropdown']//a[normalize-space()='Rename']")))
                 .click();
 
-        return new FolderRenamingPage(getDriver()).waitUntilPageLoadJS();
+        return new ProjectRenamingPage<>(getDriver(), FolderStatusPage.class);
     }
 
     public FolderStatusPage clickDeleteItemInDropdownMenu() {

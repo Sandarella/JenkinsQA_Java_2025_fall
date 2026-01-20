@@ -204,7 +204,9 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickSave()
                 .getSidebarComponent()
                 .clickSidebarRename()
-                .renameMultibranchPipeline(RENAMED_MULTIBRANCH_PIPELINE)
+                .clearName()
+                .sendNewName(RENAMED_MULTIBRANCH_PIPELINE)
+                .clickRenameButton()
                 .getHeaderText();
 
         Assert.assertEquals(actualRenamedMultibranchPipeline, RENAMED_MULTIBRANCH_PIPELINE);
@@ -222,8 +224,8 @@ public class MultibranchPipelineTest extends BaseTest {
                 .openProject(MULTIBRANCH_PIPELINE_NAME, new MultibranchProjectStatusPage(getDriver()))
                 .getSidebarComponent()
                 .clickSidebarRename()
-                .renameJob(MULTIBRANCH_PIPELINE_NAME + ".")
-                .submitForm()
+                .sendNewName(MULTIBRANCH_PIPELINE_NAME + ".")
+                .clickRenameButtonWithInvalidValue()
                 .getErrorMessage();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);

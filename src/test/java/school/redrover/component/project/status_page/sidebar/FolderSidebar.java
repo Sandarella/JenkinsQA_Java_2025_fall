@@ -9,7 +9,7 @@ import school.redrover.trait.project_sidebar.SidebarBuildHistoryTrait;
 import school.redrover.trait.project_sidebar.SidebarCredentialsTrait;
 
 
-public class FolderSidebar extends BaseSidebarComponent<FolderSidebar, FolderStatusPage, FolderConfigurationPage, FolderRenamingPage>
+public class FolderSidebar extends BaseSidebarComponent<FolderSidebar, FolderStatusPage, FolderConfigurationPage>
         implements SidebarBuildHistoryTrait<FolderBuildHistoryPage>, SidebarCredentialsTrait<FolderCredentialsPage> {
 
     @FindBy(xpath = "//a[contains(@href, '/newJob')]")
@@ -17,7 +17,7 @@ public class FolderSidebar extends BaseSidebarComponent<FolderSidebar, FolderSta
 
 
     public FolderSidebar(WebDriver driver) {
-        super(driver);
+        super(driver, FolderStatusPage.class);
     }
 
     @Override
@@ -35,11 +35,6 @@ public class FolderSidebar extends BaseSidebarComponent<FolderSidebar, FolderSta
     @Override
     public FolderConfigurationPage getProjectConfigurationPage() {
         return new FolderConfigurationPage(getDriver()).waitUntilPageLoadJS();
-    }
-
-    @Override
-    public FolderRenamingPage getProjectRenamingPage() {
-        return new FolderRenamingPage(getDriver()).waitUntilPageLoadJS();
     }
 
     @Override

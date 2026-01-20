@@ -9,12 +9,12 @@ import school.redrover.trait.project_sidebar.SidebarMoveTrait;
 
 
 public class PipelineProjectSidebar extends BaseSidebarComponent<PipelineProjectSidebar, PipelineProjectStatusPage,
-        PipelineProjectConfigurationPage, PipelineProjectRenamingPage>
+        PipelineProjectConfigurationPage>
         implements SidebarChangesTrait<PipelineProjectChangesPage>, SidebarBuildNowTrait<PipelineProjectStatusPage>,
         SidebarMoveTrait<PipelineProjectMovePage>, SidebarCredentialsTrait<PipelineProjectCredentialsPage> {
 
     public PipelineProjectSidebar(WebDriver driver) {
-        super(driver);
+        super(driver, PipelineProjectStatusPage.class);
     }
 
     @Override
@@ -30,11 +30,6 @@ public class PipelineProjectSidebar extends BaseSidebarComponent<PipelineProject
     @Override
     public PipelineProjectConfigurationPage getProjectConfigurationPage() {
         return new PipelineProjectConfigurationPage(getDriver());
-    }
-
-    @Override
-    public PipelineProjectRenamingPage getProjectRenamingPage() {
-        return new PipelineProjectRenamingPage(getDriver());
     }
 
     @Override

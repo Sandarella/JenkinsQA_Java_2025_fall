@@ -7,7 +7,7 @@ import school.redrover.component.project.status_page.sidebar.BaseSidebarComponen
 
 public abstract class BaseProjectStatusPage<
         ProjectStatusPage extends BaseProjectStatusPage<?, ?>,
-        SidebarComponent extends BaseSidebarComponent<SidebarComponent, ?, ?, ?>>
+        SidebarComponent extends BaseSidebarComponent<SidebarComponent, ?, ?>>
         extends BasePage<ProjectStatusPage> {
 
     public BaseProjectStatusPage(WebDriver driver) {

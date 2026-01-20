@@ -3,17 +3,16 @@ package school.redrover.component.project.status_page.sidebar;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import school.redrover.common.BasePage;
 import school.redrover.component.BaseComponent;
 import school.redrover.page.BaseProjectConfigurationPage;
 import school.redrover.page.BaseProjectStatusPage;
+import school.redrover.page.ProjectRenamingPage;
 
 
 public abstract class BaseSidebarComponent<
-        SidebarComponent extends BaseSidebarComponent<?, ?, ?, ?>,
+        SidebarComponent extends BaseSidebarComponent<?, ?, ?>,
         ProjectStatusPage extends BaseProjectStatusPage<ProjectStatusPage, ?>,
-        ProjectConfigurationPage extends BaseProjectConfigurationPage<ProjectConfigurationPage, ?>,
-        ProjectRenamingPage extends BasePage<ProjectRenamingPage>>
+        ProjectConfigurationPage extends BaseProjectConfigurationPage<ProjectConfigurationPage, ?>>
         extends BaseComponent<SidebarComponent> {
 
     @FindBy(xpath = "//a[contains(., 'Status')]")
@@ -28,31 +27,26 @@ public abstract class BaseSidebarComponent<
     @FindBy(xpath = "//a[contains(., 'Delete')]")
     private WebElement deleteMenuItem;
 
+    private final Class<ProjectStatusPage> projectStatusPageClass;
 
-    public BaseSidebarComponent(WebDriver driver) {
+    public BaseSidebarComponent(WebDriver driver, Class<ProjectStatusPage> projectStatusPageClass) {
         super(driver);
+        this.projectStatusPageClass = projectStatusPageClass;
     }
 
     public abstract ProjectStatusPage getProjectStatusPage();
-    public abstract ProjectConfigurationPage getProjectConfigurationPage();
-    public abstract ProjectRenamingPage getProjectRenamingPage();
 
-    public ProjectStatusPage clickStatusInSideMenu() {
+    public abstract ProjectConfigurationPage getProjectConfigurationPage();
+
+    public ProjectStatusPage clickSidebarStatus() {
         statusMenuItem.click();
 
         return getProjectStatusPage().waitUntilPageLoadJS();
     }
-
     public ProjectConfigurationPage clickSidebarConfigure() {
         configureMenuItem.click();
 
         return getProjectConfigurationPage().waitUntilPageLoadJS();
-    }
-
-    public ProjectRenamingPage clickSidebarRename() {
-        renameMenuItem.click();
-
-        return getProjectRenamingPage().waitUntilPageLoadJS();
     }
 
     public ProjectStatusPage clickSidebarDelete() {
@@ -60,4 +54,12 @@ public abstract class BaseSidebarComponent<
 
         return getProjectStatusPage().waitUntilPageLoadJS();
     }
+
+    public ProjectRenamingPage<ProjectStatusPage> clickSidebarRename() {
+        renameMenuItem.click();
+
+        return new ProjectRenamingPage<>(getDriver(), projectStatusPageClass);
+    }
+
+
 }

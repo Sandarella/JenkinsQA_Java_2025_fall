@@ -8,12 +8,12 @@ import school.redrover.trait.project_sidebar.SidebarMoveTrait;
 
 
 public class MultiBranchProjectSidebar extends BaseSidebarComponent<
-        MultiBranchProjectSidebar, MultibranchProjectStatusPage, MultibranchProjectConfigurationPage, MultibranchProjectRenamingPage>
+        MultiBranchProjectSidebar, MultibranchProjectStatusPage, MultibranchProjectConfigurationPage>
         implements SidebarBuildHistoryTrait<MultiBranchProjectBuildHistoryPage>, SidebarMoveTrait<MultiBranchProjectMovePage>,
         SidebarCredentialsTrait<MultiBranchProjectCredentialsPage> {
 
     public MultiBranchProjectSidebar(WebDriver driver) {
-        super(driver);
+        super(driver, MultibranchProjectStatusPage.class);
     }
 
     @Override
@@ -29,11 +29,6 @@ public class MultiBranchProjectSidebar extends BaseSidebarComponent<
     @Override
     public MultibranchProjectConfigurationPage getProjectConfigurationPage() {
         return new MultibranchProjectConfigurationPage(getDriver());
-    }
-
-    @Override
-    public MultibranchProjectRenamingPage getProjectRenamingPage() {
-        return new MultibranchProjectRenamingPage(getDriver());
     }
 
     @Override

@@ -3,7 +3,6 @@ package school.redrover.page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.component.project.status_page.sidebar.MultiConfigProjectSidebar;
@@ -82,19 +81,6 @@ public class MultiConfigProjectStatusPage extends BaseProjectStatusPage<MultiCon
         return projectDescription.getText();
     }
 
-    public MultiConfigProjectRenamingPage clickRenameViaDashboardDropDownMenu() {
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(hoverElement, 10, 10).perform();
-        dropdownMenuRenameLink.click();
-
-        return new MultiConfigProjectRenamingPage(getDriver());
-    }
-
-    public String getBreadcrumbItem() {
-        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//span[contains(text(),'Configuration')]"))).getText();
-    }
-
     public boolean isWarningVisible() {
 
         return warning.isDisplayed();
@@ -104,4 +90,10 @@ public class MultiConfigProjectStatusPage extends BaseProjectStatusPage<MultiCon
 
         return projectName.getText();
     }
+
+    public String getBreadcrumbItem() {
+        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
+                .xpath("//span[contains(text(),'Configuration')]"))).getText();
+    }
+
 }

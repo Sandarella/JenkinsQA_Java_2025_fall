@@ -8,12 +8,12 @@ import school.redrover.trait.project_sidebar.SidebarMoveTrait;
 
 
 public class OrganizationFolderSidebar extends BaseSidebarComponent<OrganizationFolderSidebar, OrganizationFolderStatusPage,
-        OrganizationFolderConfigurationPage, OrganizationFolderRenamingPage>
+        OrganizationFolderConfigurationPage>
         implements SidebarBuildHistoryTrait<OrganizationFolderBuildHistoryPage>, SidebarMoveTrait<OrganizationFolderMovePage>,
         SidebarCredentialsTrait<OrganizationFolderCredentialsPage> {
 
     public OrganizationFolderSidebar(WebDriver driver) {
-        super(driver);
+        super(driver, OrganizationFolderStatusPage.class);
     }
 
     @Override
@@ -28,11 +28,6 @@ public class OrganizationFolderSidebar extends BaseSidebarComponent<Organization
 
     @Override
     public OrganizationFolderConfigurationPage getProjectConfigurationPage() {
-        return null;
-    }
-
-    @Override
-    public OrganizationFolderRenamingPage getProjectRenamingPage() {
         return null;
     }
 

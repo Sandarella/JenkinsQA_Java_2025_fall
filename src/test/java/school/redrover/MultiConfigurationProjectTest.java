@@ -59,8 +59,9 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .clickSave()
                 .getSidebarComponent()
                 .clickSidebarRename()
-                .clearNameField()
-                .sendNewProjectName(RENAMED_PROJECT)
+                .clearName()
+                .sendNewName(RENAMED_PROJECT)
+                .clickRenameButton()
                 .getHeaderText();
 
         Assert.assertEquals(actualProjectName, RENAMED_PROJECT);
@@ -73,9 +74,11 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .sendName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndSubmit()
                 .clickSave()
-                .clickRenameViaDashboardDropDownMenu()
-                .clearNameField()
-                .sendNewProjectName(RENAMED_PROJECT)
+                .getSidebarComponent()
+                .clickSidebarRename()
+                .clearName()
+                .sendNewName(RENAMED_PROJECT)
+                .clickRenameButton()
                 .getHeaderText();
 
         Assert.assertEquals(actualProjectName, RENAMED_PROJECT);

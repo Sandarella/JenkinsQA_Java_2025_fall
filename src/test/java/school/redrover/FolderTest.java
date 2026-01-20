@@ -212,7 +212,7 @@ public class FolderTest extends BaseTest {
                 .clickRenameItemInDropdownMenu()
                 .clearName()
                 .sendNewName(NEW_FOLDER_NAME)
-                .renameButtonClick()
+                .clickRenameButton()
                 .getHeaderText();
 
         Assert.assertEquals(newNameFolder, NEW_FOLDER_NAME);
