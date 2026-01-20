@@ -1,10 +1,8 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.BasePage;
 
 
@@ -19,6 +17,9 @@ public class NewNodePage extends BasePage<NewNodePage> {
     @FindBy(name = "Submit")
     WebElement buttonCreate;
 
+    @FindBy(xpath = "//form")
+    private WebElement newNodeForm;
+
 
     public NewNodePage(WebDriver driver) {
         super(driver);
@@ -30,15 +31,16 @@ public class NewNodePage extends BasePage<NewNodePage> {
     }
 
     public boolean isFormDisplayed() {
-        return getDriver().findElement(By.xpath("//form")).isDisplayed();
+        return newNodeForm.isDisplayed();
     }
 
     public NewNodePage enterNodeName(String name) {
         nodeName.clear();
         nodeName.sendKeys(name);
 
-        return  this;
+        return this;
     }
+
     public NewNodePage selectTypeNode() {
         typeModePermanentAgent.click();
 
