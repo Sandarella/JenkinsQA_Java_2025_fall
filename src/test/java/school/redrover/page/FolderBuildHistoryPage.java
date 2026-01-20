@@ -14,9 +14,4 @@ public class FolderBuildHistoryPage extends BasePage<FolderBuildHistoryPage> {
     public FolderBuildHistoryPage getPage() {
         return this;
     }
-
-    @Override
-    public FolderBuildHistoryPage waitUntilPageLoad() {
-        return null;
-    }
 }

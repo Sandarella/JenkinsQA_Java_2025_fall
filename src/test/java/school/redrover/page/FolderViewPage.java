@@ -14,9 +14,4 @@ public class FolderViewPage extends BasePage<FolderViewPage> {
     public FolderViewPage getPage() {
         return this;
     }
-
-    @Override
-    public FolderViewPage waitUntilPageLoad() {
-        return null;
-    }
 }

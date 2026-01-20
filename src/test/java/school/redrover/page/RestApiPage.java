@@ -22,11 +22,6 @@ public class RestApiPage extends BasePage<RestApiPage> {
         return this;
     }
 
-    @Override
-    public RestApiPage waitUntilPageLoad() {
-        return null;
-    }
-
     public List<String> getXmlJsonPythonApiLinksText() {
         return xmlJsonPythonApiLinks
                 .stream()

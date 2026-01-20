@@ -15,8 +15,4 @@ public class MultiBranchProjectCredentialsPage extends BasePage<MultiBranchProje
         return this;
     }
 
-    @Override
-    public MultiBranchProjectCredentialsPage waitUntilPageLoad() {
-        return null;
-    }
 }

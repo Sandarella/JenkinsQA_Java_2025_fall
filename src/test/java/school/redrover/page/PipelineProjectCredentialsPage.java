@@ -14,9 +14,4 @@ public class PipelineProjectCredentialsPage extends BasePage<PipelineProjectCred
     public PipelineProjectCredentialsPage getPage() {
         return this;
     }
-
-    @Override
-    public PipelineProjectCredentialsPage waitUntilPageLoad() {
-        return null;
-    }
 }

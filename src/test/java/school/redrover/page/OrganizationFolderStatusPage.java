@@ -16,7 +16,6 @@ public class OrganizationFolderStatusPage extends BaseProjectStatusPage<Organiza
     @FindBy(name = "Submit")
     private WebElement submitButton;
 
-
     public OrganizationFolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -31,16 +30,8 @@ public class OrganizationFolderStatusPage extends BaseProjectStatusPage<Organiza
         return this;
     }
 
-    @Override
-    public OrganizationFolderStatusPage waitUntilPageLoad() {
-        getWait10().until(ExpectedConditions.visibilityOf(deleteMenuItem));
-
-        return this;
-    }
-
     public String getDisplayNameOrganizationFolder() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//h1"))).getText();
+        return getHeaderText();
     }
 
     public String getDescriptionOrganizationFolder() {

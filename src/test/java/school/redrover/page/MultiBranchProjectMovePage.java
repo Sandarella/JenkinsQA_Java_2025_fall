@@ -14,9 +14,4 @@ public class MultiBranchProjectMovePage extends BasePage<MultiBranchProjectMoveP
     public MultiBranchProjectMovePage getPage() {
         return this;
     }
-
-    @Override
-    public MultiBranchProjectMovePage waitUntilPageLoad() {
-        return null;
-    }
 }

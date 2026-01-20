@@ -15,8 +15,4 @@ public class MultiBranchProjectBuildHistoryPage extends BasePage<MultiBranchProj
         return this;
     }
 
-    @Override
-    public MultiBranchProjectBuildHistoryPage waitUntilPageLoad() {
-        return null;
-    }
 }

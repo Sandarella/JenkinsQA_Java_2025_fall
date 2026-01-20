@@ -109,13 +109,6 @@ public class SystemConfigurationPage extends BasePage<SystemConfigurationPage> {
         return this;
     }
 
-    @Override
-    public SystemConfigurationPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(globalPropertiesDisableWipeoutCheckboxQuestion));
-
-        return this;
-    }
-
     public HomePage clickSave() {
         saveButton.click();
 

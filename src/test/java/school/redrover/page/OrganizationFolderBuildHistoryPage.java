@@ -15,8 +15,4 @@ public class OrganizationFolderBuildHistoryPage extends BasePage<OrganizationFol
         return this;
     }
 
-    @Override
-    public OrganizationFolderBuildHistoryPage waitUntilPageLoad() {
-        return null;
-    }
 }

@@ -55,13 +55,6 @@ public class MultiConfigProjectStatusPage extends BaseProjectStatusPage<MultiCon
         return this;
     }
 
-    @Override
-    public MultiConfigProjectStatusPage waitUntilPageLoad() {
-        getWait10().until(ExpectedConditions.visibilityOf(deleteMenuItem));
-
-        return this;
-    }
-
     public MultiConfigProjectStatusPage clearDescriptionField() {
         editDescriptionLink.click();
         descriptionField.clear();

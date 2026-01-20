@@ -49,8 +49,6 @@ public abstract class BasePage<Page> extends BaseModel {
 
     public abstract Page getPage();
 
-    public abstract Page waitUntilPageLoad();
-
     public Page waitUntilPageLoadJS() {
         // delay to make sure the page starts to reload
         try {

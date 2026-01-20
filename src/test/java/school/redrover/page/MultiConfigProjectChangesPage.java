@@ -14,9 +14,4 @@ public class MultiConfigProjectChangesPage extends BasePage<MultiConfigProjectCh
     public MultiConfigProjectChangesPage getPage() {
         return this;
     }
-
-    @Override
-    public MultiConfigProjectChangesPage waitUntilPageLoad() {
-        return null;
-    }
-}
+   }

@@ -33,13 +33,6 @@ public class UsersPage extends BasePage<UsersPage> {
         return this;
     }
 
-    @Override
-    public UsersPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(createUserButton));
-
-        return this;
-    }
-
     public UserCreatingPage clickCreateUserButton() {
         createUserButton.click();
 

@@ -17,13 +17,8 @@ public class LoginPage extends BasePage<LoginPage> {
         return this;
     }
 
-    @Override
-    public LoginPage waitUntilPageLoad() {
-        return null;
-    }
-
     public String getTitle() {
-        return getDriver().findElement(By.tagName("h1")).getText();
+        return getHeaderText();
     }
 
     public String getUrlProfile() {

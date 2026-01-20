@@ -78,13 +78,6 @@ public class FolderConfigurationPage extends BaseProjectConfigurationPage<Folder
         return this;
     }
 
-    @Override
-    public FolderConfigurationPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(healthMetricsSection));
-
-        return this;
-    }
-
     public FolderConfigurationPage setDisplayName(String name) {
         displayName.sendKeys(name);
 

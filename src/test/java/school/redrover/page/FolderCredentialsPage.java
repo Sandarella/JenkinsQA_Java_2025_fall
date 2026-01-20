@@ -27,12 +27,6 @@ public class FolderCredentialsPage extends BasePage<FolderCredentialsPage> {
         return this;
     }
 
-    @Override
-    public FolderCredentialsPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(storesFromParentGlobal));
-
-        return this;
-    }
 
     public String getCredentialsName(String name) {
         return getDriver().findElement(By.xpath("//a[contains(., '" + name + "')]")).getText();
@@ -44,6 +38,6 @@ public class FolderCredentialsPage extends BasePage<FolderCredentialsPage> {
                 .doubleClick(addCredentialsButton)
                 .perform();
 
-        return new GlobalCredentialsPage(getDriver()).waitUntilPageLoad();
+        return new GlobalCredentialsPage(getDriver()).waitUntilPageLoadJS();
     }
 }

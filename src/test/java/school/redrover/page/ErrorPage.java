@@ -17,11 +17,6 @@ public class ErrorPage extends BasePage<ErrorPage> {
         return this;
     }
 
-    @Override
-    public ErrorPage waitUntilPageLoad() {
-        return null;
-    }
-
     public String getErrorMessage() {
         return getWait5()
                 .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Error']/../p")))

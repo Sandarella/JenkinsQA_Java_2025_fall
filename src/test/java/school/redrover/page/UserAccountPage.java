@@ -34,13 +34,6 @@ public class UserAccountPage extends BasePage<UserAccountPage> {
         return this;
     }
 
-    @Override
-    public UserAccountPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(header));
-
-        return this;
-    }
-
     public UserAccountPage sendFullName(String fullName) {
         fullNameField.clear();
         fullNameField.sendKeys(fullName);

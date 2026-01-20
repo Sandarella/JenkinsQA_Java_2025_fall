@@ -45,13 +45,6 @@ public class UserCreatingPage extends BasePage<UserCreatingPage> {
         return this;
     }
 
-    @Override
-    public UserCreatingPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(header));
-
-        return this;
-    }
-
     public UserCreatingPage sendUserName(String userName) {
         userNameField.sendKeys(userName);
 

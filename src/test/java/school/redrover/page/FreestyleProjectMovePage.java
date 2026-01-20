@@ -14,9 +14,4 @@ public class FreestyleProjectMovePage extends BasePage<FreestyleProjectMovePage>
     public FreestyleProjectMovePage getPage() {
         return this;
     }
-
-    @Override
-    public FreestyleProjectMovePage waitUntilPageLoad() {
-        return null;
-    }
-}
+ }

@@ -28,12 +28,6 @@ public class GlobalCredentialsPage extends BasePage<GlobalCredentialsPage> {
         return this;
     }
 
-    @Override
-    public GlobalCredentialsPage waitUntilPageLoad() {
-        getWait10().until(ExpectedConditions.visibilityOf(addCredentials));
-        return this;
-    }
-
     public FolderCredentialsPage clickCredentials() {
         credentialsMenuItem.click();
 
@@ -43,7 +37,7 @@ public class GlobalCredentialsPage extends BasePage<GlobalCredentialsPage> {
     public NewCredentialsPage clickAddCredentialsButton() {
         addCredentials.click();
 
-        return new NewCredentialsPage(getDriver()).waitUntilPageLoad();
+        return new NewCredentialsPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public List<WebElement> getGlobalCredentialsList() {

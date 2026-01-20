@@ -18,9 +18,6 @@ public class BuildHistoryOfJenkinsPage extends BasePage<BuildHistoryOfJenkinsPag
     @FindBy(css = "thead th a.sortheader")
     private List<WebElement> tableHeaders;
 
-    @FindBy(tagName = "h1")
-    private WebElement header;
-
     @FindBy(css = ".jenkins-icon-size > :nth-child(1) > ol > li[tooltip]")
     public WebElement iconSizeButon;
 
@@ -30,13 +27,6 @@ public class BuildHistoryOfJenkinsPage extends BasePage<BuildHistoryOfJenkinsPag
 
     @Override
     public BuildHistoryOfJenkinsPage getPage() {
-        return this;
-    }
-
-    @Override
-    public BuildHistoryOfJenkinsPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.textToBePresentInElement(header, "Build History of Jenkins"));
-
         return this;
     }
 

@@ -24,13 +24,6 @@ public class CloudsPage extends BasePage<CloudsPage> {
         return this;
     }
 
-    @Override
-    public CloudsPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(header));
-
-        return this;
-    }
-
     public String getCloudsPageInfoText() {
         return cloudsInfo.getText();
     }

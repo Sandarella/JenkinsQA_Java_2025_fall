@@ -34,13 +34,6 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
         return this;
     }
 
-    @Override
-    public FolderStatusPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(newView));
-
-        return this;
-    }
-
     public FolderInfo getInfo() {
         String displayName = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1"))).getText();
         String description = getDriver().findElement(By.id("view-message")).getText();
