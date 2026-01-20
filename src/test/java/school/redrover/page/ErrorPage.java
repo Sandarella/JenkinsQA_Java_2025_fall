@@ -1,12 +1,15 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import school.redrover.common.BasePage;
 
 
 public class ErrorPage extends BasePage<ErrorPage> {
+
+    @FindBy(xpath = "//h1[text()='Error']/../p")
+    private WebElement errorMessage;
 
     public ErrorPage(WebDriver driver) {
         super(driver);
@@ -18,8 +21,6 @@ public class ErrorPage extends BasePage<ErrorPage> {
     }
 
     public String getErrorMessage() {
-        return getWait5()
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Error']/../p")))
-                .getText();
+        return errorMessage.getText();
     }
 }

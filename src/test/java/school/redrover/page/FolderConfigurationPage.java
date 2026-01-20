@@ -1,12 +1,10 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import school.redrover.common.PageUtils;
 
 import java.util.List;
 
@@ -41,7 +39,7 @@ public class FolderConfigurationPage extends BaseProjectConfigurationPage<Folder
     private WebElement deleteMetric;
 
     @FindBy(xpath = ".//div[@class='tbody dropdownList-container']")
-    private List <WebElement> metricList;
+    private List<WebElement> metricList;
 
     @FindBy(xpath = "//a[@tooltip='Help for feature: Child Name']")
     private WebElement childNameTooltip;
@@ -61,8 +59,14 @@ public class FolderConfigurationPage extends BaseProjectConfigurationPage<Folder
     @FindBy(xpath = ".//div[contains(text(), 'Controls whether items')]")
     private WebElement recursiveTooltipContent;
 
-    @FindBy(name ="_.displayNameOrNull")
+    @FindBy(name = "_.displayNameOrNull")
     private WebElement displayName;
+
+    @FindBy(xpath = "//div[@class='jenkins-dropdown jenkins-dropdown--compact']//button")
+    private List<WebElement> metricTypesList;
+
+    @FindBy(xpath = "//button[@class='jenkins-dropdown__item '][1]")
+    private WebElement givenNameButton;
 
     public FolderConfigurationPage(WebDriver driver) {
         super(driver);
@@ -85,10 +89,12 @@ public class FolderConfigurationPage extends BaseProjectConfigurationPage<Folder
     }
 
     public String getHealthMetricsSidebarLink() {
-        return healthMetricSidebarLink.getText().trim();}
+        return healthMetricSidebarLink.getText().trim();
+    }
 
     public String getHealthMetricsButton() {
-        return healthMetricButton.getText().trim();}
+        return healthMetricButton.getText().trim();
+    }
 
     public FolderConfigurationPage clickHealthMetricsSidebarLink() {
         healthMetricSidebarLink.click();
@@ -97,7 +103,8 @@ public class FolderConfigurationPage extends BaseProjectConfigurationPage<Folder
     }
 
     public String getSectionName() {
-        return healthMetricsSection.getText().trim();}
+        return healthMetricsSection.getText().trim();
+    }
 
     public FolderConfigurationPage clickHealthMetricsButton() {
         healthMetricButton.click();
@@ -106,17 +113,15 @@ public class FolderConfigurationPage extends BaseProjectConfigurationPage<Folder
     }
 
     public FolderConfigurationPage clickAddMetricButton() {
-        ((JavascriptExecutor) getDriver()).executeScript(
-                "arguments[0].scrollIntoView(true);", addMetricButton);
+        PageUtils.scrollToElement(getDriver(), addMetricButton);
         addMetricButton.click();
 
         return this.waitUntilPageLoadJS();
     }
 
     public List<String> getAllMetricTypeNames() {
-        By metricTypesList = By.xpath("//div[@class='jenkins-dropdown jenkins-dropdown--compact']//button");
 
-        return getDriver().findElements(metricTypesList)
+        return metricTypesList
                 .stream()
                 .map(WebElement::getText)
                 .toList();
@@ -133,7 +138,7 @@ public class FolderConfigurationPage extends BaseProjectConfigurationPage<Folder
     }
 
     public FolderConfigurationPage clickGivenNameButton() {
-        getDriver().findElement(By.xpath("//button[@class='jenkins-dropdown__item '][1]")).click();
+        givenNameButton.click();
 
         return this.waitUntilPageLoadJS();
     }
@@ -179,7 +184,7 @@ public class FolderConfigurationPage extends BaseProjectConfigurationPage<Folder
     }
 
     public String getChildNameTooltipText() {
-       return childNameTooltipContent.getText().trim();
+        return childNameTooltipContent.getText().trim();
     }
 
     public FolderConfigurationPage hoverRecursiveTooltip() {
@@ -202,8 +207,4 @@ public class FolderConfigurationPage extends BaseProjectConfigurationPage<Folder
         return recursiveTooltipContent.getText().trim();
     }
 
-    public String getBreadcrumbItem() {
-        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//span[contains(text(),'Configuration')]"))).getText();
-    }
 }
