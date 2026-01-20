@@ -106,13 +106,6 @@ public class FreestyleProjectConfigurationPage extends BaseProjectConfigurationP
         return this;
     }
 
-    @Override
-    public FreestyleProjectConfigurationPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(oldBuildsCheck));
-
-        return this;
-    }
-
     public FreestyleProjectConfigurationPage setCheckBoxDiscardAndSetDaysNum(String daysToKeep, String maxOfBuilds) {
         oldBuildsCheck.click();
 

@@ -22,12 +22,6 @@ public class NewCredentialsPage extends BasePage<NewCredentialsPage> {
         return this;
     }
 
-    @Override
-    public NewCredentialsPage waitUntilPageLoad() {
-        getWait10().until(ExpectedConditions.visibilityOf(buttonCreate));
-        return this;
-    }
-
     public NewCredentialsPage enterUsername(String username) {
         getDriver().findElement(By.name("_.username")).sendKeys(username);
 
@@ -49,6 +43,6 @@ public class NewCredentialsPage extends BasePage<NewCredentialsPage> {
     public GlobalCredentialsPage clickCreateButton() {
         buttonCreate.click();
 
-        return new GlobalCredentialsPage(getDriver()).waitUntilPageLoad();
+        return new GlobalCredentialsPage(getDriver()).waitUntilPageLoadJS();
     }
 }

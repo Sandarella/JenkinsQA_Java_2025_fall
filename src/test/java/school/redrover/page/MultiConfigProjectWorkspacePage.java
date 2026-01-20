@@ -14,9 +14,4 @@ public class MultiConfigProjectWorkspacePage extends BasePage<MultiConfigProject
     public MultiConfigProjectWorkspacePage getPage() {
         return this;
     }
-
-    @Override
-    public MultiConfigProjectWorkspacePage waitUntilPageLoad() {
-        return null;
-    }
 }

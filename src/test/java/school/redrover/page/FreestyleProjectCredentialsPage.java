@@ -14,9 +14,4 @@ public class FreestyleProjectCredentialsPage extends BasePage<FreestyleProjectCr
     public FreestyleProjectCredentialsPage getPage() {
         return this;
     }
-
-    @Override
-    public FreestyleProjectCredentialsPage waitUntilPageLoad() {
-        return null;
-    }
 }

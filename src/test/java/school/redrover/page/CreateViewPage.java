@@ -17,9 +17,6 @@ public class CreateViewPage extends BasePage<CreateViewPage> {
     @FindBy(xpath = "//label[text() = 'My View']")
     private WebElement clickMyView;
 
-    @FindBy(tagName = "h1")
-    private WebElement header;
-
     @FindBy(id = "ok")
     private WebElement createButton;
 
@@ -35,13 +32,6 @@ public class CreateViewPage extends BasePage<CreateViewPage> {
 
     @Override
     public CreateViewPage getPage() {
-        return this;
-    }
-
-    @Override
-    public CreateViewPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.textToBePresentInElement(header, "New view"));
-
         return this;
     }
 

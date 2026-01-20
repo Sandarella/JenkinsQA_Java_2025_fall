@@ -15,8 +15,4 @@ public class PipelineProjectChangesPage extends BasePage<PipelineProjectChangesP
         return this;
     }
 
-    @Override
-    public PipelineProjectChangesPage waitUntilPageLoad() {
-        return null;
-    }
 }

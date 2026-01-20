@@ -42,7 +42,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
     public void testAddDescriptionToProject() {
         String description = new HomePage(getDriver())
                 .openProject(PROJECT_NAME, new MultiConfigProjectStatusPage(getDriver()))
-                .waitUntilPageLoad()
                 .clearDescriptionField()
                 .sendDescription(PROJECT_DESCRIPTION)
                 .getDescription();

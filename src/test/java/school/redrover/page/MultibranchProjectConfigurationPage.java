@@ -31,13 +31,6 @@ public class MultibranchProjectConfigurationPage extends BaseProjectConfiguratio
         return this;
     }
 
-    @Override
-    public MultibranchProjectConfigurationPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(toggleSwitcher));
-
-        return this;
-    }
-
     public MultibranchProjectConfigurationPage sendDisplayName(String name) {
         getDriver().findElement(By.xpath("//input[@name='_.displayNameOrNull']")).sendKeys(name);
 

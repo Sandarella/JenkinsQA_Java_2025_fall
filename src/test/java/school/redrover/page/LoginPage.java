@@ -17,11 +17,6 @@ public class LoginPage extends BasePage<LoginPage> {
         return this;
     }
 
-    @Override
-    public LoginPage waitUntilPageLoad() {
-        return null;
-    }
-
     public String getTitle() {
         return getHeaderText();
     }

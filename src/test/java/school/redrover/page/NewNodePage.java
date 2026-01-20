@@ -29,13 +29,6 @@ public class NewNodePage extends BasePage<NewNodePage> {
         return this;
     }
 
-    @Override
-    public NewNodePage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(typeModePermanentAgent));
-
-        return this;
-    }
-
     public boolean isFormDisplayed() {
         return getDriver().findElement(By.xpath("//form")).isDisplayed();
     }

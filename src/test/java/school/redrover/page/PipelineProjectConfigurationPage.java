@@ -80,13 +80,6 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
         return this;
     }
 
-    @Override
-    public PipelineProjectConfigurationPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(buildPeriodicallyLabel));
-
-        return this;
-    }
-
     public PipelineProjectConfigurationPage clickAdvancedLinkInSideMenu() {
         advancedMenuItem.click();
 

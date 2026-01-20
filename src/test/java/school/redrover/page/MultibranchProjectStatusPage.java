@@ -46,13 +46,6 @@ public class MultibranchProjectStatusPage extends BaseProjectStatusPage<Multibra
         return this;
     }
 
-    @Override
-    public MultibranchProjectStatusPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(deleteMenuItem));
-
-        return this;
-    }
-
     public String getDescription() {
         return description.getText();
     }

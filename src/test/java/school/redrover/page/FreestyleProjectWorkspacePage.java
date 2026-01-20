@@ -20,11 +20,4 @@ public class FreestyleProjectWorkspacePage extends BasePage<FreestyleProjectWork
     public FreestyleProjectWorkspacePage getPage() {
         return this;
     }
-
-    @Override
-    public FreestyleProjectWorkspacePage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(wipeOutWorkspaceLink));
-
-        return this;
-    }
 }

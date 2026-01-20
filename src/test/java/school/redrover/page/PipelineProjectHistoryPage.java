@@ -20,11 +20,6 @@ public class PipelineProjectHistoryPage extends BasePage<PipelineProjectHistoryP
         return this;
     }
 
-    @Override
-    public PipelineProjectHistoryPage waitUntilPageLoad() {
-        return null;
-    }
-
     public PipelineProjectHistoryConsolePage clickConsoleOutput() {
         consoleOutputButton.click();
 

@@ -53,13 +53,6 @@ public class JenkinsManagementPage extends BasePage<JenkinsManagementPage> {
         return this;
     }
 
-    @Override
-    public JenkinsManagementPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(header));
-
-        return this;
-    }
-
     public UsersPage clickUserButton() {
         usersLink.click();
 
@@ -125,7 +118,7 @@ public class JenkinsManagementPage extends BasePage<JenkinsManagementPage> {
     public AppearancePage clickAppearanceLink() {
         appearanceLink.click();
 
-        return new AppearancePage(getDriver()).waitUntilPageLoad();
+        return new AppearancePage(getDriver()).waitUntilPageLoadJS();
     }
 
     public NodesPage clickNodeConfigurationSystem() {

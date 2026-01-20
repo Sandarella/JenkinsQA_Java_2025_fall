@@ -50,13 +50,6 @@ public class NewItemPage extends BasePage<NewItemPage> {
         return this;
     }
 
-    @Override
-    public NewItemPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(multibranchPipelineOption));
-
-        return this;
-    }
-
     public NewItemPage sendName(String name) {
         nameField.sendKeys(name);
 

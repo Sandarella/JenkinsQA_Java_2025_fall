@@ -18,11 +18,6 @@ public class MovePage extends BasePage<MovePage> {
         return this;
     }
 
-    @Override
-    public MovePage waitUntilPageLoad() {
-        return null;
-    }
-
     public MovePage selectDestinationFolder(String folderName) {
         Select selectObject = new Select(getDriver().findElement(By.className("jenkins-select__input")));
         selectObject.selectByVisibleText("Jenkins » %s".formatted(folderName));

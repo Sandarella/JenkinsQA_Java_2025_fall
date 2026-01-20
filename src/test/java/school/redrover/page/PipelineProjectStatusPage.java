@@ -62,13 +62,6 @@ public class PipelineProjectStatusPage extends BaseProjectStatusPage<PipelinePro
         return this;
     }
 
-    @Override
-    public PipelineProjectStatusPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(deletePipeline));
-
-        return this;
-    }
-
     public String getStatusDisplayNameText() {
         return getHeaderText();
     }

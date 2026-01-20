@@ -46,13 +46,6 @@ public class FreestyleProjectStatusPage extends BaseProjectStatusPage<FreestyleP
         return this;
     }
 
-    @Override
-    public FreestyleProjectStatusPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(deleteMenuItem));
-
-        return this;
-    }
-
     public String getDescription() {
         return descriptionText.getText();
     }

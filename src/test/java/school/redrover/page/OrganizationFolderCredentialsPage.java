@@ -14,9 +14,4 @@ public class OrganizationFolderCredentialsPage extends BasePage<OrganizationFold
     public OrganizationFolderCredentialsPage getPage() {
         return this;
     }
-
-    @Override
-    public OrganizationFolderCredentialsPage waitUntilPageLoad() {
-        return null;
-    }
 }

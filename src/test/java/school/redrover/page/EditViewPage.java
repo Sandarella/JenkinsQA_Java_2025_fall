@@ -36,11 +36,6 @@ public class EditViewPage extends BasePage<EditViewPage> {
         return this;
     }
 
-    @Override
-    public EditViewPage waitUntilPageLoad() {
-        return null;
-    }
-
     public EditViewPage clickAddColumnButton() {
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({block: 'center'});",
                 getWait10().until(ExpectedConditions.visibilityOf(addColumnButton)));

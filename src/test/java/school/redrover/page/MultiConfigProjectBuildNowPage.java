@@ -14,9 +14,4 @@ public class MultiConfigProjectBuildNowPage extends BasePage<MultiConfigProjectB
     public MultiConfigProjectBuildNowPage getPage() {
         return this;
     }
-
-    @Override
-    public MultiConfigProjectBuildNowPage waitUntilPageLoad() {
-        return null;
-    }
 }

@@ -45,12 +45,6 @@ public class AppearancePage extends BasePage<AppearancePage> {
         return this;
     }
 
-    @Override
-    public AppearancePage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(findPluginsButton));
-        return this;
-    }
-
     public AppearancePage clickLightTheme() {
         lightThemeRadioButton.click();
 
@@ -90,7 +84,7 @@ public class AppearancePage extends BasePage<AppearancePage> {
     public JenkinsManagementPage clickSaveButton() {
         saveButton.click();
 
-        return new JenkinsManagementPage(getDriver()).waitUntilPageLoad();
+        return new JenkinsManagementPage(getDriver()).waitUntilPageLoadJS();
     }
 }
 

@@ -63,13 +63,6 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    @Override
-    public HomePage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(sidebarNewItem));
-
-        return this;
-    }
-
     public NewItemPage clickCreateJob() {
         createJobButton.click();
 

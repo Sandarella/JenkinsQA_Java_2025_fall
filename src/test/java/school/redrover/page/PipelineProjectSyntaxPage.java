@@ -23,11 +23,6 @@ public class PipelineProjectSyntaxPage extends BasePage<PipelineProjectSyntaxPag
         return this;
     }
 
-    @Override
-    public PipelineProjectSyntaxPage waitUntilPageLoad() {
-        return null;
-    }
-
     public List<String> getListOfButtonsInSideMenu() {
 
         return sideMenuButtons

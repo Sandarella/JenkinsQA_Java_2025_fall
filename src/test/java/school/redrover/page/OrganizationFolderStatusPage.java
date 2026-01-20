@@ -16,7 +16,6 @@ public class OrganizationFolderStatusPage extends BaseProjectStatusPage<Organiza
     @FindBy(name = "Submit")
     private WebElement submitButton;
 
-
     public OrganizationFolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -28,13 +27,6 @@ public class OrganizationFolderStatusPage extends BaseProjectStatusPage<Organiza
 
     @Override
     public OrganizationFolderStatusPage getPage() {
-        return this;
-    }
-
-    @Override
-    public OrganizationFolderStatusPage waitUntilPageLoad() {
-        getWait10().until(ExpectedConditions.visibilityOf(deleteMenuItem));
-
         return this;
     }
 

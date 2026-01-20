@@ -15,8 +15,4 @@ public class OrganizationFolderMovePage extends BasePage<OrganizationFolderMoveP
         return this;
     }
 
-    @Override
-    public OrganizationFolderMovePage waitUntilPageLoad() {
-        return null;
-    }
 }

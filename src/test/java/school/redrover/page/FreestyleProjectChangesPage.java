@@ -14,9 +14,4 @@ public class FreestyleProjectChangesPage extends BasePage<FreestyleProjectChange
     public FreestyleProjectChangesPage getPage() {
         return this;
     }
-
-    @Override
-    public FreestyleProjectChangesPage waitUntilPageLoad() {
-        return null;
-    }
 }

@@ -32,13 +32,6 @@ public class FolderCreateViewPage extends BasePage<FolderCreateViewPage> {
         return this;
     }
 
-    @Override
-    public FolderCreateViewPage waitUntilPageLoad() {
-        getWait5().until(ExpectedConditions.visibilityOf(inputGlobalView));
-
-        return this;
-    }
-
     public FolderCreateViewPage sendName(String name) {
         inputViewName.sendKeys(name);
 

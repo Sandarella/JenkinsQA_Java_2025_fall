@@ -15,8 +15,4 @@ public class MultiConfigProjectCredentialsPage extends BasePage<MultiConfigProje
         return this;
     }
 
-    @Override
-    public MultiConfigProjectCredentialsPage waitUntilPageLoad() {
-        return null;
-    }
 }

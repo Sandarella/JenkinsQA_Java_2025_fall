@@ -28,11 +28,6 @@ public class ProjectRenamingPage<T extends BasePage<T>> extends BasePage<Project
         return this;
     }
 
-    @Override
-    public ProjectRenamingPage<T> waitUntilPageLoad() {
-        return null;
-    }
-
     public ProjectRenamingPage<T> sendNewName(String newName) {
         newNameField.sendKeys(newName);
 
