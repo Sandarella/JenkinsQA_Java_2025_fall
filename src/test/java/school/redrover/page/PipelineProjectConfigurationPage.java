@@ -66,19 +66,19 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     private WebElement triggerBuildsRemotelyLabel;
 
     @FindBy(xpath = "//input[@id='cb8']")
-    private WebElement buildAfterOtherProjectsAreBuiltCheckBox;
+    private WebElement buildAfterOtherProjectsAreBuiltCheckbox;
 
     @FindBy(xpath = "//input[@id='cb9']")
     private WebElement buildPeriodicallyCheckBox;
 
     @FindBy(xpath = "//input[@id='cb10']")
-    private WebElement githubHookTriggerForGitScmPollingCheckBox;
+    private WebElement githubHookTriggerForGitScmPollingCheckbox;
 
     @FindBy(xpath = "//input[@id='cb11']")
-    private WebElement pollScmCheckBox;
+    private WebElement pollScmCheckbox;
 
     @FindBy(xpath = "//input[@id='cb12']")
-    private WebElement triggerBuildsRemotelyCheckBox;
+    private WebElement triggerBuildsRemotelyCheckbox;
 
     @FindBy(xpath = "//textarea[@name = '_.spec']")
     private WebElement scheduleTextarea;
@@ -93,7 +93,7 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     private WebElement advancedButton;
 
     @FindBy(name = "quiet_period")
-    private WebElement quietPeriodInput;
+    private WebElement quietPeriodField;
 
     @FindBy(id = "toggle-switch-enable-disable-project")
     private WebElement enableDisableProjectToggle;
@@ -105,10 +105,10 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     private WebElement uncheckedTitleToggle;
 
     @FindBy(css = "#error-description > h2")
-    private WebElement modalWindowDescriptionError;
+    private WebElement descriptionErrorPopup;
 
     @FindBy(xpath = "//div[@id='error-description']/parent::*/following-sibling::button")
-    private WebElement closeModalWindowButton;
+    private WebElement closePopupButton;
 
     public PipelineProjectConfigurationPage(WebDriver driver) {
         super(driver);
@@ -164,7 +164,7 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     public PipelineProjectConfigurationPage clickQuitePeriod() {
         new Actions(getDriver()).moveToElement(quietPeriodLabel).click().perform();
 
-        getWait10().until(ExpectedConditions.visibilityOf(quietPeriodInput));
+        getWait10().until(ExpectedConditions.visibilityOf(quietPeriodField));
 
         return this;
     }
@@ -260,15 +260,15 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
         return textErrorMessage.getText();
     }
 
-    public String getModalWindowDescriptionError() {
-        getWait10().until(ExpectedConditions.visibilityOf(modalWindowDescriptionError));
+    public String getDescriptionErrorPopup() {
+        getWait10().until(ExpectedConditions.visibilityOf(descriptionErrorPopup));
 
-        return modalWindowDescriptionError.getText();
+        return descriptionErrorPopup.getText();
     }
 
-    public void closeModalWindow() {
+    public void closePopup() {
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(closeModalWindowButton)).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(closePopupButton)).click();
     }
 
     public WebElement[] selectAllTriggers() {

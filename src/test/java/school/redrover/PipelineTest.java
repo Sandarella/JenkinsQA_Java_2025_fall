@@ -228,12 +228,12 @@ public class PipelineTest extends BaseTest {
                 .clickApply()
                 .getErrorMessageText();
 
-        new PipelineProjectConfigurationPage(getDriver()).closeModalWindow();
+        new PipelineProjectConfigurationPage(getDriver()).closePopup();
 
         Assert.assertTrue(actualTextErrorMessage.contains(expectedErrorMessage),
                 String.format("Сообщение: '%s', не содержит ожидаемую ключевую информацию об ошибке: '%s'",
                         actualTextErrorMessage, expectedErrorMessage));
-        Assert.assertEquals(new PipelineProjectConfigurationPage(getDriver()).getModalWindowDescriptionError(),
+        Assert.assertEquals(new PipelineProjectConfigurationPage(getDriver()).getDescriptionErrorPopup(),
                 "A problem occurred while processing the request");
     }
 

@@ -26,7 +26,7 @@ public class OrganizationFolderConfigurationTest extends BaseTest {
                 .clickSave();
 
         String actualDisplayName = organizationFolderPage.getDisplayNameOrganizationFolder();
-        String actualDescription = organizationFolderPage.getDescriptionOrganizationFolder();
+        String actualDescription = organizationFolderPage.getDescription();
 
         Assert.assertEquals(actualDisplayName, expectedDisplayName);
         Assert.assertEquals(actualDescription, expectedDescription);
