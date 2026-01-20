@@ -195,8 +195,9 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualHomePageHeading, expectedHomePageHeading);
     }
 
-    @Test(dependsOnMethods = "testCreateNewPipeline", dataProvider = "validAliases")
+    @Test(dataProvider = "validAliases")
     public void testScheduleWithValidData(String validTimePeriod) {
+        createPipeline(PIPELINE_NAME);
 
         String textAreaValidationMessage = new HomePage(getDriver())
                 .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))
