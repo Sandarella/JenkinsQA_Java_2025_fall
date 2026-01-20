@@ -1,10 +1,8 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.BasePage;
 
 
@@ -12,6 +10,15 @@ public class NewCredentialsPage extends BasePage<NewCredentialsPage> {
 
     @FindBy(name = "Submit")
     private WebElement buttonCreate;
+
+    @FindBy(name = "_.username")
+    private WebElement usernameField;
+
+    @FindBy(name = "_.password")
+    private WebElement passwordField;
+
+    @FindBy(name = "_.description")
+    private WebElement descriptionTextArea;
 
     public NewCredentialsPage(WebDriver driver) {
         super(driver);
@@ -23,19 +30,19 @@ public class NewCredentialsPage extends BasePage<NewCredentialsPage> {
     }
 
     public NewCredentialsPage enterUsername(String username) {
-        getDriver().findElement(By.name("_.username")).sendKeys(username);
+        usernameField.sendKeys(username);
 
         return this;
     }
 
     public NewCredentialsPage enterPassword(String password) {
-        getDriver().findElement(By.name("_.password")).sendKeys(password);
+        passwordField.sendKeys(password);
 
         return this;
     }
 
     public NewCredentialsPage enterDescription(String description) {
-        getDriver().findElement(By.name("_.description")).sendKeys(description);
+        descriptionTextArea.sendKeys(description);
 
         return this;
     }
