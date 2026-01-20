@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import school.redrover.common.BasePage;
 
 
-public class NodesPage  extends BasePage<NodesPage> {
+public class NodesPage extends BasePage<NodesPage> {
 
     @FindBy(xpath = "//a[@href ='new']")
     WebElement newNode;
@@ -38,6 +38,8 @@ public class NodesPage  extends BasePage<NodesPage> {
     @FindBy(css = "a[data-title='Delete Agent']")
     private WebElement deleteAgent;
 
+    @FindBy(css = "button[data-id='ok']")
+    private WebElement okButton;
 
     public NodesPage(WebDriver driver) {
         super(driver);
@@ -71,7 +73,7 @@ public class NodesPage  extends BasePage<NodesPage> {
         numberExecutors.clear();
         numberExecutors.sendKeys(Integer.toString(num));
 
-        return  this;
+        return this;
     }
 
     public NodesPage addLabels(String[] labelArray) {
@@ -102,28 +104,27 @@ public class NodesPage  extends BasePage<NodesPage> {
         return this;
     }
 
-    public NodesPage checkNodeProperties( int number ) {
-            getDriver().findElement(By.cssSelector("input[id='cb" + number +  "'] + label"));
+    public NodesPage checkNodeProperties(int number) {
+        getDriver().findElement(By.cssSelector("input[id='cb%s'] + label".formatted(number)));
 
-            return this;
+        return this;
     }
 
     public String findNodesInList(String name) {
         String item;
         try {
-           item = getDriver().findElement(By.xpath("//a[@href='../computer/" + name + "/']")).getText();
-        }
-        catch (Exception e) {
-            item = "Nodes : " + name + " not exist in list of nodes";
+            item = getDriver().findElement(By.xpath("//a[@href='../computer/%s/']".formatted(name))).getText();
+        } catch (Exception e) {
+            item = "Nodes : %s not exist in list of nodes".formatted(name);
         }
 
-       return item;
+        return item;
     }
 
     public NodesPage deleteNode(String name) {
-        getDriver().findElement(By.cssSelector("a[href='../computer/" + name + "/']")).click();
+        getDriver().findElement(By.cssSelector("a[href='../computer/%s/']".formatted(name))).click();
         deleteAgent.click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.cssSelector("button[data-id='ok']"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(okButton)).click();
 
         return this;
     }
