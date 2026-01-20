@@ -1,6 +1,5 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -16,6 +15,14 @@ public class MultibranchProjectConfigurationPage extends BaseProjectConfiguratio
     @FindBy(id = "toggle-switch-enable-disable-project")
     private WebElement toggleTooltipOnHover;
 
+    @FindBy(name = "_.displayNameOrNull")
+    private WebElement displayNameField;
+
+    @FindBy(className = "jenkins-toggle-switch__label__unchecked-title")
+    private WebElement stateToggle;
+
+    @FindBy(className = "tippy-content")
+    private WebElement toggleTooltipHoverText;
 
     public MultibranchProjectConfigurationPage(WebDriver driver) {
         super(driver);
@@ -32,7 +39,7 @@ public class MultibranchProjectConfigurationPage extends BaseProjectConfiguratio
     }
 
     public MultibranchProjectConfigurationPage sendDisplayName(String name) {
-        getDriver().findElement(By.xpath("//input[@name='_.displayNameOrNull']")).sendKeys(name);
+        displayNameField.sendKeys(name);
 
         return this;
     }
@@ -43,25 +50,19 @@ public class MultibranchProjectConfigurationPage extends BaseProjectConfiguratio
         return this;
     }
 
-    public String getToggleState() {
+    public String getStateToggleText() {
         try {
-            return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("jenkins-toggle-switch__label__unchecked-title")))
-                    .getText();
+            return getWait2().until(ExpectedConditions.visibilityOf(stateToggle)).getText();
         } catch (Exception ignore) {
         }
 
         return "Enabled";
     }
 
-    public String getToggleTooltipTextOnHover() {
+    public String getToggleTooltipHoverText() {
         new Actions(getDriver()).moveToElement(toggleTooltipOnHover).perform();
 
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("tippy-content")))
-                .getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(toggleTooltipHoverText)).getText();
     }
 
-    public String getBreadcrumbItem() {
-        return getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
-                .xpath("//span[contains(text(),'Configuration')]"))).getText();
-    }
 }

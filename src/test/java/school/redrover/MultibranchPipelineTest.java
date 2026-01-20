@@ -125,7 +125,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickSidebarNewItem()
                 .sendName(MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipelineAndSubmit()
-                .getToggleTooltipTextOnHover();
+                .getToggleTooltipHoverText();
 
         Assert.assertEquals(actualTooltip, tooltipText);
     }
@@ -139,7 +139,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .getSidebarComponent()
                 .clickSidebarConfigure()
                 .clickToggle()
-                .getToggleState();
+                .getStateToggleText();
 
         Assert.assertEquals(actualToggleState, expectedToggleState);
     }
