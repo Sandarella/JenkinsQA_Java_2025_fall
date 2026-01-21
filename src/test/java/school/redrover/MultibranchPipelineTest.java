@@ -254,10 +254,10 @@ public class MultibranchPipelineTest extends BaseTest {
                 .sendDescriptionText(MULTIBRANCH_JOB_DESCRIPTION)
                 .submitDescription()
                 .clickDescription()
-                .clearTextDescription()
+                .clearDescriptionText()
                 .sendDescriptionText(SECOND_DESCRIPTION)
                 .submitDescription()
-                .getDescription();
+                .getDescriptionText();
 
         Assert.assertEquals(name, SECOND_DESCRIPTION);
     }

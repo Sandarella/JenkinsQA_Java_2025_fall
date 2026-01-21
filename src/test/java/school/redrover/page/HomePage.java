@@ -67,7 +67,7 @@ public class HomePage extends BasePage<HomePage> {
     private WebElement deleteItemMenuButton;
 
     @FindBy(xpath = "//a[contains(@href,'configure')]")
-    private WebElement configureMenuLink;
+    private WebElement configureMenuItem;
 
     @FindBy(xpath = "//dialog[@open]//button[@data-id='ok']")
     private WebElement yesDeleteButton;
@@ -76,10 +76,10 @@ public class HomePage extends BasePage<HomePage> {
     private WebElement cancelDeleteButton;
 
     @FindBy(xpath = "//a[@data-title='Delete View']")
-    private WebElement deleteViewSidebarLink;
+    private WebElement deleteViewSidebarItem;
 
     @FindBy(tagName = "p")
-    private WebElement paragraphText;
+    private WebElement paragraph;
 
     @FindBy(id = "description-content")
     private WebElement description;
@@ -100,13 +100,13 @@ public class HomePage extends BasePage<HomePage> {
     private WebElement tippyContent;
 
     @FindBy(css = "div#executors")
-    private WebElement executorsDiv;
+    private WebElement executorsDiv;  // buildExecutorStatusToggleSection
 
     @FindBy(css = "span[tooltip*='executors busy']")
-    private WebElement executorsTooltipSpan;
+    private WebElement executorsTooltipSpan; //  buildExecutorStatusTooltip
 
     @FindBy(className = "executors-collapsed")
-    private WebElement executorsCollapsed;
+    private WebElement executorsCollapsed; // buildExecutorStatusCollapsed
 
     @FindBy(css = ".jenkins-icon-size > :nth-child(1) > ol > li[tooltip]")
     private WebElement iconSizeTooltipElement;
@@ -192,23 +192,23 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public FreestyleProjectConfigurationPage clickConfigureInDropdownMenu() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(configureMenuLink)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(configureMenuItem)).click();
 
         return new FreestyleProjectConfigurationPage(getDriver());
     }
 
     public HomePage confirmDelete() {
         getWait2().until(ExpectedConditions.elementToBeClickable(yesDeleteButton)).click();
-        getWait5().until(ExpectedConditions.stalenessOf(yesDeleteButton));
+       // getWait5().until(ExpectedConditions.stalenessOf(yesDeleteButton));
 
-        return this;
+        return this.waitUntilPageLoadJS();
     }
 
     public HomePage cancelDelete() {
         getWait2().until(ExpectedConditions.elementToBeClickable(cancelDeleteButton)).click();
-        getWait5().until(ExpectedConditions.stalenessOf(cancelDeleteButton));
+        //getWait5().until(ExpectedConditions.stalenessOf(cancelDeleteButton));
 
-        return this;
+        return this.waitUntilPageLoadJS();
     }
 
     public CreateViewPage clickPlusToCreateView() {
@@ -224,7 +224,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public HomePage clickDeleteViewOnSidebar() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(deleteViewSidebarLink)).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(deleteViewSidebarItem)).click();
 
         return this;
     }
@@ -244,7 +244,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public String getParagraghText() {
-        return getWait2().until(ExpectedConditions.visibilityOf(paragraphText)).getText();
+        return getWait2().until(ExpectedConditions.visibilityOf(paragraph)).getText();
     }
 
     public HomePage clickDescription() {
@@ -257,11 +257,11 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    public String getDescription() {
+    public String getDescriptionText() {
         return getWait2().until(ExpectedConditions.visibilityOf(description)).getText();
     }
 
-    public HomePage clearTextDescription() {
+    public HomePage clearDescriptionText() {
         getWait2().until(ExpectedConditions.visibilityOf(descriptionTextBox)).clear();
         return this;
     }
@@ -272,7 +272,7 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    public String getStatusProjectIconTooltipTextOnHover(String projectName) {
+    public String getStatusProjectIconTooltipText(String projectName) {
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath("//*[@id='job_%s']/td[1]/div".formatted(projectName))))
                 .perform();

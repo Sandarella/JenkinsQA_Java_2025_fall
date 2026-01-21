@@ -117,7 +117,7 @@ public class DashboardTest extends BaseTest {
                 .sendName(CREATED_JOBS_NAME.get(0))
                 .selectFreestyleProjectAndSubmit()
                 .gotoHomePage()
-                .getStatusProjectIconTooltipTextOnHover(CREATED_JOBS_NAME.get(0));
+                .getStatusProjectIconTooltipText(CREATED_JOBS_NAME.get(0));
 
         Assert.assertEquals(actualStatusTooltip, tooltipEnableText, "Проект отключен или не создан!");
     }
