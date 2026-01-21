@@ -53,28 +53,6 @@ jobs:
       - name: Wait for the Jenkins
         run: ./.github/wait-for-jenkins.sh
 
-      - name: Generate Jenkins API Token
-        run: |
-          JENKINS_URL="http://localhost:8080"
-          USERNAME="${{ secrets.ADMIN_USERNAME }}"
-          PASSWORD="${{ secrets.ADMIN_PASSWORD }}"
-         
-          CRUMB=$(curl -s --user "$USERNAME:$PASSWORD" "$JENKINS_URL/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)")
-          
-          TOKEN_RESPONSE=$(curl -s --user "$USERNAME:$PASSWORD" \
-            -H "$CRUMB" \
-            -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "newTokenName=ci-api-token" \
-            "$JENKINS_URL/me/descriptorByName/jenkins.security.ApiTokenProperty/generateNewToken")
-          
-          API_TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r '.data.tokenValue')
-          if [ -z "$API_TOKEN" ] || [ "$API_TOKEN" = "null" ]; then
-            echo "Failed to generate API token. Response: $TOKEN_RESPONSE"
-            exit 1
-          fi   
-          
-          echo "JENKINS_API_TOKEN=$API_TOKEN" >> $GITHUB_ENV
-
       - name: Maven test
         run: mvn test
         env:
