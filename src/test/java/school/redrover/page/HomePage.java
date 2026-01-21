@@ -54,6 +54,64 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy (id = "systemmessage")
     private WebElement systemMessage;
 
+    @FindBy(xpath = ".//a[span[text()='Learn more about distributed builds']]")
+    private WebElement learnMoreDistributedBuildsLink;
+
+    @FindBy(xpath = "//a[contains(@class, 'jenkins-dropdown__item') and contains(., 'Move')]")
+    private WebElement moveMenuLink;
+
+    @FindBy(xpath = "//a[contains(@class, 'jenkins-dropdown__item') and contains(., 'Pipeline Syntax')]")
+    private WebElement pipelineSyntaxMenuLink;
+
+    @FindBy(xpath = "//button[contains(@class, 'jenkins-dropdown__item') and contains(., 'Delete')]")
+    private WebElement deleteItemMenuButton;
+
+    @FindBy(xpath = "//a[contains(@href,'configure')]")
+    private WebElement configureMenuLink;
+
+    @FindBy(xpath = "//dialog[@open]//button[@data-id='ok']")
+    private WebElement yesDeleteButton;
+
+    @FindBy(xpath = "//dialog[@open]//button[@data-id='cancel']")
+    private WebElement cancelDeleteButton;
+
+    @FindBy(xpath = "//a[@data-title='Delete View']")
+    private WebElement deleteViewSidebarLink;
+
+    @FindBy(tagName = "p")
+    private WebElement paragraphText;
+
+    @FindBy(id = "description-content")
+    private WebElement description;
+
+    @FindBy(id = "description-link")
+    private WebElement editDescriptionButton;
+
+    @FindBy(name = "description")
+    private WebElement descriptionTextBox;
+
+    @FindBy(name = "Submit")
+    private WebElement submitButton;
+
+    @FindBy(css = "div[data-tippy-root]")
+    private WebElement tippyRootDiv;
+
+    @FindBy(className = "tippy-content")
+    private WebElement tippyContent;
+
+    @FindBy(css = "div#executors")
+    private WebElement executorsDiv;
+
+    @FindBy(css = "span[tooltip*='executors busy']")
+    private WebElement executorsTooltipSpan;
+
+    @FindBy(className = "executors-collapsed")
+    private WebElement executorsCollapsed;
+
+    @FindBy(css = ".jenkins-icon-size > :nth-child(1) > ol > li[tooltip]")
+    private WebElement iconSizeTooltipElement;
+
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -117,45 +175,38 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public MovePage clickMoveInDropdownMenu() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class, 'jenkins-dropdown__item') and contains(., 'Move')]"))).click();
-
+        getWait2().until(ExpectedConditions.elementToBeClickable(moveMenuLink)).click();
         return new MovePage(getDriver());
     }
 
     public PipelineProjectSyntaxPage clickPipelineSyntaxInDropdownMenu() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class, 'jenkins-dropdown__item') and contains(., 'Pipeline Syntax')]"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(pipelineSyntaxMenuLink)).click();
 
         return new PipelineProjectSyntaxPage(getDriver());
     }
 
     public HomePage clickDeleteItemInDropdownMenu() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(@class, 'jenkins-dropdown__item') and contains(., 'Delete')]"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(deleteItemMenuButton)).click();
 
         return this;
     }
 
     public FreestyleProjectConfigurationPage clickConfigureInDropdownMenu() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href,'configure')]"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(configureMenuLink)).click();
 
         return new FreestyleProjectConfigurationPage(getDriver());
     }
 
     public HomePage confirmDelete() {
-        WebElement yesButton = getWait2().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//dialog[@open]//button[@data-id='ok']")));
-        yesButton.click();
-        getWait5().until(ExpectedConditions.stalenessOf(yesButton));
+        getWait2().until(ExpectedConditions.elementToBeClickable(yesDeleteButton)).click();
+        getWait5().until(ExpectedConditions.stalenessOf(yesDeleteButton));
 
         return this;
     }
 
     public HomePage cancelDelete() {
-        WebElement yesButton = getWait2().until(
-                ExpectedConditions.elementToBeClickable(
-                        By.xpath("//dialog[@open]//button[@data-id='cancel']"))
-        );
-        yesButton.click();
-        getWait5().until(ExpectedConditions.stalenessOf(yesButton));
+        getWait2().until(ExpectedConditions.elementToBeClickable(cancelDeleteButton)).click();
+        getWait5().until(ExpectedConditions.stalenessOf(cancelDeleteButton));
 
         return this;
     }
@@ -173,8 +224,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public HomePage clickDeleteViewOnSidebar() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@data-title='Delete View']"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(deleteViewSidebarLink)).click();
 
         return this;
     }
@@ -182,8 +232,7 @@ public class HomePage extends BasePage<HomePage> {
     public HomePage clickYesToConfirmDelete() {
         String urlBeforeDelete = getDriver().getCurrentUrl();
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//button[@data-id='ok']"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(yesDeleteButton)).click();
 
         getWait5().until(ExpectedConditions.not(ExpectedConditions.urlToBe(urlBeforeDelete)));
 
@@ -195,53 +244,52 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public String getParagraghText() {
-        return getWait2()
-                .until(ExpectedConditions.presenceOfElementLocated(By.tagName("p")))
-                .getText();
+        return getWait2().until(ExpectedConditions.visibilityOf(paragraphText)).getText();
     }
 
     public HomePage clickDescription() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By.id("description-link"))).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(editDescriptionButton)).click();
         return this;
     }
 
     public HomePage sendDescriptionText(String text) {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("description"))).sendKeys(text);
-        return this;
-    }
-
-    public HomePage submitDescription() {
-        getDriver().findElement(By.name("Submit")).click();
-
+        getWait2().until(ExpectedConditions.visibilityOf(descriptionTextBox)).sendKeys(text);
         return this;
     }
 
     public String getDescription() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.id("description-content"))).getText();
+        return getWait2().until(ExpectedConditions.visibilityOf(description)).getText();
     }
 
     public HomePage clearTextDescription() {
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.name("description"))).clear();
+        getWait2().until(ExpectedConditions.visibilityOf(descriptionTextBox)).clear();
         return this;
     }
 
-    public String getProjectStatus(String projectName) {
+    public HomePage submitDescription() {
+        submitButton.click();
+
+        return this;
+    }
+
+    public String getStatusProjectIconTooltipTextOnHover(String projectName) {
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath("//*[@id='job_%s']/td[1]/div".formatted(projectName))))
                 .perform();
 
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[data-tippy-root]")))
-                .getText();
+            return getWait5().until(ExpectedConditions.visibilityOf(tippyRootDiv)).getText();
     }
 
     public String getNumberOfExecutors() {
-        WebElement executors = getDriver().findElement(By.cssSelector("div#executors"));
+        getWait2().until(ExpectedConditions.visibilityOf(executorsDiv));
 
         String executorsLine;
-        if (executors.getAttribute("class").contains("expanded")) {
-            executorsLine = getDriver().findElement(By.cssSelector("span[tooltip*='executors busy']")).getAttribute("tooltip");
+        if (executorsDiv.getAttribute("class").contains("expanded")) {
+            executorsLine = getWait2().until(ExpectedConditions.visibilityOf(executorsTooltipSpan))
+                    .getAttribute("tooltip");
         } else {
-            executorsLine = getDriver().findElement(By.className("executors-collapsed")).getText();
+            executorsLine = getWait2().until(ExpectedConditions.visibilityOf(executorsCollapsed))
+                    .getText();
         }
 
         return Arrays.stream(executorsLine.trim().split(" "))
@@ -254,13 +302,6 @@ public class HomePage extends BasePage<HomePage> {
         List<WebElement> columnsList = getDriver().findElements(By.cssSelector("#projectstatus > thead > tr > th"));
 
         return columnsList.size();
-    }
-
-    public String getStatusProjectIconTooltipTextOnHover() {
-        new Actions(getDriver()).moveToElement(statusTooltipProjectIcon).perform();
-
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("tippy-content")))
-                .getText();
     }
 
     public EditViewPage clickEditViewButton(String listViewName) {
@@ -283,20 +324,17 @@ public class HomePage extends BasePage<HomePage> {
     public NodesPage clickBuildExecutorStatus() {
         buildExecutorStatusButton.click();
 
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.tagName("h1")));
-        return new NodesPage(getDriver());
+        return new NodesPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public BuildHistoryOfJenkinsPage clickBuildHistory() {
         buildHistoryButton.click();
 
-        getWait5().until(ExpectedConditions.presenceOfElementLocated(By.tagName("h1")));
-        return new BuildHistoryOfJenkinsPage(getDriver());
+       return new BuildHistoryOfJenkinsPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public ArchitectingForScalePage clickLearnMoreAboutDistributedBuildsLink() {
-        getDriver().findElement(By.xpath(".//a[span[text()='Learn more about distributed builds']]"))
-                .click();
+        learnMoreDistributedBuildsLink.click();
         Object[] windowHandles = getDriver().getWindowHandles().toArray();
         getDriver().switchTo().window((String) windowHandles[1]);
 
@@ -309,6 +347,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public boolean isIconTableVisible(String projectName) {
+
         return getWait5().until((ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#job_%s > td:nth-child(1)".formatted(projectName))))).isDisplayed();
     }
 
@@ -335,8 +374,9 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public String checkIconSize() {
-        String result = getDriver().findElement(By.cssSelector(".jenkins-icon-size > :nth-child(1) > ol > li[tooltip]")).getAttribute("title");
-        return result;
+        WebElement element = getWait2().until(ExpectedConditions.visibilityOf(iconSizeTooltipElement));
+
+        return element.getAttribute("title");
     }
 
     public boolean isDisabledIconDisplayed(){

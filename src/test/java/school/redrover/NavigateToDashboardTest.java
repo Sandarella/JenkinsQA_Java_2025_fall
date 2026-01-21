@@ -26,7 +26,7 @@ public class NavigateToDashboardTest extends BaseTest {
 
         for (int i = 1; i <= countOfItem; i++) {
             Assert.assertTrue(new HomePage(getDriver()).isIconTableVisible("TestProject_" + i), "status icon is visible");
-            Assert.assertEquals(new HomePage(getDriver()).getProjectStatus("TestProject_" + i), "Not built");
+            Assert.assertEquals(new HomePage(getDriver()).getStatusProjectIconTooltipTextOnHover("TestProject_" + i), "Not built");
         }
     }
 

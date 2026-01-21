@@ -41,7 +41,7 @@ public class CreateViewPage extends BasePage<CreateViewPage> {
         return this;
     }
 
-    public CreateViewPage clickMyViewName(){
+    public CreateViewPage clickMyViewTypeRadioButton(){
         clickMyView.click();
 
         return this;
