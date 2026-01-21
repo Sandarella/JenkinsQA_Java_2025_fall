@@ -109,7 +109,7 @@ public class HomePage extends BasePage<HomePage> {
     private WebElement executorsCollapsed; // buildExecutorStatusCollapsed
 
     @FindBy(css = ".jenkins-icon-size > :nth-child(1) > ol > li[tooltip]")
-    private WebElement iconSizeTooltipElement;
+    private WebElement iconSizeTooltip;
 
 
     public HomePage(WebDriver driver) {
@@ -176,13 +176,13 @@ public class HomePage extends BasePage<HomePage> {
 
     public MovePage clickMoveInDropdownMenu() {
         getWait2().until(ExpectedConditions.elementToBeClickable(moveMenuLink)).click();
-        return new MovePage(getDriver());
+        return new MovePage(getDriver()).waitUntilPageLoadJS();
     }
 
     public PipelineProjectSyntaxPage clickPipelineSyntaxInDropdownMenu() {
         getWait2().until(ExpectedConditions.elementToBeClickable(pipelineSyntaxMenuLink)).click();
 
-        return new PipelineProjectSyntaxPage(getDriver());
+        return new PipelineProjectSyntaxPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public HomePage clickDeleteItemInDropdownMenu() {
@@ -194,7 +194,7 @@ public class HomePage extends BasePage<HomePage> {
     public FreestyleProjectConfigurationPage clickConfigureInDropdownMenu() {
         getWait2().until(ExpectedConditions.elementToBeClickable(configureMenuItem)).click();
 
-        return new FreestyleProjectConfigurationPage(getDriver());
+        return new FreestyleProjectConfigurationPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public HomePage confirmDelete() {
@@ -374,7 +374,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public String checkIconSize() {
-        WebElement element = getWait2().until(ExpectedConditions.visibilityOf(iconSizeTooltipElement));
+        WebElement element = getWait2().until(ExpectedConditions.visibilityOf(iconSizeTooltip));
 
         return element.getAttribute("title");
     }
