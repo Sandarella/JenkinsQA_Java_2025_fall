@@ -33,7 +33,7 @@ public class SignInOutTest extends BaseTest {
     public void testSignInAfterSignOut() {
 
         String title = new LoginPage(getDriver())
-                .signIn(ProjectUtils.getUserName(),ProjectUtils.getPassword())
+                .signIn(ProjectUtils.getUserName(), ProjectUtils.getPassword())
                 .getHeaderText();
 
         Assert.assertEquals(title, "Welcome to Jenkins!");

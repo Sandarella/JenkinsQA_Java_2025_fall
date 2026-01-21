@@ -148,6 +148,7 @@ public class PipelineConfigurationTest extends BaseTest {
                 .clickCreateJob()
                 .sendName(PIPELINE_NAME_FOR_CHANGE)
                 .selectPipelineAndSubmit()
+                .clickAdvancedLinkInSideMenu()
                 .clickAdvancedButton()
                 .sendDisplayName(displayName)
                 .clickSave()

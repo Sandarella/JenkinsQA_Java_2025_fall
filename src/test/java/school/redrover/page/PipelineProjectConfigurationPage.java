@@ -89,7 +89,7 @@ public class PipelineProjectConfigurationPage extends BaseProjectConfigurationPa
     @FindBy(xpath = "//div[contains(text(), 'Schedule')]/following-sibling::div" + "//div[@class = 'error']")
     private WebElement textErrorMessage;
 
-    @FindBy(xpath = ".//div[@id='advanced']/parent::section/descendant::button[contains(text(),'Advanced')]")
+    @FindBy(xpath = "//div[@id='advanced']/parent::section/descendant::button[contains(text(),'Advanced')]")
     private WebElement advancedButton;
 
     @FindBy(name = "quiet_period")

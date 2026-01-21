@@ -22,7 +22,7 @@ public class MultibranchProjectConfigurationPage extends BaseProjectConfiguratio
     private WebElement stateToggle;
 
     @FindBy(className = "tippy-content")
-    private WebElement toggleTooltipHoverText;
+    private WebElement toggleTooltipText;
 
     public MultibranchProjectConfigurationPage(WebDriver driver) {
         super(driver);
@@ -59,10 +59,10 @@ public class MultibranchProjectConfigurationPage extends BaseProjectConfiguratio
         return "Enabled";
     }
 
-    public String getToggleTooltipHoverText() {
+    public String getToggleTooltipText() {
         new Actions(getDriver()).moveToElement(toggleTooltipOnHover).perform();
 
-        return getWait5().until(ExpectedConditions.visibilityOf(toggleTooltipHoverText)).getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(toggleTooltipText)).getText();
     }
 
 }

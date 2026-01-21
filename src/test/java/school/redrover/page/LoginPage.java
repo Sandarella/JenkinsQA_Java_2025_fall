@@ -1,12 +1,22 @@
 package school.redrover.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.BasePage;
 
 
 public class LoginPage extends BasePage<LoginPage> {
+
+    @FindBy(id = "j_username")
+    private WebElement userNameField;
+
+    @FindBy(id = "j_password")
+    private WebElement userPasswordField;
+
+    @FindBy(xpath = "//button")
+    private WebElement signInButton;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -27,12 +37,11 @@ public class LoginPage extends BasePage<LoginPage> {
     }
 
     public HomePage signIn(String userName, String userPassword) {
-        getDriver().findElement(By.cssSelector("#j_username")).sendKeys(userName);
-        getDriver().findElement(By.cssSelector("#j_password")).sendKeys(userPassword);
-        getDriver().findElement(By.xpath("//button")).click();
-        getWait2().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[.='Welcome to Jenkins!']")));
+        userNameField.sendKeys(userName);
+        userPasswordField.sendKeys(userPassword);
+        signInButton.click();
 
-        return new HomePage(getDriver());
+        return new HomePage(getDriver()).waitUntilPageLoadJS();
     }
 
 }

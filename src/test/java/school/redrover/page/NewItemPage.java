@@ -43,7 +43,7 @@ public class NewItemPage extends BasePage<NewItemPage> {
     @FindBy(className = "input-validation-message")
     private List<WebElement> validationMessages;
 
-    @FindBy(id = "itemname-invalid")
+    @FindBy(xpath = "//div[@class='input-validation-message']")
     private WebElement errorMessage;
     
     @FindBy(id = "itemname-required")
@@ -113,7 +113,9 @@ public class NewItemPage extends BasePage<NewItemPage> {
     }
 
     public String getErrorMessageText() {
-        return getWait10().until(ExpectedConditions.visibilityOf(errorMessage)).getText();
+        getWait10().until(ExpectedConditions.visibilityOf(errorMessage));
+
+        return errorMessage.getText();
     }
 
     // дизайн сделан так, что нельзя использовать <T extends BaseConfigurationPage>

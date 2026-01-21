@@ -13,6 +13,7 @@ import java.util.List;
 public class MultibranchPipelineTest extends BaseTest {
 
     private static final String MULTIBRANCH_PIPELINE_NAME = "MultibranchName";
+    private static final String MULTIBRANCH_PIPELINE_NAME_2 = "MultibranchName2";
     private static final String RENAMED_MULTIBRANCH_PIPELINE = "RenamedMultibranchName";
     private static final String MULTIBRANCH_JOB_DESCRIPTION = "This is a job description";
     private static final String SECOND_DESCRIPTION = "Second Description";
@@ -88,14 +89,16 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(actualJobDescription, updatedJobDescription);
     }
 
-    @Test(dependsOnMethods = "testCreateMultibranchPipeline")
+    @Test
     public void testTryCreateProjectExistName() {
-        final String errorMessage = "» A job already exists with the name ‘%s’".formatted(MULTIBRANCH_PIPELINE_NAME);
+        final String errorMessage = "» A job already exists with the name ‘%s’".formatted(MULTIBRANCH_PIPELINE_NAME_2);
+
+        createMultibranchPipeline(MULTIBRANCH_PIPELINE_NAME_2);
 
         String duplicateProject = new HomePage(getDriver())
                 .clickSidebarNewItem()
                 .selectMultibranchPipeline()
-                .sendName(MULTIBRANCH_PIPELINE_NAME)
+                .sendName(MULTIBRANCH_PIPELINE_NAME_2)
                 .getErrorMessageText();
 
         Assert.assertEquals(duplicateProject, errorMessage, "Incorrect error message");
@@ -125,7 +128,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickSidebarNewItem()
                 .sendName(MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipelineAndSubmit()
-                .getToggleTooltipHoverText();
+                .getToggleTooltipText();
 
         Assert.assertEquals(actualTooltip, tooltipText);
     }
@@ -261,10 +264,10 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testDeleteMultibranchPipeline() {
-        createMultibranchPipeline();
+        createMultibranchPipeline(MULTIBRANCH_PIPELINE_NAME_2);
 
         List<String> projectList = new HomePage(getDriver())
-                .openDropdownMenu(MULTIBRANCH_PIPELINE_NAME)
+                .openDropdownMenu(MULTIBRANCH_PIPELINE_NAME_2)
                 .clickDeleteItemInDropdownMenu()
                 .confirmDelete()
                 .gotoHomePage()
@@ -273,10 +276,10 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(projectList.size(), 0);
     }
 
-    private void createMultibranchPipeline() {
+    private void createMultibranchPipeline(String name) {
         new HomePage(getDriver())
                 .clickSidebarNewItem()
-                .sendName(MULTIBRANCH_PIPELINE_NAME)
+                .sendName(name)
                 .selectMultibranchPipelineAndSubmit()
                 .clickSave()
                 .gotoHomePage();
