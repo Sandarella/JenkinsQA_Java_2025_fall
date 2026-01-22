@@ -5,10 +5,10 @@ import org.testng.annotations.BeforeClass;
 
 public abstract class APIBaseTest {
 
-    protected static String jenkinsUrl;
-    protected static String userName;
-    protected static String apiToken;
-    protected static String tokenUuid;
+    protected String jenkinsUrl;
+    protected String userName;
+    protected String apiToken;
+    protected String tokenUuid;
 
     @BeforeClass
     protected void setUpApi() {
