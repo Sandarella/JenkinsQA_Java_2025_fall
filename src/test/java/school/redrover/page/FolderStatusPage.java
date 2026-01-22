@@ -22,6 +22,42 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
     @FindBy(id = "view-message")
     private WebElement viewMessage;
 
+    @FindBy(xpath = "//div[@class='jenkins-breadcrumbs']//a")
+    private List<WebElement> breadcrumbsMenuList;
+
+    @FindBy(xpath = "//dialog[@open]//button[@data-id='ok']")
+    private WebElement confirmOkButton;
+
+    @FindBy(xpath = "//div[@class='tippy-content']//div[@class='jenkins-dropdown']//a[normalize-space()='Rename']")
+    private WebElement renameSideMenuButton;
+
+    @FindBy(xpath = "//button[contains(@class, 'jenkins-dropdown__item') and contains(., 'Delete')]")
+    private WebElement deleteSideMenuButton;
+
+    @FindBy(css = "#description-link")
+    private WebElement addDescriptionButton;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement descriptionTextArea;
+
+    @FindBy(name = "Submit")
+    private WebElement saveButton;
+
+    @FindBy(css = "#description-content")
+    private WebElement descriptionInfo;
+
+    @FindBy(css = ".empty-state-block>section>h2")
+    private WebElement folderContext;
+
+    @FindBy(css = ".jenkins-table__link >span:first-child")
+    private List<WebElement> projectList;
+
+    @FindBy(xpath = "//*[@aria-describedby]")
+    private WebElement projectTooltip;
+
+    @FindBy(xpath = "//tr[contains(@class, 'job')]/td[1]//*[@tooltip]")
+    private List<WebElement> statusIconProjectList;
+
     public FolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -63,9 +99,8 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
     }
 
     public List<String> getBreadcrumbTexts() {
-        List<WebElement> breadcrumbElements = getWait2().until(
-                ExpectedConditions.visibilityOfAllElementsLocatedBy(
-                        By.xpath("//ol[@id='breadcrumbs']/li/a")));
+        List<WebElement> breadcrumbElements = getWait5()
+                .until(ExpectedConditions.visibilityOfAllElements(breadcrumbsMenuList));
 
         List<String> breadcrumbTexts = new ArrayList<>();
         for (WebElement element : breadcrumbElements) {
@@ -82,13 +117,13 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
     }
 
     public HomePage confirmDeleteFolder() {
-        getDriver().findElement(By.xpath("//dialog[@open]//button[@data-id='ok']")).click();
+        confirmOkButton.click();
 
         return new HomePage(getDriver()).waitUntilPageLoadJS();
     }
 
     public FolderStatusPage confirmDeleteChildFolder() {
-        getDriver().findElement(By.xpath("//dialog[@open]//button[@data-id='ok']")).click();
+        confirmOkButton.click();
 
         return this.waitUntilPageLoadJS();
     }
@@ -105,47 +140,40 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
     }
 
     public ProjectRenamingPage<FolderStatusPage> clickRenameItemInDropdownMenu() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By
-                .xpath("//div[@class='tippy-content']//div[@class='jenkins-dropdown']//a[normalize-space()='Rename']")))
-                .click();
+        renameSideMenuButton.click();
 
         return new ProjectRenamingPage<>(getDriver(), FolderStatusPage.class);
     }
 
     public FolderStatusPage clickDeleteItemInDropdownMenu() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(By
-                .xpath("//button[contains(@class, 'jenkins-dropdown__item') and contains(., 'Delete')]")))
-                .click();
+        deleteSideMenuButton.click();
 
         return this.waitUntilPageLoadJS();
     }
 
     public FolderStatusPage clickAddDescriptionButton() {
-        getDriver().findElement(By.id("description-link")).click();
+        addDescriptionButton.click();
 
         return this.waitUntilPageLoadJS();
     }
 
     public FolderStatusPage addDescriptionAndSave(String description) {
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
-        getDriver().findElement(By.name("Submit")).click();
+        descriptionTextArea.sendKeys(description);
+        saveButton.click();
 
         return this.waitUntilPageLoadJS();
     }
 
-    public String getDescription() {
-        return getWait2().until(ExpectedConditions.visibilityOfElementLocated(
-                By.id("description-content"))).getText();
+    public String getDescriptionText() {
+        return descriptionInfo.getText();
     }
 
     public String getFolderContext() {
-        return getWait2()
-                .until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".empty-state-block>section>h2")))
-                .getText();
+        return folderContext.getText();
     }
 
     public List<String> getProjectList() {
-        return getDriver().findElements(By.cssSelector(".jenkins-table__link >span:first-child"))
+        return projectList
                 .stream()
                 .map(WebElement::getText)
                 .toList();
@@ -170,14 +198,13 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
     }
 
     public String getFolderTooltip(String folderName) {
-        Actions actions = new Actions(getDriver());
         WebElement folderStatusIcon = getDriver().findElement(By.xpath(
                 "//tr[td//a[span[text()='%s']]]//*[contains(@class, 'symbol-folder-outline')]".formatted(folderName)));
-        actions
+        new Actions(getDriver())
                 .moveToElement(folderStatusIcon)
                 .perform();
-        String folderTooltipIDByAttribute = getDriver().findElement(By.xpath("//*[@aria-describedby]"))
-                .getAttribute("aria-describedby");
+
+        String folderTooltipIDByAttribute = projectTooltip.getAttribute("aria-describedby");
 
         return getDriver().findElement(By.xpath("//*[@id='%s']/div/div".formatted(folderTooltipIDByAttribute))).getText();
     }
@@ -185,12 +212,11 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
     public List<String> getItemsWithTooltip(String expectedTooltip) {
         Actions actions = new Actions(getDriver());
         List<String> itemsWithTooltip = new ArrayList<>();
-        for (WebElement statusIcon : getDriver().findElements(By.xpath("//tr[contains(@class, 'job')]/td[1]//*[@tooltip]"))) {
+        for (WebElement statusIcon : statusIconProjectList) {
             actions
                     .moveToElement(statusIcon)
                     .perform();
-            String itemTooltipIDByAttribute = getDriver().findElement(By.xpath("//*[@aria-describedby]"))
-                    .getAttribute("aria-describedby");
+            String itemTooltipIDByAttribute = projectTooltip.getAttribute("aria-describedby");
             String actualTooltip = getDriver().findElement(By.xpath("//*[@id='%s']/div/div".formatted(itemTooltipIDByAttribute))).getText();
 
             if (actualTooltip.equals(expectedTooltip)) {
