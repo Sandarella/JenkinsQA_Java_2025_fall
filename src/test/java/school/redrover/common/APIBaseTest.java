@@ -11,7 +11,8 @@ public abstract class APIBaseTest {
     protected static String tokenUuid;
 
     @BeforeClass
-    public static void setUpApi() {
+    protected void setUpApi() {
+        ProjectUtils.log("Generate API token for tests");
         jenkinsUrl = ProjectUtils.getUrl();
         userName = ProjectUtils.getUserName();
 
@@ -21,9 +22,14 @@ public abstract class APIBaseTest {
     }
 
     @AfterClass
-    public static void tearDownApi() {
+    protected void tearDownApi() {
         if (!ProjectUtils.isRunCI()) {
-            JenkinsUtils.deleteApiTokenByUuid(jenkinsUrl, tokenUuid, apiToken);
+            try {
+                ProjectUtils.log("Delete API token");
+                JenkinsUtils.deleteApiTokenByUuid(jenkinsUrl, tokenUuid, apiToken);
+            } catch (Exception e) {
+                ProjectUtils.log("Failed to delete API token: " + e.getMessage());
+            }
         }
     }
 }
