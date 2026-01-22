@@ -196,15 +196,11 @@ public class HomePage extends BasePage<HomePage> {
 
     public HomePage confirmDelete() {
         getWait2().until(ExpectedConditions.elementToBeClickable(yesDeleteButton)).click();
-        // getWait5().until(ExpectedConditions.stalenessOf(yesDeleteButton));
-
         return this.waitUntilPageLoadJS();
     }
 
     public HomePage cancelDelete() {
         getWait2().until(ExpectedConditions.elementToBeClickable(cancelDeleteButton)).click();
-        //getWait5().until(ExpectedConditions.stalenessOf(cancelDeleteButton));
-
         return this.waitUntilPageLoadJS();
     }
 
@@ -230,7 +226,6 @@ public class HomePage extends BasePage<HomePage> {
         String urlBeforeDelete = getDriver().getCurrentUrl();
 
         getWait5().until(ExpectedConditions.elementToBeClickable(yesDeleteButton)).click();
-
         getWait5().until(ExpectedConditions.not(ExpectedConditions.urlToBe(urlBeforeDelete)));
 
         return new HomePage(getDriver()).waitUntilPageLoadJS();
