@@ -2,6 +2,8 @@ package school.redrover.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -253,7 +255,19 @@ public final class JenkinsUtils {
         driver.get(ProjectUtils.getUrl() + "logout");
     }
 
-    static String generateApiToken(String tokenName) {
+    public static class ApiToken {
+        public final String name;
+        public final String value; // это и есть токен для Basic Auth
+        public final String uuid;
+
+        public ApiToken(String name, String value, String uuid) {
+            this.name = name;
+            this.value = value;
+            this.uuid = uuid;
+        }
+    }
+
+    static ApiToken generateApiToken(String tokenName) {
         String mainPage = getPage("");
         String crumb = getCrumbFromPage(mainPage);
 
@@ -268,10 +282,35 @@ public final class JenkinsUtils {
 
         try {
             JsonNode json = new ObjectMapper().readTree(response.body());
-            return json.get("data").get("tokenValue").asText();
+            JsonNode data = json.get("data");
+            String name = data.get("tokenName").asText();
+            String value = data.get("tokenValue").asText();
+            String uuid = data.get("tokenUuid").asText();
+            return new ApiToken(name, value, uuid);
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse token response: " + response.body(), e);
         }
+    }
+
+    public static void deleteApiTokenByUuid(String jenkinsUrl, String tokenUuid, String apiToken) {
+        String crumb = RestAssured.given()
+                .auth()
+                .preemptive().basic("admin", apiToken)
+                .when()
+                .get(jenkinsUrl + "crumbIssuer/api/json")
+                .then()
+                .extract().path("crumb");
+
+        RestAssured.given()
+                .auth()
+                .preemptive().basic("admin", apiToken)
+                .header("Jenkins-Crumb", crumb)
+                .contentType(ContentType.URLENC)
+                .formParam("tokenUuid", tokenUuid)
+                .when()
+                .post(jenkinsUrl + "me/descriptorByName/jenkins.security.ApiTokenProperty/revoke")
+                .then()
+                .statusCode(200);
     }
 }
 
