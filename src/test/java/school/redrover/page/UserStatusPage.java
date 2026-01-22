@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.BasePage;
 
 
@@ -23,7 +22,7 @@ public class UserStatusPage extends BasePage<UserStatusPage> {
     private WebElement editDescriptionButton;
 
     @FindBy(name = "description")
-    private WebElement descriptionTextBox;
+    private WebElement descriptionTextArea;
 
     @FindBy(name = "Submit")
     private WebElement saveButton;
@@ -64,8 +63,8 @@ public class UserStatusPage extends BasePage<UserStatusPage> {
     }
 
     public UserStatusPage sendDescriptionAndSave(String text) {
-        descriptionTextBox.clear();
-        descriptionTextBox.sendKeys(text);
+        descriptionTextArea.clear();
+        descriptionTextArea.sendKeys(text);
         saveButton.click();
 
         return this.waitUntilPageLoadJS();

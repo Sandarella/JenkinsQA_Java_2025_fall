@@ -24,9 +24,6 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy(css = "[href='/newView']")
     private WebElement createNewItemOnPageWithJob;
 
-    @FindBy(css = "[class*='job-status'] td:first-child svg")
-    private WebElement statusTooltipProjectIcon;
-
     @FindBy(xpath = "//div[@class='tabBar']/div")
     private List<WebElement> viewNameList;
 
@@ -45,29 +42,35 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy(xpath = "//span[text()='Configure a cloud']")
     private WebElement configureCloudLink;
 
-    @FindBy (css = "svg[tooltip='Disabled']")
+    @FindBy(css = "svg[tooltip='Disabled']")
     private WebElement iconDisabled;
 
     @FindBy(css = ".jenkins-table__link >span:first-child")
     private List<WebElement> projectsNames;
 
-    @FindBy (id = "systemmessage")
+    @FindBy(id = "systemmessage")
     private WebElement systemMessage;
 
     @FindBy(xpath = ".//a[span[text()='Learn more about distributed builds']]")
     private WebElement learnMoreDistributedBuildsLink;
 
+    @FindBy(css = "[class*='job-status'] td:first-child svg")
+    private WebElement statusProjectIcon;
+
+    @FindBy(css = "div[data-tippy-root]")
+    private WebElement statusProjectIconTooltip;
+
     @FindBy(xpath = "//a[contains(@class, 'jenkins-dropdown__item') and contains(., 'Move')]")
-    private WebElement moveMenuLink;
+    private WebElement moveDropDownMenuItem;
 
     @FindBy(xpath = "//a[contains(@class, 'jenkins-dropdown__item') and contains(., 'Pipeline Syntax')]")
-    private WebElement pipelineSyntaxMenuLink;
-
-    @FindBy(xpath = "//button[contains(@class, 'jenkins-dropdown__item') and contains(., 'Delete')]")
-    private WebElement deleteItemMenuButton;
+    private WebElement syntaxDropDownMenuItem;
 
     @FindBy(xpath = "//a[contains(@href,'configure')]")
-    private WebElement configureMenuItem;
+    private WebElement configureDropDownMenuItem;
+
+    @FindBy(xpath = "//button[contains(@class, 'jenkins-dropdown__item') and contains(., 'Delete')]")
+    private WebElement deleteDropDownMenuItem;
 
     @FindBy(xpath = "//dialog[@open]//button[@data-id='ok']")
     private WebElement yesDeleteButton;
@@ -88,25 +91,19 @@ public class HomePage extends BasePage<HomePage> {
     private WebElement editDescriptionButton;
 
     @FindBy(name = "description")
-    private WebElement descriptionTextBox;
+    private WebElement descriptionTextArea;
 
     @FindBy(name = "Submit")
     private WebElement submitButton;
 
-    @FindBy(css = "div[data-tippy-root]")
-    private WebElement tippyRootDiv;
-
-    @FindBy(className = "tippy-content")
-    private WebElement tippyContent;
-
     @FindBy(css = "div#executors")
-    private WebElement executorsDiv;  // buildExecutorStatusToggleSection
+    private WebElement buildExecutorStatusExpandableContentArea;
 
     @FindBy(css = "span[tooltip*='executors busy']")
-    private WebElement executorsTooltipSpan; //  buildExecutorStatusTooltip
+    private WebElement buildExecutorStatusTooltip;
 
     @FindBy(className = "executors-collapsed")
-    private WebElement executorsCollapsed; // buildExecutorStatusCollapsed
+    private WebElement buildExecutorStatusItem;
 
     @FindBy(css = ".jenkins-icon-size > :nth-child(1) > ol > li[tooltip]")
     private WebElement iconSizeTooltip;
@@ -175,31 +172,31 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public MovePage clickMoveInDropdownMenu() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(moveMenuLink)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(moveDropDownMenuItem)).click();
         return new MovePage(getDriver()).waitUntilPageLoadJS();
     }
 
     public PipelineProjectSyntaxPage clickPipelineSyntaxInDropdownMenu() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(pipelineSyntaxMenuLink)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(syntaxDropDownMenuItem)).click();
 
         return new PipelineProjectSyntaxPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public HomePage clickDeleteItemInDropdownMenu() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(deleteItemMenuButton)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(deleteDropDownMenuItem)).click();
 
         return this;
     }
 
     public FreestyleProjectConfigurationPage clickConfigureInDropdownMenu() {
-        getWait2().until(ExpectedConditions.elementToBeClickable(configureMenuItem)).click();
+        getWait2().until(ExpectedConditions.elementToBeClickable(configureDropDownMenuItem)).click();
 
         return new FreestyleProjectConfigurationPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public HomePage confirmDelete() {
         getWait2().until(ExpectedConditions.elementToBeClickable(yesDeleteButton)).click();
-       // getWait5().until(ExpectedConditions.stalenessOf(yesDeleteButton));
+        // getWait5().until(ExpectedConditions.stalenessOf(yesDeleteButton));
 
         return this.waitUntilPageLoadJS();
     }
@@ -253,7 +250,7 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public HomePage sendDescriptionText(String text) {
-        getWait2().until(ExpectedConditions.visibilityOf(descriptionTextBox)).sendKeys(text);
+        getWait2().until(ExpectedConditions.visibilityOf(descriptionTextArea)).sendKeys(text);
         return this;
     }
 
@@ -262,33 +259,34 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public HomePage clearDescriptionText() {
-        getWait2().until(ExpectedConditions.visibilityOf(descriptionTextBox)).clear();
+        getWait2().until(ExpectedConditions.visibilityOf(descriptionTextArea)).clear();
         return this;
     }
 
     public HomePage submitDescription() {
         submitButton.click();
 
-        return this;
+        return this.waitUntilPageLoadJS();
     }
 
     public String getStatusProjectIconTooltipText(String projectName) {
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.xpath("//*[@id='job_%s']/td[1]/div".formatted(projectName))))
+                .moveToElement(statusProjectIcon)
                 .perform();
 
-            return getWait5().until(ExpectedConditions.visibilityOf(tippyRootDiv)).getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(statusProjectIconTooltip)).getText();
     }
 
     public String getNumberOfExecutors() {
-        getWait2().until(ExpectedConditions.visibilityOf(executorsDiv));
+        getWait2().until(ExpectedConditions.visibilityOf(buildExecutorStatusExpandableContentArea));
 
         String executorsLine;
-        if (executorsDiv.getAttribute("class").contains("expanded")) {
-            executorsLine = getWait2().until(ExpectedConditions.visibilityOf(executorsTooltipSpan))
+        if (buildExecutorStatusExpandableContentArea.getAttribute("class").contains("expanded")) {
+            executorsLine = getWait2().until(ExpectedConditions.visibilityOf(buildExecutorStatusTooltip))
                     .getAttribute("tooltip");
         } else {
-            executorsLine = getWait2().until(ExpectedConditions.visibilityOf(executorsCollapsed))
+            executorsLine = getWait2().until(ExpectedConditions.visibilityOf(buildExecutorStatusItem))
                     .getText();
         }
 
@@ -330,7 +328,7 @@ public class HomePage extends BasePage<HomePage> {
     public BuildHistoryOfJenkinsPage clickBuildHistory() {
         buildHistoryButton.click();
 
-       return new BuildHistoryOfJenkinsPage(getDriver()).waitUntilPageLoadJS();
+        return new BuildHistoryOfJenkinsPage(getDriver()).waitUntilPageLoadJS();
     }
 
     public ArchitectingForScalePage clickLearnMoreAboutDistributedBuildsLink() {
@@ -369,17 +367,17 @@ public class HomePage extends BasePage<HomePage> {
             z = 2;
         } else z = 3;
 
-        getDriver().findElement(By.cssSelector("#main-panel > div.dashboard > div.jenkins-mobile-hide > div.jenkins-icon-size > div.jenkins-icon-size__items.jenkins-buttons-row > ol > li:nth-child(%s) > a".formatted(z))).click();
+        getDriver().findElement(By.cssSelector("#main-panel > div.dashboard > div.jenkins-mobile-hide > div.jenkins-icon-size > div.jenkins-icon-size__items.jenkins-buttons-row > ol > li:nth-child(%s) > a"
+                .formatted(z))).click();
         return new HomePage(getDriver());
     }
 
     public String checkIconSize() {
-        WebElement element = getWait2().until(ExpectedConditions.visibilityOf(iconSizeTooltip));
 
-        return element.getAttribute("title");
+        return getWait2().until(ExpectedConditions.visibilityOf(iconSizeTooltip)).getAttribute("title");
     }
 
-    public boolean isDisabledIconDisplayed(){
+    public boolean isDisabledIconDisplayed() {
 
         return iconDisabled.isDisplayed();
     }
