@@ -257,7 +257,7 @@ public final class JenkinsUtils {
 
     public static class ApiToken {
         public final String name;
-        public final String value; // это и есть токен для Basic Auth
+        public final String value;
         public final String uuid;
 
         public ApiToken(String name, String value, String uuid) {
