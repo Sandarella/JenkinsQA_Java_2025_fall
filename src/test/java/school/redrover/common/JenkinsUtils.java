@@ -1,5 +1,7 @@
 package school.redrover.common;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -88,6 +90,21 @@ public final class JenkinsUtils {
                     HttpRequest.newBuilder()
                             .uri(URI.create(url))
                             .headers(getHeader())
+                            .POST(HttpRequest.BodyPublishers.ofString(body))
+                            .build(),
+                    HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static HttpResponse<String> postHttp(String url, String body, String crumb) {
+        try {
+            return client.send(
+                    HttpRequest.newBuilder()
+                            .uri(URI.create(url))
+                            .headers(getHeader())
+                            .header("Jenkins-Crumb", crumb)
                             .POST(HttpRequest.BodyPublishers.ofString(body))
                             .build(),
                     HttpResponse.BodyHandlers.ofString());
@@ -185,7 +202,7 @@ public final class JenkinsUtils {
     }
 
     private static void deleteMainDescription() {
-        JenkinsUtils.deleteDescription( "submitDescription");
+        JenkinsUtils.deleteDescription("submitDescription");
     }
 
     private static void deleteViewDescription() {
@@ -234,6 +251,27 @@ public final class JenkinsUtils {
 
     public static void logout(WebDriver driver) {
         driver.get(ProjectUtils.getUrl() + "logout");
+    }
+
+    static String generateApiToken(String tokenName) {
+        String mainPage = getPage("");
+        String crumb = getCrumbFromPage(mainPage);
+
+        String url = ProjectUtils.getUrl() + "me/descriptorByName/jenkins.security.ApiTokenProperty/generateNewToken";
+        String body = "newTokenName=" + URLEncoder.encode(tokenName, StandardCharsets.UTF_8);
+
+        HttpResponse<String> response = postHttp(url, body, crumb);
+
+        if (response.statusCode() != 200) {
+            throw new RuntimeException("Failed to generate API token: " + response.body());
+        }
+
+        try {
+            JsonNode json = new ObjectMapper().readTree(response.body());
+            return json.get("data").get("tokenValue").asText();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse token response: " + response.body(), e);
+        }
     }
 }
 
