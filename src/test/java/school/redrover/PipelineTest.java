@@ -216,8 +216,9 @@ public class PipelineTest extends BaseTest {
                 "Alias " + validTimePeriod + " не прошёл валидацию");
     }
 
-    @Test(dependsOnMethods = "testCreateNewPipeline", dataProvider = "invalidCronSyntaxAndAliases")
+    @Test(dataProvider = "invalidCronSyntaxAndAliases")
     public void testScheduleWithInvalidData(String invalidTimePeriod, String expectedErrorMessage) {
+        createPipeline(PIPELINE_NAME);
 
         String actualTextErrorMessage = new HomePage(getDriver())
                 .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))

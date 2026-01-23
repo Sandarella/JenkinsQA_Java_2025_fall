@@ -1,5 +1,9 @@
 package school.redrover.common;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -88,6 +92,21 @@ public final class JenkinsUtils {
                     HttpRequest.newBuilder()
                             .uri(URI.create(url))
                             .headers(getHeader())
+                            .POST(HttpRequest.BodyPublishers.ofString(body))
+                            .build(),
+                    HttpResponse.BodyHandlers.ofString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static HttpResponse<String> postHttp(String url, String body, String crumb) {
+        try {
+            return client.send(
+                    HttpRequest.newBuilder()
+                            .uri(URI.create(url))
+                            .headers(getHeader())
+                            .header("Jenkins-Crumb", crumb)
                             .POST(HttpRequest.BodyPublishers.ofString(body))
                             .build(),
                     HttpResponse.BodyHandlers.ofString());
@@ -185,7 +204,7 @@ public final class JenkinsUtils {
     }
 
     private static void deleteMainDescription() {
-        JenkinsUtils.deleteDescription( "submitDescription");
+        JenkinsUtils.deleteDescription("submitDescription");
     }
 
     private static void deleteViewDescription() {
@@ -234,6 +253,64 @@ public final class JenkinsUtils {
 
     public static void logout(WebDriver driver) {
         driver.get(ProjectUtils.getUrl() + "logout");
+    }
+
+    public static class ApiToken {
+        public final String name;
+        public final String value;
+        public final String uuid;
+
+        public ApiToken(String name, String value, String uuid) {
+            this.name = name;
+            this.value = value;
+            this.uuid = uuid;
+        }
+    }
+
+    static ApiToken generateApiToken(String tokenName) {
+        String mainPage = getPage("");
+        String crumb = getCrumbFromPage(mainPage);
+
+        String url = ProjectUtils.getUrl() + "me/descriptorByName/jenkins.security.ApiTokenProperty/generateNewToken";
+        String body = "newTokenName=" + URLEncoder.encode(tokenName, StandardCharsets.UTF_8);
+
+        HttpResponse<String> response = postHttp(url, body, crumb);
+
+        if (response.statusCode() != 200) {
+            throw new RuntimeException("Failed to generate API token: " + response.body());
+        }
+
+        try {
+            JsonNode json = new ObjectMapper().readTree(response.body());
+            JsonNode data = json.get("data");
+            String name = data.get("tokenName").asText();
+            String value = data.get("tokenValue").asText();
+            String uuid = data.get("tokenUuid").asText();
+            return new ApiToken(name, value, uuid);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse token response: " + response.body(), e);
+        }
+    }
+
+    public static void deleteApiTokenByUuid(String jenkinsUrl, String tokenUuid, String apiToken) {
+        String crumb = RestAssured.given()
+                .auth()
+                .preemptive().basic("admin", apiToken)
+                .when()
+                .get(jenkinsUrl + "crumbIssuer/api/json")
+                .then()
+                .extract().path("crumb");
+
+        RestAssured.given()
+                .auth()
+                .preemptive().basic("admin", apiToken)
+                .header("Jenkins-Crumb", crumb)
+                .contentType(ContentType.URLENC)
+                .formParam("tokenUuid", tokenUuid)
+                .when()
+                .post(jenkinsUrl + "me/descriptorByName/jenkins.security.ApiTokenProperty/revoke")
+                .then()
+                .statusCode(200);
     }
 }
 
