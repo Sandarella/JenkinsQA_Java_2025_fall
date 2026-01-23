@@ -93,7 +93,7 @@ public class ViewSteps {
 
     @And("Set View type as 'My View'")
     public void setViewTypeAsMyView() {
-        createViewPage = createViewPage.clickMyViewName();
+        createViewPage = createViewPage.clickMyViewTypeRadioButton();
     }
 
     @And("Click Create button upon choosing My View")

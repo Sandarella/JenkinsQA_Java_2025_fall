@@ -16,7 +16,7 @@ public class DescriptionTest extends BaseTest {
                 .clickDescription()
                 .sendDescriptionText(description)
                 .submitDescription()
-                .getDescription();
+                .getDescriptionText();
 
         Assert.assertEquals(actualDescription, description);
     }
@@ -34,7 +34,7 @@ public class DescriptionTest extends BaseTest {
                 .clickDescription()
                 .sendDescriptionText(secondDescription)
                 .submitDescription()
-                .getDescription();
+                .getDescriptionText();
 
         Assert.assertEquals(actualDescription, secondDescription + firstDescription);
 

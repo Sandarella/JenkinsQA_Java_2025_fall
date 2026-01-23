@@ -50,7 +50,7 @@ public class PipelineConfigurationTest extends BaseTest {
                 .clickToggle()
                 .clickSave()
                 .gotoHomePage()
-                .getProjectStatus(PIPELINE_NAME);
+                .getStatusProjectIconTooltipText(PIPELINE_NAME);
 
         Assert.assertEquals(actualProjectStatus, "Disabled");
     }
