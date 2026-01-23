@@ -358,7 +358,8 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public HomePage changeIconSize(String size) {
-        if (size == "Large") { getDriver().findElement(By.cssSelector(iconSizeCss("Medium"))).click(); }
+        if (size == "Large") { getDriver().findElement(By.cssSelector(iconSizeCss("Medium"))).click();
+        }
 
         getDriver().findElement(By.cssSelector(iconSizeCss(size))).click();
 
