@@ -105,7 +105,7 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy(className = "executors-collapsed")
     private WebElement buildExecutorStatusItem;
 
-    @FindBy(css = "#main-panel > div.dashboard > div.jenkins-mobile-hide > div.jenkins-icon-size > div.jenkins-icon-size__items.jenkins-buttons-row > ol > li.jenkins-icon-size__items-item")
+    @FindBy(css = ".jenkins-icon-size__items-item")
     private WebElement pickSizeIcon;
 
     @FindBy(css = ".jenkins-icon-size > :nth-child(1) > ol > li[tooltip]")
@@ -374,7 +374,7 @@ public class HomePage extends BasePage<HomePage> {
             default -> throw new IllegalArgumentException("Invalid size: " + size);
         };
 
-        return ("#main-panel > div.dashboard > div.jenkins-mobile-hide > div.jenkins-icon-size > div.jenkins-icon-size__items.jenkins-buttons-row > ol > li:nth-child(%s) > a").formatted(z);
+        return ".jenkins-icon-size__items li:nth-child(%s)".formatted(z);
     }
 
     public String getSizeIconTooltipText() {
