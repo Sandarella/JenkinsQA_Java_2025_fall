@@ -48,6 +48,9 @@ public class PipelineProjectStatusPage extends BaseProjectStatusPage<PipelinePro
     @FindBy(css = "[data-id='ok']")
     private WebElement confirmDeletePipeline;
 
+    @FindBy (css = "button[data-id='cancel']")
+    WebElement cancelDeleteButton;
+
     public PipelineProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -120,13 +123,8 @@ public class PipelineProjectStatusPage extends BaseProjectStatusPage<PipelinePro
         return new HomePage(getDriver()).waitUntilPageLoadJS();
     }
 
-    public PipelineProjectStatusPage cancelDelete() {
-        WebElement cancelDeleteButton = getWait2().until(
-                ExpectedConditions.elementToBeClickable(
-                        By.xpath("//dialog[@open]//button[@data-id='cancel']"))
-        );
+    public PipelineProjectStatusPage clickCancelDeleteButton() {
         cancelDeleteButton.click();
-        getWait5().until(ExpectedConditions.stalenessOf(cancelDeleteButton));
 
         return this;
     }
