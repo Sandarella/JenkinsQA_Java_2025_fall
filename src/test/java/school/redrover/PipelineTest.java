@@ -101,7 +101,7 @@ public class PipelineTest extends BaseTest {
                 .openProject(PIPELINE_NAME, new PipelineProjectStatusPage(getDriver()))
                 .getSidebarComponent()
                 .clickSidebarDelete()
-                .cancelDelete()
+                .clickCancelDeleteButton()
                 .gotoHomePage()
                 .getProjectsNamesList();
 
