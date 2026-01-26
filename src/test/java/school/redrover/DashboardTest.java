@@ -26,6 +26,15 @@ public class DashboardTest extends BaseTest {
         };
     }
 
+    @DataProvider
+    private Object[][] iconSize() {
+        return new String[][]{
+                {"Small"},
+                {"Medium"},
+                {"Large"}
+        };
+    }
+
     private static final String PIPELINE_NAME = "Pipeline_01";
 
 
@@ -220,5 +229,16 @@ public class DashboardTest extends BaseTest {
 
         Assert.assertEquals(cloudsPage.getHeaderText(), "Clouds");
         Assert.assertEquals(cloudsPage.getCloudsPageInfoText(), "There is no plugin installed that supports clouds.");
+    }
+
+    @Test(dataProvider = "iconSize")
+    public void testChangeIconSizeAndTooltip(String iconSize) {
+        createProject(CREATED_JOBS_NAME.get(1));
+
+        String expectedIconSizeTooltipText = new HomePage(getDriver())
+                .changeIconSize(iconSize)
+                .getSizeIconTooltipText();
+
+        Assert.assertEquals(expectedIconSizeTooltipText, iconSize);
     }
 }

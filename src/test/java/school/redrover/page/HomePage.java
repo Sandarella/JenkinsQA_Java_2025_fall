@@ -105,6 +105,9 @@ public class HomePage extends BasePage<HomePage> {
     @FindBy(className = "executors-collapsed")
     private WebElement buildExecutorStatusItem;
 
+    @FindBy(css = ".jenkins-icon-size__items-item")
+    private WebElement pickSizeIcon;
+
     @FindBy(css = ".jenkins-icon-size > :nth-child(1) > ol > li[tooltip]")
     private WebElement iconSizeTooltip;
 
@@ -355,21 +358,31 @@ public class HomePage extends BasePage<HomePage> {
     }
 
     public HomePage changeIconSize(String size) {
-        int z = 0;
-        if (size.equals("Small")) {
-            z = 1;
-        } else if (size.equals("Medium")) {
-            z = 2;
-        } else z = 3;
+        if (size == "Large") { getDriver().findElement(By.cssSelector(iconSizeCss("Medium"))).click();
+        }
 
-        getDriver().findElement(By.cssSelector("#main-panel > div.dashboard > div.jenkins-mobile-hide > div.jenkins-icon-size > div.jenkins-icon-size__items.jenkins-buttons-row > ol > li:nth-child(%s) > a"
-                .formatted(z))).click();
-        return new HomePage(getDriver());
+        getDriver().findElement(By.cssSelector(iconSizeCss(size))).click();
+
+        return new HomePage(getDriver()).waitUntilPageLoadJS();
     }
 
-    public String checkIconSize() {
+    public String iconSizeCss(String size) {
+        int z = switch (size) {
+            case "Small" -> 1;
+            case "Medium" -> 2;
+            case "Large" -> 3;
+            default -> throw new IllegalArgumentException("Invalid size: " + size);
+        };
 
-        return getWait2().until(ExpectedConditions.visibilityOf(iconSizeTooltip)).getAttribute("title");
+        return ".jenkins-icon-size__items li:nth-child(%s)".formatted(z);
+    }
+
+    public String getSizeIconTooltipText() {
+        new Actions(getDriver())
+                .moveToElement(pickSizeIcon)
+                .perform();
+
+        return getWait2().until(ExpectedConditions.visibilityOf(iconSizeTooltip)).getText().replace("\n", "");
     }
 
     public boolean isDisabledIconDisplayed() {
