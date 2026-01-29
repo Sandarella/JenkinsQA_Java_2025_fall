@@ -13,7 +13,7 @@ public class MultiBranchProjectSidebar extends BaseSidebarComponent<
         SidebarCredentialsTrait<MultiBranchProjectCredentialsPage> {
 
     public MultiBranchProjectSidebar(WebDriver driver) {
-        super(driver, MultibranchProjectStatusPage.class);
+        super(driver, MultibranchProjectStatusPage::new);
     }
 
     @Override

@@ -142,7 +142,7 @@ public class FolderStatusPage extends BaseProjectStatusPage<FolderStatusPage, Fo
     public ProjectRenamingPage<FolderStatusPage> clickRenameItemInDropdownMenu() {
         renameSideMenuButton.click();
 
-        return new ProjectRenamingPage<>(getDriver(), FolderStatusPage.class);
+        return new ProjectRenamingPage<>(getDriver(), FolderStatusPage::new);
     }
 
     public FolderStatusPage clickDeleteItemInDropdownMenu() {

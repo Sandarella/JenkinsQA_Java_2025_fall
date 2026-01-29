@@ -8,6 +8,8 @@ import school.redrover.page.BaseProjectConfigurationPage;
 import school.redrover.page.BaseProjectStatusPage;
 import school.redrover.page.ProjectRenamingPage;
 
+import java.util.function.Function;
+
 
 public abstract class BaseSidebarComponent<
         SidebarComponent extends BaseSidebarComponent<?, ?, ?>,
@@ -27,11 +29,11 @@ public abstract class BaseSidebarComponent<
     @FindBy(xpath = "//a[contains(., 'Delete')]")
     private WebElement deleteMenuItem;
 
-    private final Class<ProjectStatusPage> projectStatusPageClass;
+    private final Function<WebDriver, ProjectStatusPage> projectStatusPageFactory;
 
-    public BaseSidebarComponent(WebDriver driver, Class<ProjectStatusPage> projectStatusPageClass) {
+    public BaseSidebarComponent(WebDriver driver, Function<WebDriver, ProjectStatusPage> projectStatusPageFactory) {
         super(driver);
-        this.projectStatusPageClass = projectStatusPageClass;
+        this.projectStatusPageFactory = projectStatusPageFactory;
     }
 
     public abstract ProjectStatusPage getProjectStatusPage();
@@ -43,6 +45,7 @@ public abstract class BaseSidebarComponent<
 
         return getProjectStatusPage().waitUntilPageLoadJS();
     }
+
     public ProjectConfigurationPage clickSidebarConfigure() {
         configureMenuItem.click();
 
@@ -58,7 +61,7 @@ public abstract class BaseSidebarComponent<
     public ProjectRenamingPage<ProjectStatusPage> clickSidebarRename() {
         renameMenuItem.click();
 
-        return new ProjectRenamingPage<>(getDriver(), projectStatusPageClass);
+        return new ProjectRenamingPage<>(getDriver(), projectStatusPageFactory);
     }
 
 

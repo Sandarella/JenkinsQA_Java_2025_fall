@@ -12,7 +12,7 @@ public class MultiConfigProjectSidebar extends BaseSidebarComponent<MultiConfigP
         SidebarCredentialsTrait<MultiConfigProjectCredentialsPage> {
 
     public MultiConfigProjectSidebar(WebDriver driver) {
-        super(driver, MultiConfigProjectStatusPage.class);
+        super(driver, MultiConfigProjectStatusPage::new);
     }
 
     @Override

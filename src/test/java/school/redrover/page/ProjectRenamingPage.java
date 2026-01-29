@@ -3,14 +3,13 @@ package school.redrover.page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import school.redrover.common.BasePage;
 
-import static school.redrover.common.ProjectUtils.log;
+import java.util.function.Function;
 
 public class ProjectRenamingPage<T extends BasePage<T>> extends BasePage<ProjectRenamingPage<?>> {
 
-    private final Class<T> projectStatusPageClass;
+    private final Function<WebDriver, T> projectStatusPageFactory;
 
     @FindBy(name = "newName")
     private WebElement newNameField;
@@ -18,9 +17,9 @@ public class ProjectRenamingPage<T extends BasePage<T>> extends BasePage<Project
     @FindBy(name = "Submit")
     private WebElement renameButton;
 
-    public ProjectRenamingPage(WebDriver driver, Class<T> projectStatusPageClass) {
+    public ProjectRenamingPage(WebDriver driver, Function<WebDriver, T> projectStatusPageFactory) {
         super(driver);
-        this.projectStatusPageClass = projectStatusPageClass;
+        this.projectStatusPageFactory = projectStatusPageFactory;
     }
 
     @Override
@@ -43,12 +42,7 @@ public class ProjectRenamingPage<T extends BasePage<T>> extends BasePage<Project
     public T clickRenameButton() {
         renameButton.click();
 
-        try {
-            return projectStatusPageClass.getDeclaredConstructor(WebDriver.class).newInstance(getDriver()).waitUntilPageLoadJS();
-        } catch (Exception e) {
-            log(e.getMessage());
-            return null;
-        }
+        return projectStatusPageFactory.apply(getDriver()).waitUntilPageLoadJS();
     }
 
     public ErrorPage clickRenameButtonWithInvalidValue() {

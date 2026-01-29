@@ -14,7 +14,7 @@ public class PipelineProjectSidebar extends BaseSidebarComponent<PipelineProject
         SidebarMoveTrait<PipelineProjectMovePage>, SidebarCredentialsTrait<PipelineProjectCredentialsPage> {
 
     public PipelineProjectSidebar(WebDriver driver) {
-        super(driver, PipelineProjectStatusPage.class);
+        super(driver, PipelineProjectStatusPage::new);
     }
 
     @Override

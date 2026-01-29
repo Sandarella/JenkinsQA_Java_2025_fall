@@ -11,7 +11,7 @@ public class FreestyleProjectSidebar extends BaseSidebarComponent<
         SidebarBuildNowTrait<FreestyleProjectStatusPage>, SidebarMoveTrait<FreestyleProjectMovePage>, SidebarCredentialsTrait<FreestyleProjectCredentialsPage> {
 
     public FreestyleProjectSidebar(WebDriver driver) {
-        super(driver, FreestyleProjectStatusPage.class);
+        super(driver, FreestyleProjectStatusPage::new);
     }
 
     @Override

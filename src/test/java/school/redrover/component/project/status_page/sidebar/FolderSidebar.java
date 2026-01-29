@@ -17,7 +17,7 @@ public class FolderSidebar extends BaseSidebarComponent<FolderSidebar, FolderSta
 
 
     public FolderSidebar(WebDriver driver) {
-        super(driver, FolderStatusPage.class);
+        super(driver, FolderStatusPage::new);
     }
 
     @Override

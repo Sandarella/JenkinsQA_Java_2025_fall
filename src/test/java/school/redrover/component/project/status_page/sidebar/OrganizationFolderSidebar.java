@@ -13,7 +13,7 @@ public class OrganizationFolderSidebar extends BaseSidebarComponent<Organization
         SidebarCredentialsTrait<OrganizationFolderCredentialsPage> {
 
     public OrganizationFolderSidebar(WebDriver driver) {
-        super(driver, OrganizationFolderStatusPage.class);
+        super(driver, OrganizationFolderStatusPage::new);
     }
 
     @Override
