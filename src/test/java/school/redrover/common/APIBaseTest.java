@@ -2,6 +2,7 @@ package school.redrover.common;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 public abstract class APIBaseTest {
 
@@ -21,15 +22,15 @@ public abstract class APIBaseTest {
         tokenUuid = token.uuid;
     }
 
+    @BeforeMethod
+    protected void beforeMethod() {
+        ProjectUtils.log("Clear data");
+        JenkinsUtils.clearData();
+    }
+
     @AfterClass
     protected void tearDownApi() {
-        if (!ProjectUtils.isRunCI()) {
-            try {
-                ProjectUtils.log("Delete API token");
-                JenkinsUtils.deleteApiTokenByUuid(jenkinsUrl, tokenUuid, apiToken);
-            } catch (Exception e) {
-                ProjectUtils.log("Failed to delete API token: " + e.getMessage());
-            }
-        }
+        ProjectUtils.log("Delete API token");
+        JenkinsUtils.deleteApiTokenByUuid(jenkinsUrl, tokenUuid, apiToken);
     }
 }
