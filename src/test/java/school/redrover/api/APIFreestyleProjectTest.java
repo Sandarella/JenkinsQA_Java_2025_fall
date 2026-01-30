@@ -115,7 +115,7 @@ public class APIFreestyleProjectTest extends APIBaseTest {
     @Test
     public void testCreateUser() {
         Map<String, String> userForm = new HashMap<>();
-        userForm.put("username", "UserUser" );
+        userForm.put("username", "UserUser");
         userForm.put("password1", "passwordUser");
         userForm.put("password2", "passwordUser");
         userForm.put("fullname", "UserUserName");
