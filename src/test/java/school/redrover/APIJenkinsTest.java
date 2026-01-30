@@ -65,6 +65,61 @@ public class APIJenkinsTest extends APIBaseTest {
     }
 
     @Test
+    public void testCreatePiplineAndDisable() {
+        Map<String, String> projectName = new HashMap<>();
+        projectName.put("name", "Pipline");
+
+        String bodyPiplineXML = """
+                 <flow-definition plugin="workflow-job@1559.va_a_533730b_ea_d">
+                                          <keepDependencies>false</keepDependencies>
+                                          <properties/>
+                                          <triggers/>
+                                          <disabled>false</disabled>
+                                          </flow-definition>
+                """;
+
+        RestAssured.given()
+                .auth().preemptive().basic(userName, apiToken)
+                .baseUri(jenkinsUrl)
+                .contentType(ContentType.XML)
+                .queryParams(projectName)
+                .body(bodyPiplineXML)
+                .when()
+                .post("/createItem")
+                .then()
+                .log().all()
+                .statusCode(200);
+
+        Response response = RestAssured.given()
+                .log().all()
+                .auth().preemptive().basic(userName, apiToken)
+                .baseUri(jenkinsUrl)
+                .when()
+                .post("job/%s/disable".formatted(projectName.get("name")))
+                .then()
+                .log().all()
+                .extract().response();
+
+        String location = response.getHeader("Location");
+
+        Response getResponse = RestAssured.given()
+                .auth().preemptive().basic(userName, apiToken)
+                .baseUri(jenkinsUrl)
+                .when()
+                .get(location)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().response();
+
+        String responseBody = getResponse.getBody().asString();
+
+        Assert.assertEquals(response.getStatusCode(), 302);
+        Assert.assertEquals(getResponse.getStatusCode(), 200);
+        Assert.assertTrue(responseBody.contains("This project is currently disabled"));
+    }
+
+    @Test
     public void testCreateAndDeleteFolder() {
         String folderName = "ApiTestFolder";
 
