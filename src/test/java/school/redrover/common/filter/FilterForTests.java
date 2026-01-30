@@ -3,7 +3,7 @@ package school.redrover.common.filter;
 import org.testng.IMethodInstance;
 import org.testng.IMethodInterceptor;
 import org.testng.ITestContext;
-import school.redrover.common.Log;
+import school.redrover.common.logging.Log;
 
 import java.util.Arrays;
 import java.util.List;

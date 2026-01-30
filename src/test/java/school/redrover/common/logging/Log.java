@@ -1,4 +1,4 @@
-package school.redrover.common;
+package school.redrover.common.logging;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
