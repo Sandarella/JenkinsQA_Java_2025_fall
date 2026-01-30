@@ -64,12 +64,12 @@ public class SearchComponent extends BaseComponent<SearchComponent> {
     }
 
     public SearchComponent searchFor(String jobName, String previousItemName) {
-        searchField.clear();
-        searchField.sendKeys(jobName);
+        getWait5().until(ExpectedConditions.elementToBeClickable(searchField)).clear();
+        searchField .sendKeys(jobName);
 
         if (previousItemName != null && !previousItemName.isEmpty()) {
             getWait5().until(driver ->
-                    !searchResults.get(0).getText().contains(previousItemName));
+                    !getWait5().until(ExpectedConditions.visibilityOfAllElements(searchResults)).get(0).getText().contains(previousItemName));
         }
 
         return this;
