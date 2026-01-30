@@ -95,7 +95,6 @@ public class APIJenkinsTest extends APIBaseTest {
                 """;
 
         RestAssured.given()
-                .log().all()
                 .auth().preemptive().basic(userName, apiToken)
                 .baseUri(jenkinsUrl)
                 .contentType(ContentType.XML)
