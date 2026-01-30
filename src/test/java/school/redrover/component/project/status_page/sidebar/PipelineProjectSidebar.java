@@ -5,13 +5,11 @@ import school.redrover.page.*;
 import school.redrover.trait.project_sidebar.SidebarBuildNowTrait;
 import school.redrover.trait.project_sidebar.SidebarChangesTrait;
 import school.redrover.trait.project_sidebar.SidebarCredentialsTrait;
-import school.redrover.trait.project_sidebar.SidebarMoveTrait;
 
 
 public class PipelineProjectSidebar extends BaseSidebarComponent<PipelineProjectSidebar, PipelineProjectStatusPage,
         PipelineProjectConfigurationPage>
-        implements SidebarChangesTrait<PipelineProjectChangesPage>, SidebarBuildNowTrait<PipelineProjectStatusPage>,
-        SidebarMoveTrait<PipelineProjectMovePage>, SidebarCredentialsTrait<PipelineProjectCredentialsPage> {
+        implements SidebarChangesTrait<PipelineProjectChangesPage>, SidebarBuildNowTrait<PipelineProjectStatusPage>, SidebarCredentialsTrait<PipelineProjectCredentialsPage> {
 
     public PipelineProjectSidebar(WebDriver driver) {
         super(driver, PipelineProjectStatusPage::new);
@@ -40,10 +38,5 @@ public class PipelineProjectSidebar extends BaseSidebarComponent<PipelineProject
     @Override
     public PipelineProjectCredentialsPage getProjectCredentialsPage() {
         return new PipelineProjectCredentialsPage(getDriver());
-    }
-
-    @Override
-    public PipelineProjectMovePage getProjectMovePage() {
-        return new PipelineProjectMovePage(getDriver());
     }
 }

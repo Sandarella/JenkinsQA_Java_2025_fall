@@ -8,8 +8,7 @@ import school.redrover.trait.project_sidebar.*;
 public class MultiConfigProjectSidebar extends BaseSidebarComponent<MultiConfigProjectSidebar, MultiConfigProjectStatusPage,
         MultiConfigProjectConfigurationPage>
         implements SidebarChangesTrait<MultiConfigProjectChangesPage>, SidebarWorkspaceTrait<MultiConfigProjectWorkspacePage>,
-        SidebarBuildNowTrait<MultiConfigProjectStatusPage>, SidebarMoveTrait<MultiConfigProjectMovePage>,
-        SidebarCredentialsTrait<MultiConfigProjectCredentialsPage> {
+        SidebarBuildNowTrait<MultiConfigProjectStatusPage>, SidebarCredentialsTrait<MultiConfigProjectCredentialsPage> {
 
     public MultiConfigProjectSidebar(WebDriver driver) {
         super(driver, MultiConfigProjectStatusPage::new);
@@ -38,11 +37,6 @@ public class MultiConfigProjectSidebar extends BaseSidebarComponent<MultiConfigP
     @Override
     public MultiConfigProjectCredentialsPage getProjectCredentialsPage() {
         return new MultiConfigProjectCredentialsPage(getDriver());
-    }
-
-    @Override
-    public MultiConfigProjectMovePage getProjectMovePage() {
-        return new MultiConfigProjectMovePage(getDriver());
     }
 
     @Override

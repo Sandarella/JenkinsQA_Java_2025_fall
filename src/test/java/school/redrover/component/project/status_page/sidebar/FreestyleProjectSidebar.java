@@ -8,7 +8,7 @@ import school.redrover.trait.project_sidebar.*;
 public class FreestyleProjectSidebar extends BaseSidebarComponent<
         FreestyleProjectSidebar, FreestyleProjectStatusPage, FreestyleProjectConfigurationPage>
         implements SidebarChangesTrait<FreestyleProjectChangesPage>, SidebarWorkspaceTrait<FreestyleProjectWorkspacePage>,
-        SidebarBuildNowTrait<FreestyleProjectStatusPage>, SidebarMoveTrait<FreestyleProjectMovePage>, SidebarCredentialsTrait<FreestyleProjectCredentialsPage> {
+        SidebarBuildNowTrait<FreestyleProjectStatusPage>, SidebarCredentialsTrait<FreestyleProjectCredentialsPage> {
 
     public FreestyleProjectSidebar(WebDriver driver) {
         super(driver, FreestyleProjectStatusPage::new);
@@ -37,11 +37,6 @@ public class FreestyleProjectSidebar extends BaseSidebarComponent<
     @Override
     public FreestyleProjectCredentialsPage getProjectCredentialsPage() {
         return new FreestyleProjectCredentialsPage(getDriver());
-    }
-
-    @Override
-    public FreestyleProjectMovePage getProjectMovePage() {
-        return new FreestyleProjectMovePage(getDriver());
     }
 
     @Override

@@ -1,7 +1,6 @@
 package school.redrover;
 
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import school.redrover.common.BaseTest;
 import school.redrover.page.FolderStatusPage;
@@ -197,7 +196,8 @@ public class FolderTest extends BaseTest {
                     .openDropdownMenu(itemName)
                     .clickMoveInDropdownMenu()
                     .selectDestinationFolder(FOLDER_NAME)
-                    .clickMoveButtonAndGoHome();
+                    .clickMoveButton()
+                    .gotoHomePage();
         }
 
         List<String> folderItemList = new HomePage(getDriver())

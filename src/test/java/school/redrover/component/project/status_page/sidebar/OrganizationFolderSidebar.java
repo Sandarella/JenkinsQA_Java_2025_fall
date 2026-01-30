@@ -4,13 +4,11 @@ import org.openqa.selenium.WebDriver;
 import school.redrover.page.*;
 import school.redrover.trait.project_sidebar.SidebarBuildHistoryTrait;
 import school.redrover.trait.project_sidebar.SidebarCredentialsTrait;
-import school.redrover.trait.project_sidebar.SidebarMoveTrait;
 
 
 public class OrganizationFolderSidebar extends BaseSidebarComponent<OrganizationFolderSidebar, OrganizationFolderStatusPage,
         OrganizationFolderConfigurationPage>
-        implements SidebarBuildHistoryTrait<OrganizationFolderBuildHistoryPage>, SidebarMoveTrait<OrganizationFolderMovePage>,
-        SidebarCredentialsTrait<OrganizationFolderCredentialsPage> {
+        implements SidebarBuildHistoryTrait<OrganizationFolderBuildHistoryPage>, SidebarCredentialsTrait<OrganizationFolderCredentialsPage> {
 
     public OrganizationFolderSidebar(WebDriver driver) {
         super(driver, OrganizationFolderStatusPage::new);
@@ -38,11 +36,6 @@ public class OrganizationFolderSidebar extends BaseSidebarComponent<Organization
 
     @Override
     public OrganizationFolderCredentialsPage getProjectCredentialsPage() {
-        return null;
-    }
-
-    @Override
-    public OrganizationFolderMovePage getProjectMovePage() {
         return null;
     }
 }

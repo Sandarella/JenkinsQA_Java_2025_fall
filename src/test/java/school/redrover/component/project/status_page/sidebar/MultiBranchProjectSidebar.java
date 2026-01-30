@@ -4,13 +4,11 @@ import org.openqa.selenium.WebDriver;
 import school.redrover.page.*;
 import school.redrover.trait.project_sidebar.SidebarBuildHistoryTrait;
 import school.redrover.trait.project_sidebar.SidebarCredentialsTrait;
-import school.redrover.trait.project_sidebar.SidebarMoveTrait;
 
 
 public class MultiBranchProjectSidebar extends BaseSidebarComponent<
         MultiBranchProjectSidebar, MultibranchProjectStatusPage, MultibranchProjectConfigurationPage>
-        implements SidebarBuildHistoryTrait<MultiBranchProjectBuildHistoryPage>, SidebarMoveTrait<MultiBranchProjectMovePage>,
-        SidebarCredentialsTrait<MultiBranchProjectCredentialsPage> {
+        implements SidebarBuildHistoryTrait<MultiBranchProjectBuildHistoryPage>, SidebarCredentialsTrait<MultiBranchProjectCredentialsPage> {
 
     public MultiBranchProjectSidebar(WebDriver driver) {
         super(driver, MultibranchProjectStatusPage::new);
@@ -39,10 +37,5 @@ public class MultiBranchProjectSidebar extends BaseSidebarComponent<
     @Override
     public MultiBranchProjectCredentialsPage getProjectCredentialsPage() {
         return new MultiBranchProjectCredentialsPage(getDriver());
-    }
-
-    @Override
-    public MultiBranchProjectMovePage getProjectMovePage() {
-        return new MultiBranchProjectMovePage(getDriver());
     }
 }

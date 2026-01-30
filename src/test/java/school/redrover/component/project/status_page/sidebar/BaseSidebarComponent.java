@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import school.redrover.component.BaseComponent;
 import school.redrover.page.BaseProjectConfigurationPage;
 import school.redrover.page.BaseProjectStatusPage;
+import school.redrover.page.ProjectMovePage;
 import school.redrover.page.ProjectRenamingPage;
 
 import java.util.function.Function;
@@ -23,11 +24,15 @@ public abstract class BaseSidebarComponent<
     @FindBy(xpath = "//a[contains(@href, '/configure')]")
     private WebElement configureMenuItem;
 
+    @FindBy(xpath = "//a[contains(., 'Delete')]")
+    private WebElement deleteMenuItem;
+
+    @FindBy(xpath = "//a[contains(., 'Move')]")
+    private WebElement moveMenuItem;
+
     @FindBy(xpath = "//a[contains(., 'Rename')]")
     private WebElement renameMenuItem;
 
-    @FindBy(xpath = "//a[contains(., 'Delete')]")
-    private WebElement deleteMenuItem;
 
     private final Function<WebDriver, ProjectStatusPage> projectStatusPageFactory;
 
@@ -56,6 +61,12 @@ public abstract class BaseSidebarComponent<
         deleteMenuItem.click();
 
         return getProjectStatusPage().waitUntilPageLoadJS();
+    }
+
+    public ProjectMovePage<ProjectStatusPage> clickSidebarMove() {
+        moveMenuItem.click();
+
+        return new ProjectMovePage<>(getDriver(), projectStatusPageFactory).waitUntilPageLoadJS();
     }
 
     public ProjectRenamingPage<ProjectStatusPage> clickSidebarRename() {
