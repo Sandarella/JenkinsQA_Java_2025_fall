@@ -1,0 +1,41 @@
+package school.redrover.ui;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import school.redrover.common.BaseTest;
+import school.redrover.common.ProjectUtils;
+import school.redrover.ui.page.HomePage;
+import school.redrover.ui.page.LoginPage;
+
+public class SignInOutTest extends BaseTest {
+
+    @Test
+    public void testSignOutByClickUserMenu() {
+
+        String title = new HomePage(getDriver())
+                .hoverUserAccountIcon()
+                .clickSignOut()
+                .getTitle();
+
+        Assert.assertEquals(title, "Sign in to Jenkins");
+    }
+
+    @Test(dependsOnMethods = "testSignOutByClickUserMenu")
+    public void testGoToProfileAfterSignOut() {
+
+        String title = new LoginPage(getDriver())
+                .getUrlProfile();
+
+        Assert.assertEquals(title, "Sign in to Jenkins");
+    }
+
+    @Test(dependsOnMethods = {"testGoToProfileAfterSignOut"})
+    public void testSignInAfterSignOut() {
+
+        String title = new LoginPage(getDriver())
+                .signIn(ProjectUtils.getUserName(), ProjectUtils.getPassword())
+                .getHeaderText();
+
+        Assert.assertEquals(title, "Welcome to Jenkins!");
+    }
+}
