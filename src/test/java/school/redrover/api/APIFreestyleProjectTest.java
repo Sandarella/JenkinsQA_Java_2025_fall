@@ -114,19 +114,19 @@ public class APIFreestyleProjectTest extends APIBaseTest {
 
     @Test
     public void testCreateUser() {
-        Map<String, String> userForm = new HashMap<>();
-        userForm.put("username", "UserUser");
-        userForm.put("password1", "passwordUser");
-        userForm.put("password2", "passwordUser");
-        userForm.put("fullname", "UserUserName");
-        userForm.put("email", "user@user.us");
+        Map<String, String> userData = new HashMap<>();
+        userData.put("username", "UserUser");
+        userData.put("password1", "passwordUser");
+        userData.put("password2", "passwordUser");
+        userData.put("fullname", "UserUserName");
+        userData.put("email", "user@user.us");
 
         Response response = RestAssured.given()
                 .log().all()
                 .auth().preemptive().basic(userName, apiToken)
                 .baseUri(jenkinsUrl)
                 .contentType(ContentType.XML)
-                .queryParams(userForm)
+                .queryParams(userData)
                 .when()
                 .post("securityRealm/createAccountByAdmin")
                 .then()
@@ -149,6 +149,6 @@ public class APIFreestyleProjectTest extends APIBaseTest {
 
         Assert.assertEquals(response.getStatusCode(), 302);
         Assert.assertEquals(getResponse.getStatusCode(), 200);
-        Assert.assertTrue(responseBody.contains(userForm.get("username")));
+        Assert.assertTrue(responseBody.contains(userData.get("username")));
     }
 }
