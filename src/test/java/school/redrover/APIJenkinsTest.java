@@ -134,4 +134,44 @@ public class APIJenkinsTest extends APIBaseTest {
         Assert.assertEquals(getResponse.getStatusCode(), 200);
         Assert.assertTrue(responseBody.contains("This project is currently disabled"));
     }
+
+    @Test
+    public void testCreateUser() {
+        Map<String, String> userForm = new HashMap<>();
+        userForm.put("username", "UserUser" );
+        userForm.put("password1", "passwordUser");
+        userForm.put("password2", "passwordUser");
+        userForm.put("fullname", "UserUserName");
+        userForm.put("email", "user@user.us");
+
+        Response response = RestAssured.given()
+                .log().all()
+                .auth().preemptive().basic(userName, apiToken)
+                .baseUri(jenkinsUrl)
+                .contentType(ContentType.XML)
+                .queryParams(userForm)
+                .when()
+                .post("securityRealm/createAccountByAdmin")
+                .then()
+                .log().all()
+                .extract().response();
+
+        String location = response.getHeader("Location");
+
+        Response getResponse = RestAssured.given()
+                .log().all()
+                .auth().preemptive().basic(userName, apiToken)
+                .baseUri(jenkinsUrl)
+                .when()
+                .get("%s".formatted(location))
+                .then()
+                .log().all()
+                .extract().response();
+
+        String responseBody = getResponse.getBody().asString();
+
+        Assert.assertEquals(response.getStatusCode(), 302);
+        Assert.assertEquals(getResponse.getStatusCode(), 200);
+        Assert.assertTrue(responseBody.contains(userForm.get("username")));
+    }
 }
