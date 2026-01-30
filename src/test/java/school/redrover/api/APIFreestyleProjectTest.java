@@ -125,7 +125,6 @@ public class APIFreestyleProjectTest extends APIBaseTest {
                 .log().all()
                 .auth().preemptive().basic(userName, apiToken)
                 .baseUri(jenkinsUrl)
-                .contentType(ContentType.XML)
                 .queryParams(userData)
                 .when()
                 .post("securityRealm/createAccountByAdmin")
