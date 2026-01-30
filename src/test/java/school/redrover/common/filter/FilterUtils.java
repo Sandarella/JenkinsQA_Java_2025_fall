@@ -1,12 +1,13 @@
 package school.redrover.common.filter;
 
-import org.testng.*;
+import org.testng.IClass;
+import org.testng.IMethodInstance;
+import org.testng.ITestNGMethod;
+import school.redrover.common.Log;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static school.redrover.common.ProjectUtils.log;
 
 public class FilterUtils {
 
@@ -59,7 +60,7 @@ public class FilterUtils {
         }
 
         if (!logged) {
-            log("Affected files: " + affectedFiles);
+            Log.info("Affected files: " + affectedFiles);
             logged = true;
         }
 

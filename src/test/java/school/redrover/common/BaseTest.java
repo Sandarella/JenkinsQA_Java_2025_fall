@@ -25,22 +25,22 @@ public abstract class BaseTest {
     private OrderUtils.MethodsOrder<Method> methodsOrder;
 
     private void startDriver() {
-        ProjectUtils.log("Browser open");
+        Log.info("Browser open");
         driver = ProjectUtils.createDriver();
     }
 
     private void clearData() {
-        ProjectUtils.log("Clear data");
+        Log.info("Clear data");
         JenkinsUtils.clearData();
     }
 
     private void loginWeb() {
-        ProjectUtils.log("Login");
+        Log.info("Login");
         JenkinsUtils.login(getDriver());
     }
 
     private void getWeb() {
-        ProjectUtils.log("Get web page");
+        Log.info("Get web page");
         ProjectUtils.get(getDriver());
     }
 
@@ -58,7 +58,7 @@ public abstract class BaseTest {
             wait5 = null;
             wait10 = null;
 
-            ProjectUtils.log("Browser closed");
+            Log.info("Browser closed");
         }
     }
 
@@ -74,7 +74,7 @@ public abstract class BaseTest {
 
     @BeforeMethod
     protected void beforeMethod(Method method) {
-        ProjectUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
+        Log.info("Run %s.%s", this.getClass().getName(), method.getName());
         try {
             if (!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) {
                 clearData();
@@ -102,7 +102,7 @@ public abstract class BaseTest {
             stopDriver();
         }
 
-        ProjectUtils.logf("Execution time is %.3f sec", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000.0);
+        Log.info("Execution time is %.3f sec", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000.0);
     }
 
     protected WebDriver getDriver() {

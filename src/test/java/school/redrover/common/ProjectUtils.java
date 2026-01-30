@@ -30,8 +30,8 @@ public final class ProjectUtils {
             try {
                 InputStream inputStream = ProjectUtils.class.getClassLoader().getResourceAsStream(".properties");
                 if (inputStream == null) {
-                    log("The \u001B[31m.properties\u001B[0m file not found in src/test/resources/ directory.");
-                    log("You need to create it from .properties.TEMPLATE file.");
+                    Log.error("The \u001B[31m.properties\u001B[0m file not found in src/test/resources/ directory.");
+                    Log.error("You need to create it from .properties.TEMPLATE file.");
                     System.exit(1);
                 }
                 properties.load(inputStream);
@@ -109,11 +109,4 @@ public final class ProjectUtils {
         return getValue(PREFIX_JENKINS_PROP + "password");
     }
 
-    public static void log(String str) {
-        System.out.println(str);
-    }
-
-    public static void logf(String str, Object... arr) {
-        log(String.format(str, arr));
-    }
 }

@@ -4,6 +4,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
+import java.lang.reflect.Method;
+
 public abstract class APIBaseTest {
 
     protected String jenkinsUrl;
@@ -13,7 +15,7 @@ public abstract class APIBaseTest {
 
     @BeforeClass
     protected void setUpApi() {
-        ProjectUtils.log("Generate API token for tests");
+        Log.info("Generate API token for tests");
         jenkinsUrl = ProjectUtils.getUrl();
         userName = ProjectUtils.getUserName();
 
@@ -23,14 +25,15 @@ public abstract class APIBaseTest {
     }
 
     @BeforeMethod
-    protected void beforeMethod() {
-        ProjectUtils.log("Clear data");
+    protected void beforeMethod(Method method) {
+        Log.info("Clear data");
+        Log.info("Run %s.%s", this.getClass().getName(), method.getName());
         JenkinsUtils.clearData();
     }
 
     @AfterClass
     protected void tearDownApi() {
-        ProjectUtils.log("Delete API token");
+        Log.info("Delete API token");
         JenkinsUtils.deleteApiTokenByUuid(jenkinsUrl, tokenUuid, apiToken);
     }
 }
