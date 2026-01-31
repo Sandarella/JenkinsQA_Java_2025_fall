@@ -118,4 +118,43 @@ public class APIJenkinsTest extends APIBaseTest {
         Assert.assertEquals(deletedResponse.statusCode(), 404,
                 "Expected 404 after deletion, but got " + deletedResponse.statusCode());
     }
+
+    @Test
+    public void testCreateUser() {
+        Map<String, String> userData = new HashMap<>();
+        userData.put("username", "UserUser");
+        userData.put("password1", "passwordUser");
+        userData.put("password2", "passwordUser");
+        userData.put("fullname", "UserUserName");
+        userData.put("email", "user@user.us");
+
+        Response response = RestAssured.given()
+                .log().all()
+                .auth().preemptive().basic(userName, apiToken)
+                .baseUri(jenkinsUrl)
+                .queryParams(userData)
+                .when()
+                .post("securityRealm/createAccountByAdmin")
+                .then()
+                .log().all()
+                .extract().response();
+
+        String location = response.getHeader("Location");
+
+        Response getResponse = RestAssured.given()
+                .log().all()
+                .auth().preemptive().basic(userName, apiToken)
+                .baseUri(jenkinsUrl)
+                .when()
+                .get("%s".formatted(location))
+                .then()
+                .log().all()
+                .extract().response();
+
+        String responseBody = getResponse.getBody().asString();
+
+        Assert.assertEquals(response.getStatusCode(), 302);
+        Assert.assertEquals(getResponse.getStatusCode(), 200);
+        Assert.assertTrue(responseBody.contains(userData.get("username")));
+    }
 }
