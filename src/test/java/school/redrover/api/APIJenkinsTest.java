@@ -118,5 +118,4 @@ public class APIJenkinsTest extends APIBaseTest {
         Assert.assertEquals(deletedResponse.statusCode(), 404,
                 "Expected 404 after deletion, but got " + deletedResponse.statusCode());
     }
-
 }
