@@ -74,8 +74,8 @@ public class FilterForTestsTest {
     public void testClassWithDependencies() {
         List<String> changedFiles = List.of("M=src/test/java/school/redrover/page/BaseProjectStatusPage.java");
         String dependenciesClasses =
-                "school.redrover.page.BaseProjectStatusPage=%s;".formatted(FakeTestClass.class.getName()) +
-                        "school.redrover.page.BaseProjectStatusPage=%s".formatted(FakeTestClass2.class.getName());
+                "school.redrover.ui.page.BaseProjectStatusPage=%s;".formatted(FakeTestClass.class.getName()) +
+                        "school.redrover.ui.page.BaseProjectStatusPage=%s".formatted(FakeTestClass2.class.getName());
 
         List<IMethodInstance> methodList = List.of(
                 new FilterMock.MethodInstanceImpl(FakeTestClass.class),
@@ -97,7 +97,7 @@ public class FilterForTestsTest {
     public void testOneDependency() {
         List<String> changedFiles = List.of("M=src/test/java/school/redrover/page/ProjectStatusPage.java");
         String dependenciesClasses =
-                "school.redrover.page.ProjectStatusPage=%s;".formatted(FakeTestClass.class.getName());
+                "school.redrover.ui.page.ProjectStatusPage=%s;".formatted(FakeTestClass.class.getName());
 
         List<IMethodInstance> methodList = List.of(new FilterMock.MethodInstanceImpl(FakeTestClass.class));
 
@@ -115,8 +115,8 @@ public class FilterForTestsTest {
     public void testClassWithDependencyChain() {
         List<String> changedFiles = List.of("M=src/test/java/school/redrover/page/BaseProjectStatusPage.java");
         String dependenciesClasses =
-                        "school.redrover.page.BaseProjectStatusPage=school.redrover.page.ProjectStatusPage" +
-                        "school.redrover.page.ProjectStatusPage=%s".formatted(FakeTestClass.class.getName());
+                        "school.redrover.ui.page.BaseProjectStatusPage=school.redrover.ui.page.ProjectStatusPage" +
+                        "school.redrover.ui.page.ProjectStatusPage=%s".formatted(FakeTestClass.class.getName());
 
         List<IMethodInstance> methodList = List.of(
                 new FilterMock.MethodInstanceImpl(FakeTestClass.class)

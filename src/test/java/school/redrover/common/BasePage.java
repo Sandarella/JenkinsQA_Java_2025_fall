@@ -5,15 +5,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import school.redrover.component.common.JenkinsVersionFooterDropdown;
-import school.redrover.component.common.SearchComponent;
-import school.redrover.component.common.UserAccountIconDropdown;
-import school.redrover.page.HomePage;
-import school.redrover.page.JenkinsManagementPage;
-import school.redrover.page.RestApiPage;
-import school.redrover.page.UserStatusPage;
+import school.redrover.ui.component.common.JenkinsVersionFooterDropdown;
+import school.redrover.ui.component.common.SearchComponent;
+import school.redrover.ui.component.common.UserAccountIconDropdown;
+import school.redrover.ui.page.HomePage;
+import school.redrover.ui.page.JenkinsManagementPage;
+import school.redrover.ui.page.RestApiPage;
+import school.redrover.ui.page.UserStatusPage;
 
 import java.util.Objects;
 
@@ -74,7 +75,7 @@ public abstract class BasePage<Page> extends BaseModel {
     }
 
     public SearchComponent clickSearchButton() {
-        searchButton.click();
+        getWait10().until(ExpectedConditions.visibilityOf(searchButton)).click();
 
         return new SearchComponent(getDriver()).waitUntilComponentLoad();
     }

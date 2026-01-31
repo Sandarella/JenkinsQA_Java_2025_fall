@@ -1,0 +1,46 @@
+package school.redrover.ui;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import school.redrover.common.BaseTest;
+import school.redrover.ui.page.FolderStatusPage;
+import school.redrover.ui.page.HomePage;
+
+import java.util.List;
+
+public class BreadcrumbsDropDownTest extends BaseTest {
+
+    private static final String PARENT_FOLDER = "Folder1";
+    private static final String CHILD_FOLDER = "Folder2";
+
+    @Test
+    public void testDisplayBreadcrumbsDropDownMenu() {
+        List<String> breadcrumbTexts = new HomePage(getDriver())
+                .clickCreateJob()
+                .sendName(PARENT_FOLDER)
+                .selectFolderAndSubmit()
+                .gotoHomePage()
+                .openProject(PARENT_FOLDER, new FolderStatusPage(getDriver()))
+                .getSidebarComponent()
+                .clickSidebarNewItem()
+                .sendName(CHILD_FOLDER)
+                .selectFolderAndSubmit()
+                .clickSave()
+                .getBreadcrumbTexts();
+
+        Assert.assertNotEquals(breadcrumbTexts.size(), 0);
+        Assert.assertEquals(breadcrumbTexts.size(), 2);
+    }
+
+    @Test(dependsOnMethods = {"testDisplayBreadcrumbsDropDownMenu"})
+    public void clickableBreadcrumbsDropDownMenu() {
+        String title = new HomePage(getDriver())
+                .openProject(PARENT_FOLDER, new FolderStatusPage(getDriver()))
+                .openFolderPage(CHILD_FOLDER)
+                .clickBreadcrumbsItem(PARENT_FOLDER)
+                .getInfo()
+                .getDisplayName();
+
+        Assert.assertEquals(title, PARENT_FOLDER);
+    }
+}
