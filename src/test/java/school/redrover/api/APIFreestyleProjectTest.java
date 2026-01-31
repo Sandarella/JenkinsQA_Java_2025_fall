@@ -111,5 +111,4 @@ public class APIFreestyleProjectTest extends APIBaseTest {
         String actualProjectName = response.jsonPath().getString("name");
         Assert.assertEquals(actualProjectName, NEW_PROJECT_NAME);
     }
-
 }
