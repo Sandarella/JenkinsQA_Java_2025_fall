@@ -43,7 +43,7 @@ public class APIFreestyleProjectTest extends APIBaseTest {
                 .baseUri(jenkinsUrl)
                 .contentType(ContentType.XML)
                 .queryParams(projectName)
-                .body(bodyFreestyleProjectXML)
+                .body(bodyXML)
                 .when()
                 .post("/createItem")
                 .then()

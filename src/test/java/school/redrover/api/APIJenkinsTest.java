@@ -13,21 +13,6 @@ import java.util.Map;
 public class APIJenkinsTest extends APIBaseTest {
 
     @Test
-    public void jenkinsTest() {
-        RestAssured.given()
-                .log().all()// ← добавил что бы смотреть, что отправляю и что получаю(в конце лог)
-                .when()
-                .auth()
-                .preemptive()
-                .basic(userName, apiToken)
-                .when()
-                .get(jenkinsUrl + "api/json")
-                .then()
-                .log().all()
-                .statusCode(200);
-    }
-
-    @Test
     public void testCreatePiplineAndDisable() {
         Map<String, String> projectName = new HashMap<>();
         projectName.put("name", "Pipline");
@@ -81,4 +66,57 @@ public class APIJenkinsTest extends APIBaseTest {
         Assert.assertEquals(getResponse.getStatusCode(), 200);
         Assert.assertTrue(responseBody.contains("This project is currently disabled"));
     }
+
+    @Test
+    public void testCreateAndDeleteFolder() {
+        String folderName = "ApiTestFolder";
+
+        String folderConfigXml = """
+                <com.cloudbees.hudson.plugins.folder.Folder>
+                    <description>Created via CloudBees Folder Plugin API</description>
+                </com.cloudbees.hudson.plugins.folder.Folder>
+                """;
+
+        RestAssured.given()
+                .auth().preemptive().basic(userName, apiToken)
+                .baseUri(jenkinsUrl)
+                .contentType(ContentType.XML)
+                .queryParam("name", folderName)
+                .body(folderConfigXml)
+                .when()
+                .post("/createItem")
+                .then()
+                .statusCode(200);
+
+        Response getResponse = RestAssured.given()
+                .auth().preemptive().basic(userName, apiToken)
+                .baseUri(jenkinsUrl)
+                .when()
+                .get("job/%s/api/json".formatted(folderName))
+                .then()
+                .extract().response();
+
+        Assert.assertEquals(getResponse.statusCode(), 200);
+        Assert.assertEquals(getResponse.jsonPath().getString("name"), folderName);
+
+        RestAssured.given()
+                .auth().preemptive().basic(userName, apiToken)
+                .baseUri(jenkinsUrl)
+                .when()
+                .post("job/%s/doDelete".formatted(folderName))
+                .then()
+                .statusCode(302);
+
+        Response deletedResponse = RestAssured.given()
+                .auth().preemptive().basic(userName, apiToken)
+                .baseUri(jenkinsUrl)
+                .when()
+                .get("job/%s/api/json".formatted(folderName))
+                .then()
+                .extract().response();
+
+        Assert.assertEquals(deletedResponse.statusCode(), 404,
+                "Expected 404 after deletion, but got " + deletedResponse.statusCode());
+    }
+
 }
