@@ -31,7 +31,7 @@ public class ProjectMovePage<ProjectStatusPage extends BaseProjectStatusPage<Pro
         return this;
     }
 
-    public ProjectMovePage<?> selectDestinationFolder(String folderName) {
+    public ProjectMovePage<ProjectStatusPage> selectDestinationFolder(String folderName) {
         new Select(selectFolder).selectByVisibleText("Jenkins » %s".formatted(folderName));
 
         return this;

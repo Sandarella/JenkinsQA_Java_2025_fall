@@ -174,7 +174,7 @@ public class HomePage extends BasePage<HomePage> {
         return this;
     }
 
-    public ProjectMovePage<?> clickMoveInDropdownMenu() {
+    public ProjectMovePage<FolderStatusPage> clickMoveInDropdownMenu() {
         getWait2().until(ExpectedConditions.elementToBeClickable(moveDropDownMenuItem)).click();
         return new ProjectMovePage<>(getDriver(), FolderStatusPage::new).waitUntilPageLoadJS();
     }
